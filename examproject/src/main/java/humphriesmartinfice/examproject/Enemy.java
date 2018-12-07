@@ -7,9 +7,10 @@ package humphriesmartinfice.examproject;
 
 public class Enemy{
     
-    private int level;
+    private int level, damage, defence;
     
     public Enemy(int Level){
+    level = 1;
     
     }
     

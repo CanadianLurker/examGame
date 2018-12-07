@@ -26,7 +26,7 @@ import static humphriesmartinfice.examproject.MainApp.*;
 public class FXMLCombatController implements Initializable {
 
     @FXML
-    private ProgressBar prgMC, prgEnemy, prgEXP;
+    private ProgressBar prgMC, prgEnemy, prgMCMana, prgEnemyMana, prgEXP;
     @FXML
     private ImageView imgMC, imgEnemy;
     @FXML
@@ -34,11 +34,11 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private Pane panEXP;
     @FXML
-    private Label lblMC, lblEnemy, lblHP, lblLevel;
+    private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel;
 
     private String Choice1, Choice2, Choice3, Choice4;
 
-    private double MCHealth, EnemyHealth, MCHealthMAX, EnemyHealthMAX;
+    private double MCHealth, EnemyHealth, MCHealthMAX, EnemyHealthMAX, MCMana, MCManaMAX, EnemyMana, EnemyManaMAX;
 
     private boolean combat = true; //combat will always be active when coming into this scene
 
@@ -79,28 +79,31 @@ public class FXMLCombatController implements Initializable {
         btnChoice3.setText(Choice3);
         btnChoice4.setText(Choice4);
         btnChoice1.setDisable(false);
+       if(MCMana > weapon.getCost()){
         btnChoice2.setDisable(false); //makes it so that the secondary buttons can be pressed
-        btnChoice3.setDisable(false);
-        btnChoice4.setDisable(false);
+        btnChoice3.setDisable(false);}
+       if(MCMana > weapon.getCost() + (2 * 1) ){ // ********chance 1 to getLevel()***********
+        btnChoice4.setDisable(false);}
     }
 
     @FXML
     private void Secondary(ActionEvent event) {
         if (btnChoice1.isArmed()) {
             if (btnChoice1.getText().equals(weapon.getAttack1())) { //checks for the attack name to determine if it is an attack
-                EnemyHealth = EnemyHealth - weapon.getDamage(); 
+                EnemyHealth = EnemyHealth - weapon.getDamage();
             }
             if (btnChoice1.getText().equals("")) {
             }
             if (btnChoice1.getText().equals("Flee")) { //Allows the player a chance to flee like a coward, no rewards gained
-                if(ThreadLocalRandom.current().nextInt(1,4+1) == 1){
+                if (ThreadLocalRandom.current().nextInt(1, 4 + 1) == 1) {
                     endCombat();
                     // multiply exp gained by 0 here
                 }
             }
         } else if (btnChoice2.isArmed()) {
             if (btnChoice2.getText().equals(weapon.getAttack2())) {
-                EnemyHealth = EnemyHealth - weapon.getDamage();
+                EnemyHealth = EnemyHealth - (weapon.getDamage() + weapon.getSDamage());
+                MCMana = MCMana - weapon.getCost();
             }
             if (btnChoice1.getText().equals("")) {
             }
@@ -110,7 +113,8 @@ public class FXMLCombatController implements Initializable {
             }
         } else if (btnChoice3.isArmed()) {
             if (btnChoice3.getText().equals(weapon.getAttack3())) {
-                EnemyHealth = EnemyHealth - weapon.getDamage();
+                EnemyHealth = EnemyHealth - weapon.getSDamage();
+                MCMana = MCMana - weapon.getCost();
             }
             if (btnChoice3.getText().equals("Taunt")) { // a humourous quip that raises the damage of the enemy but reduces defence
                 //mulitply their damage by like 1.2
@@ -120,7 +124,7 @@ public class FXMLCombatController implements Initializable {
             }
         } else if (btnChoice4.isArmed()) {
             if (btnChoice4.getText().equals(weapon.getAttack4())) {
-                EnemyHealth = EnemyHealth - weapon.getDamage();
+                MCMana = MCMana - (weapon.getCost() + (2 * 1)); //************Turn the 1 int getLevel() ****************
             }
             if (btnChoice4.getText().equals("")) {
             }
@@ -130,6 +134,8 @@ public class FXMLCombatController implements Initializable {
         }
         lblEnemy.setText(EnemyHealth + " / " + EnemyHealthMAX); //updates the label as to what the health is
         prgEnemy.setProgress((EnemyHealth / EnemyHealthMAX)); //updates the progress bar as to what the health is
+        prgMCMana.setProgress(MCMana / MCManaMAX);
+        lblMCMana.setText(MCMana + " / " + MCManaMAX);
         btnOther.setDisable(true);
         btnItems.setDisable(true);
         btnAttack.setDisable(true);
@@ -148,11 +154,13 @@ public class FXMLCombatController implements Initializable {
     }
 
     private void enemyTurn() {
-        MCHealth = MCHealth - ThreadLocalRandom.current().nextInt(3, 5 + 1); 
+        MCHealth = MCHealth - ThreadLocalRandom.current().nextInt(3, 5 + 1);
         prgMC.setProgress((MCHealth / MCHealthMAX));
         lblMC.setText(MCHealth + " / " + MCHealthMAX); // sets the health of the MC
+        prgEnemyMana.setProgress(EnemyMana / EnemyManaMAX);
+        lblEnemyMana.setText(EnemyMana + " / " + EnemyManaMAX);
         checkHP(prgMC); //checks health for MC
-        if (combat) { 
+        if (combat) {
             start(); //the start of the players turn
         }
 
@@ -171,7 +179,7 @@ public class FXMLCombatController implements Initializable {
     }
 
     private void checkHP(ProgressBar prgT) {
-        if (prgT.getProgress() <= 0) { 
+        if (prgT.getProgress() <= 0) {
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks poopoo
             endCombat(); //ends combat and opens up end of combat screen
         }
@@ -185,10 +193,18 @@ public class FXMLCombatController implements Initializable {
         MCHealthMAX = 100; //gets the max health of the player
         EnemyHealth = 50; //gets the health of the enemy
         EnemyHealthMAX = 75; //gets the max health of the enemy
+        MCMana = 30;
+        MCManaMAX = 30;
+        EnemyMana = 20;
+        EnemyManaMAX = 40;
         prgMC.setProgress(MCHealth / MCHealthMAX); //sets the health of the character
         prgEnemy.setProgress(EnemyHealth / EnemyHealthMAX); //sets the health of the enemy
+        prgMCMana.setProgress(MCMana / MCManaMAX);
+        prgEnemyMana.setProgress(EnemyMana / EnemyManaMAX);
         lblMC.setText(MCHealth + " / " + MCHealthMAX);
         lblEnemy.setText(EnemyHealth + " / " + EnemyHealthMAX);
+        lblMCMana.setText(MCMana + " / " + MCManaMAX);
+        lblEnemyMana.setText(EnemyMana + " / " + EnemyManaMAX);
         btnChoice1.setText("---");
         btnChoice2.setText("---");
         btnChoice3.setText("---");

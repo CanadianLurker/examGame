@@ -1,5 +1,6 @@
 package humphriesmartinfice.examproject;
 
+import humphriesmartinfice.examproject.MainApp;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javafx.application.Application;
@@ -12,48 +13,50 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    public static int level, health, healthMAX;
+    public static int level;
+    
+    public static double health, healthMAX;
     
     private static Object Inventory[] = new Object[2];
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));    
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));    
         Scene scene = new Scene(root);    
         stage.setTitle("This Game still needs to be named");
         stage.setScene(scene);
         stage.show();
     }
     
-    public void setLevel(int level){
-    this.level = level;
+    public static void setLevel(int level){
+    MainApp.level = level;
     }
     
-    public int getLevel(){
-    return this.level;
+    public static int getLevel(){
+    return MainApp.level;
     }
     
-    public void setHealth(int health){
-    this.health = health;
+    public static void setHealth(int health){
+    MainApp.health = health;
     }
     
-    public int getHealth(){
-    return this.health;
+    public static double getHealth(){
+    return MainApp.health;
     }
     
-    public void setHealthMAX(int health){
-    this.healthMAX = health;
+    public static void setHealthMAX(int health){
+    MainApp.healthMAX = health;
     }
     
-    public int getHealthMAX(){
-    return this.healthMAX;
+    public static double getHealthMAX(){
+    return MainApp.healthMAX;
     }
     
-    public Array getInv(int spot){
+    public static Array getInv(int spot){
         return (Array) Inventory[spot];
     }
     
-    public void setInv(Object thing, int spot){
+    public static void setInv(Object thing, int spot){
     Inventory[spot] = thing;
     }
 
