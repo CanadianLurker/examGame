@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-border-color: #000000;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLCombatController">
+   <children>
+      <Pane layoutY="367.0" prefHeight="233.0" prefWidth="900.0" style="-fx-border-color: #000000;">
+         <children>
+            <Button fx:id="btnAttack" layoutX="53.0" layoutY="48.0" mnemonicParsing="false" onAction="#Primary" prefHeight="25.0" prefWidth="403.0" text="Attack" />
+            <Button fx:id="btnItems" layoutX="53.0" layoutY="105.0" mnemonicParsing="false" onAction="#Primary" prefHeight="25.0" prefWidth="403.0" text="Items" />
+            <Button fx:id="btnOther" layoutX="53.0" layoutY="171.0" mnemonicParsing="false" onAction="#Primary" prefHeight="25.0" prefWidth="403.0" text="Other" />
+            <Button fx:id="btnChoice1" layoutX="625.0" layoutY="48.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="185.0" text="Choice 1" />
+            <Button fx:id="btnChoice2" layoutX="625.0" layoutY="93.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="185.0" text="Choice 2" />
+            <Button fx:id="btnChoice3" layoutX="625.0" layoutY="137.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="185.0" text="Choice 3" />
+            <Button fx:id="btnChoice4" layoutX="625.0" layoutY="183.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="185.0" text="Choice 4" />
+         </children></Pane>
+      <ProgressBar fx:id="prgMC" layoutX="48.0" layoutY="107.0" prefWidth="200.0" progress="0.0">
+         <effect>
+            <ColorAdjust hue="-0.5" />
+         </effect>
+      </ProgressBar>
+      <ProgressBar fx:id="prgEnemy" layoutX="607.0" layoutY="107.0" prefWidth="200.0" progress="0.0">
+         <effect>
+            <ColorAdjust hue="-0.5" />
+         </effect>
+      </ProgressBar>
+      <ImageView fx:id="imgMC" fitHeight="192.0" fitWidth="167.0" layoutX="65.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgEnemy" fitHeight="192.0" fitWidth="159.0" layoutX="628.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="lblMC" layoutX="122.0" layoutY="87.0" />
+      <Label fx:id="lblEnemy" layoutX="669.0" layoutY="87.0" />
+      <Pane fx:id="panEXP" layoutX="136.0" layoutY="87.0" prefHeight="426.0" prefWidth="629.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff;">
+         <children>
+            <ProgressBar fx:id="prgEXP" layoutX="88.0" layoutY="99.0" prefHeight="33.0" prefWidth="453.0" progress="0.6">
+               <effect>
+                  <ColorAdjust hue="-0.12" />
+               </effect>
+            </ProgressBar>
+            <Label fx:id="lblLevel" layoutX="235.0" layoutY="52.0" prefHeight="47.0" prefWidth="159.0" text="Level:" />
+            <Label fx:id="lblHP" layoutX="98.0" layoutY="180.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
+            <Label layoutX="98.0" layoutY="230.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
+            <Label layoutX="98.0" layoutY="278.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
+            <Label layoutX="98.0" layoutY="328.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
+         </children></Pane>
+   </children>
+</AnchorPane>
