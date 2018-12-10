@@ -38,6 +38,8 @@ public class FXMLCombatController implements Initializable {
 
     private String Choice1, Choice2, Choice3, Choice4;
 
+    private int enemiesleft;
+
     private double MCHealth, EnemyHealth, MCHealthMAX, EnemyHealthMAX, MCMana, MCManaMAX, EnemyMana, EnemyManaMAX;
 
     private boolean combat = true; //combat will always be active when coming into this scene
@@ -79,11 +81,13 @@ public class FXMLCombatController implements Initializable {
         btnChoice3.setText(Choice3);
         btnChoice4.setText(Choice4);
         btnChoice1.setDisable(false);
-       if(MCMana > weapon.getCost()){
-        btnChoice2.setDisable(false); //makes it so that the secondary buttons can be pressed
-        btnChoice3.setDisable(false);}
-       if(MCMana > weapon.getCost() + (2 * 1) ){ // ********chance 1 to getLevel()***********
-        btnChoice4.setDisable(false);}
+        if (MCMana > weapon.getCost()) {
+            btnChoice2.setDisable(false); //makes it so that the secondary buttons can be pressed
+            btnChoice3.setDisable(false);
+        }
+        if (MCMana > weapon.getCost() + (2 * 1)) { // ********change 1 to getLevel()***********
+            btnChoice4.setDisable(false);
+        }
     }
 
     @FXML
@@ -181,30 +185,43 @@ public class FXMLCombatController implements Initializable {
     private void checkHP(ProgressBar prgT) {
         if (prgT.getProgress() <= 0) {
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks poopoo
-            endCombat(); //ends combat and opens up end of combat screen
+            enemiesleft--;
+            if (enemiesleft == 0) {
+                endCombat(); //ends combat and opens up end of combat screen
+            } else {
+                setup();
+            }
         }
+    }
+
+    private void progress(ProgressBar prgH, ProgressBar prgM, double CurrentH, double MaxH, double CurrentM, double MaxM, Label Health, Label Mana) {
+        prgH.setProgress(CurrentH / MaxH); //sets the health of the whatever is being inputted with the method
+        prgM.setProgress(CurrentM / MaxM); //sets the mana of whatever is being inputted
+        Health.setText(CurrentH + " / " + MaxH); //types into a label to for more visual sight as to what health is
+        Mana.setText(CurrentM + " / " + MaxM); // same as health but for mana
+    }
+
+    private void setup() {
+        Enemy enemy = new Enemy(1);
+        MCHealth = 50; //gets the health of the player
+        MCHealthMAX = 100; //gets the max health of the player
+        EnemyHealth = enemy.getHealth(); //gets the health of the enemy
+        EnemyHealthMAX = enemy.getHealthMAX(); //gets the max health of the enemy
+        MCMana = 30; // gets the mana of the player
+        MCManaMAX = 30; //gets the max mana of the player
+        EnemyMana = enemy.getMana(); // gets the mana of the enemy
+        EnemyManaMAX = enemy.getManaMAX(); //gets the max mana of the enemy 
+        progress(prgMC, prgMCMana, MCHealth, MCHealthMAX, MCMana, MCManaMAX, lblMC, lblMCMana);
+        progress(prgEnemy, prgEnemyMana, EnemyHealth, EnemyHealthMAX, EnemyMana, EnemyManaMAX, lblEnemy, lblEnemyMana);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //   music.setCycleCount(Timeline.INDEFINITE);
         //   music.play();
-        MCHealth = 50; //gets the health of the player
-        MCHealthMAX = 100; //gets the max health of the player
-        EnemyHealth = 50; //gets the health of the enemy
-        EnemyHealthMAX = 75; //gets the max health of the enemy
-        MCMana = 30;
-        MCManaMAX = 30;
-        EnemyMana = 20;
-        EnemyManaMAX = 40;
-        prgMC.setProgress(MCHealth / MCHealthMAX); //sets the health of the character
-        prgEnemy.setProgress(EnemyHealth / EnemyHealthMAX); //sets the health of the enemy
-        prgMCMana.setProgress(MCMana / MCManaMAX);
-        prgEnemyMana.setProgress(EnemyMana / EnemyManaMAX);
-        lblMC.setText(MCHealth + " / " + MCHealthMAX);
-        lblEnemy.setText(EnemyHealth + " / " + EnemyHealthMAX);
-        lblMCMana.setText(MCMana + " / " + MCManaMAX);
-        lblEnemyMana.setText(EnemyMana + " / " + EnemyManaMAX);
+        enemiesleft = 2;
+        setup();
+        // method used to set up the progress bars and labels.
         btnChoice1.setText("---");
         btnChoice2.setText("---");
         btnChoice3.setText("---");
@@ -215,7 +232,7 @@ public class FXMLCombatController implements Initializable {
         btnChoice4.setDisable(true);
         panEXP.setVisible(false); //Makes it so that when you re-enter comabt the end combat screen isn't already there
         //imgMC.setImage(); //set image from whatever the image is
-        //imgEnemy.setImage(); //gets the images from both the player and enemy
+        //imgEnemy.setImage(); //gets the images from the enemy
 
     }
 
