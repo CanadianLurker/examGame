@@ -17,9 +17,9 @@ public class Mage extends Weapon {
         Attack3 = "Thunder"; //DOT attack
         Attack4 = "Heal"; //Some healing spell that costs slightly more mana but does more than normal potion
         manaCost = 3 + (Level * 2); //Base cost of Inferno, Thunder and heal, which will have more initial cost in combat controller
-        damage = 3 + Level; //base amount of damage added onto weapon(which already randomizes damage)
+        damage = 4 + Level; //base amount of damage added onto weapon(which already randomizes damage)
         
-        Name = "Wizards stick"; //base name off of rarity and level
+        Name = "Wizards Stick"; //base name off of rarity and level
     }
     
     public String getAttack1(){
