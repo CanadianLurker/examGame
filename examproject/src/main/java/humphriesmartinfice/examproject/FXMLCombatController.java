@@ -22,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import static humphriesmartinfice.examproject.MainApp.*;
+import java.util.ArrayList;
 
 public class FXMLCombatController implements Initializable {
 
@@ -34,11 +35,11 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private Pane panEXP;
     @FXML
-    private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel;
+    private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel; 
 
     private String Choice1, Choice2, Choice3, Choice4;
 
-    private int enemiesleft;
+    ArrayList<Enemy> enemies = new ArrayList();
 
     private double MCHealth, EnemyHealth, MCHealthMAX, EnemyHealthMAX, MCMana, MCManaMAX, EnemyMana, EnemyManaMAX;
 
@@ -85,7 +86,7 @@ public class FXMLCombatController implements Initializable {
             btnChoice2.setDisable(false); //makes it so that the secondary buttons can be pressed
             btnChoice3.setDisable(false);
         }
-        if (MCMana > weapon.getCost() + (2 * 1)) { // ********change 1 to getLevel()***********
+        if (MCMana > weapon.getCost() + (2 * getLevel())) { 
             btnChoice4.setDisable(false);
         }
     }
@@ -128,7 +129,7 @@ public class FXMLCombatController implements Initializable {
             }
         } else if (btnChoice4.isArmed()) {
             if (btnChoice4.getText().equals(weapon.getAttack4())) {
-                MCMana = MCMana - (weapon.getCost() + (2 * 1)); //************Turn the 1 int getLevel() ****************
+                MCMana = MCMana - (weapon.getCost() + (2 * getLevel())); 
             }
             if (btnChoice4.getText().equals("")) {
             }
@@ -185,8 +186,8 @@ public class FXMLCombatController implements Initializable {
     private void checkHP(ProgressBar prgT) {
         if (prgT.getProgress() <= 0) {
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks poopoo
-            enemiesleft--;
-            if (enemiesleft == 0) {
+            enemies.remove(0);
+            if (enemies.isEmpty()) {
                 endCombat(); //ends combat and opens up end of combat screen
             } else {
                 setup();
@@ -202,15 +203,15 @@ public class FXMLCombatController implements Initializable {
     }
 
     private void setup() {
-        Enemy enemy = new Enemy(1);
+        enemies.add(0,new Enemy(1));
         MCHealth = 50; //gets the health of the player
         MCHealthMAX = 100; //gets the max health of the player
-        EnemyHealth = enemy.getHealth(); //gets the health of the enemy
-        EnemyHealthMAX = enemy.getHealthMAX(); //gets the max health of the enemy
+        EnemyHealth = enemies.get(0).getHealth(); //gets the health of the enemy
+        EnemyHealthMAX = enemies.get(0).getHealthMAX(); //gets the max health of the enemy
         MCMana = 30; // gets the mana of the player
         MCManaMAX = 30; //gets the max mana of the player
-        EnemyMana = enemy.getMana(); // gets the mana of the enemy
-        EnemyManaMAX = enemy.getManaMAX(); //gets the max mana of the enemy 
+        EnemyMana = enemies.get(0).getMana(); // gets the mana of the enemy
+        EnemyManaMAX = enemies.get(0).getManaMAX(); //gets the max mana of the enemy 
         progress(prgMC, prgMCMana, MCHealth, MCHealthMAX, MCMana, MCManaMAX, lblMC, lblMCMana);
         progress(prgEnemy, prgEnemyMana, EnemyHealth, EnemyHealthMAX, EnemyMana, EnemyManaMAX, lblEnemy, lblEnemyMana);
     }
@@ -219,7 +220,6 @@ public class FXMLCombatController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //   music.setCycleCount(Timeline.INDEFINITE);
         //   music.play();
-        enemiesleft = 2;
         setup();
         // method used to set up the progress bars and labels.
         btnChoice1.setText("---");

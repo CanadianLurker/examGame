@@ -9,6 +9,7 @@ public class Enemy {
 
     private int level, damage, defence;
     private double Health, HealthMAX, Mana, ManaMAX;
+    private String Attack1, Attack2, Attack3, Attack4;
 
     public Enemy(int Level) {
         level = Level;

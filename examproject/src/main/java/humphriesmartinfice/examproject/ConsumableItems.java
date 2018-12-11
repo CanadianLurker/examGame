@@ -25,7 +25,7 @@ public class ConsumableItems {
                 effect = "Bomb";
                 break;
             case 4:
-                effect = "Single Shot Pipe";
+                effect = "Single Shot";
                 break;
         }
         amount = 3 + (Level * 2);
