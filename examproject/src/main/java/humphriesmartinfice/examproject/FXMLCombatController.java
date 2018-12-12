@@ -41,10 +41,15 @@ public class FXMLCombatController implements Initializable {
 
     ArrayList<Enemy> enemies = new ArrayList();
 
+    private int count;
+
+    private double exp;
+
     private boolean combat = true;//combat will always be active when coming into this scene
     private boolean DOT = false;
 
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
+    Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(15), ae -> exp()));
 
     Mage weapon = new Mage(1);
 
@@ -126,6 +131,7 @@ public class FXMLCombatController implements Initializable {
             if (Primary.equals("Attack")) {
                 damage = weapon.Attack3(enemies.get(0).getDefence());
                 DOT = true;
+                count = count + 3;
                 // add image, maybe something that just says "DOT"
                 setMana(getMana() - weapon.getCost());
             }
@@ -174,10 +180,14 @@ public class FXMLCombatController implements Initializable {
     private void enemyTurn() {
         if (DOT) {
             enemies.get(0).setHealth(enemies.get(0).getHealth() - weapon.Attack3(enemies.get(0).getDefence()));
+            count--;
+            if (count == 0) {
+                DOT = false;
+            }
         }
         setHealth(getHealth() - enemies.get(0).Attack());
         progress();
-        checkHP(prgMC); //checks health for MC
+        check(prgMC); //checks health for MC
         if (combat) {
             start(); //the start of the players turn
         }
@@ -194,17 +204,29 @@ public class FXMLCombatController implements Initializable {
         // starts loot/exp, then dialogue, which will be in main scene, maybe?. 
         combat = false; // makes it so that the next turn does not start
         panEXP.setVisible(true); //makes the end combat screen visible
+        endscreen.play();
+        endscreen.setCycleCount(Timeline.INDEFINITE);
     }
 
     private void checkHP(ProgressBar prgT) {
         if (prgT.getProgress() <= 0) {
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks poopoo
+            exp += enemies.get(0).getEXP();
             enemies.remove(0);
             if (enemies.isEmpty()) {
                 endCombat(); //ends combat and opens up end of combat screen
             } else {
                 setup();
             }
+        }
+    }
+
+    private void check(ProgressBar prgT) {
+        if (prgT.getProgress() <= 0) {
+            prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks poopoo
+            exp = 0;
+            endCombat();
+            //end game screen here
         }
     }
 
@@ -224,6 +246,15 @@ public class FXMLCombatController implements Initializable {
         progress();
     }
 
+    private void exp() {
+        exp--;
+        setEXP(getEXP() + 1);
+        prgEXP.setProgress(getEXP() / getEXPNeeded());
+        if (exp == 0) {
+            endscreen.stop();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //   music.setCycleCount(Timeline.INDEFINITE);
@@ -234,6 +265,8 @@ public class FXMLCombatController implements Initializable {
         setHealthMAX(60);
         setMana(20);
         setManaMAX(30);
+        setEXP(1.0);
+        setEXPNeeded(20);
         //Only used for testing purposes//
         setup();
         btnChoice1.setText("---");
@@ -244,7 +277,7 @@ public class FXMLCombatController implements Initializable {
         btnChoice2.setDisable(true);
         btnChoice3.setDisable(true);
         btnChoice4.setDisable(true);
-        panEXP.setVisible(false); //Makes it so that when you re-enter comabt the end combat screen isn't already there
+        panEXP.setVisible(false);//Makes it so that when you re-enter comabt the end combat screen isn't already there
         //imgMC.setImage(); //set image from whatever the image is
         //imgEnemy.setImage(); //gets the images from the enemy
 

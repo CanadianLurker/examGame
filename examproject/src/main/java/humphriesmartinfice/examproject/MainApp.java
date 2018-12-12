@@ -15,7 +15,7 @@ public class MainApp extends Application {
 
     public static int level;
     
-    public static double health, healthMAX, mana, manaMAX;
+    public static double health, healthMAX, mana, manaMAX,EXP, EXPNeeded;
     
     private static Object Inventory[] = new Object[2];
     
@@ -66,6 +66,22 @@ public class MainApp extends Application {
     
     public static void setManaMAX(double mana){
     MainApp.manaMAX = mana;
+    }
+    
+    public static double getEXP(){
+    return MainApp.EXP;
+    }
+    
+    public static void setEXP(double exp){
+    MainApp.EXP = exp;
+    }
+    
+    public static double getEXPNeeded(){
+    return MainApp.EXPNeeded;
+    }
+    
+    public static void setEXPNeeded(double expneeded){
+    expneeded = MainApp.EXPNeeded * 1.5;
     }
     
     public static Array getInv(int spot){
