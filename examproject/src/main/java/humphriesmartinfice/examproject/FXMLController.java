@@ -34,6 +34,7 @@ public class FXMLController implements Initializable {
 
         stage.setTitle("Spawn Room"); //changes the title
         stage.show(); //shows the new page
+        home_page_scene.getRoot().requestFocus();
     }
 
     @FXML
