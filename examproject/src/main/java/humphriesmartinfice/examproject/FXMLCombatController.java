@@ -35,7 +35,7 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private Pane panEXP;
     @FXML
-    private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel;
+    private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel, lblMana;
 
     private String Choice1, Choice2, Choice3, Choice4, Primary;
 
@@ -49,7 +49,7 @@ public class FXMLCombatController implements Initializable {
     private boolean DOT = false;
 
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
-    Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(15), ae -> exp()));
+    Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
 
     Mage weapon = new Mage(1);
 
@@ -203,9 +203,13 @@ public class FXMLCombatController implements Initializable {
     private void endCombat() {
         // starts loot/exp, then dialogue, which will be in main scene, maybe?. 
         combat = false; // makes it so that the next turn does not start
+        prgEXP.setProgress(getEXP() / getEXPNeeded());
         panEXP.setVisible(true); //makes the end combat screen visible
-        endscreen.play();
         endscreen.setCycleCount(Timeline.INDEFINITE);
+        endscreen.play();
+        lblLevel.setText("LEVEL: " + getLevel());
+        lblHP.setText("MAX HP: " + getHealthMAX());
+        lblMana.setText("MAX MANA: " + getManaMAX());
     }
 
     private void checkHP(ProgressBar prgT) {
@@ -249,6 +253,18 @@ public class FXMLCombatController implements Initializable {
     private void exp() {
         exp--;
         setEXP(getEXP() + 1);
+        if (getEXP() >= getEXPNeeded()) {
+            setLevel(getLevel() + 1);
+            setEXP(0);
+            lblLevel.setText("LEVEL: " + getLevel());
+            setHealth(getHealth() + 10);
+            setHealthMAX(getHealthMAX() + 10);
+            lblHP.setText("MAX HP: " + getHealthMAX());
+            setMana(getMana() + 5);
+            setManaMAX(getManaMAX() + 5);
+            lblMana.setText("MAX MANA: " + getManaMAX());
+            progress();
+        }
         prgEXP.setProgress(getEXP() / getEXPNeeded());
         if (exp == 0) {
             endscreen.stop();
@@ -261,12 +277,14 @@ public class FXMLCombatController implements Initializable {
         //   music.play();
         //Only used for testing purposes//
         setLevel(1);
-        setHealth(40);
-        setHealthMAX(60);
-        setMana(20);
-        setManaMAX(30);
-        setEXP(1.0);
-        setEXPNeeded(20);
+        setHealth(20);
+        setHealthMAX(20);
+        setMana(10);
+        setManaMAX(10);
+        setEXP(0);
+        setEXPNeeded();
+        setInv(new Mage(1), 1);
+        getInv(1);
         //Only used for testing purposes//
         setup();
         btnChoice1.setText("---");

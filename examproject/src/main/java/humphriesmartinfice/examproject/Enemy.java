@@ -20,7 +20,7 @@ public class Enemy {
         HealthMAX = 10 + (Level * 10);
         Mana = 20 + (Level * 2);
         ManaMAX = 20 + (Level * 2);
-        EXP = 3 + (Level * 2);
+        EXP = 15 + (Level * 2);
     }
 
     public double getHealth() {

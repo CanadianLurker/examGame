@@ -20,7 +20,7 @@ public class Mage extends Weapon {
         Attack2 = "Inferno"; //Basic attack that uses up mana
         Attack3 = "Thunder"; //DOT attack
         Attack4 = "Heal"; //Some healing spell that costs slightly more mana but does more than normal potion
-        manaCost = 3 + (Level * 2); //Base cost of Inferno, Thunder and heal, which will have more initial cost in combat controller
+        manaCost = 2 + (Level * 2); //Base cost of Inferno, Thunder and heal, which will have more initial cost in combat controller
         damage = 3 + Level; //base amount of damage added onto weapon(which already randomizes damage)
 
         Name = "Wizards Stick"; //base name off of rarity and level

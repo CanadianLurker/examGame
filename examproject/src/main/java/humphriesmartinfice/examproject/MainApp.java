@@ -80,12 +80,12 @@ public class MainApp extends Application {
     return MainApp.EXPNeeded;
     }
     
-    public static void setEXPNeeded(double expneeded){
-    expneeded = MainApp.EXPNeeded * 1.5;
+    public static void setEXPNeeded(){
+     MainApp.EXPNeeded = 22 + (MainApp.level * 6) ;
     }
     
-    public static Array getInv(int spot){
-        return (Array) Inventory[spot];
+    public static Object getInv(int spot){
+        return Inventory[spot];
     }
     
     public static void setInv(Object thing, int spot){
