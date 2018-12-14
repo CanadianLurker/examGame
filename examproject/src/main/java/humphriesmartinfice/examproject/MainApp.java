@@ -17,7 +17,7 @@ public class MainApp extends Application {
     
     public static double health, healthMAX, mana, manaMAX,EXP, EXPNeeded;
     
-    private static Object Inventory[] = new Object[2];
+    private static Weapon[][] Inventory = new Weapon[2][1];
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -84,12 +84,12 @@ public class MainApp extends Application {
      MainApp.EXPNeeded = 22 + (MainApp.level * 6) ;
     }
     
-    public static Object getInv(int spot){
-        return Inventory[spot];
+    public static Weapon getInv(int spot){
+        return Inventory[spot][0];
     }
     
-    public static void setInv(Object thing, int spot){
-    Inventory[spot] = thing;
+    public static void setInv(Weapon thing, int spot){
+    Inventory[spot][0] = thing;
     }
 
     /**

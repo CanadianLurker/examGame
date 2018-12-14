@@ -18,8 +18,8 @@ public class Enemy {
         defence = 0 + Level;
         Health = 10 + (Level * 10);
         HealthMAX = 10 + (Level * 10);
-        Mana = 20 + (Level * 2);
-        ManaMAX = 20 + (Level * 2);
+        Mana = 5 + (Level * 2);
+        ManaMAX = 5 + (Level * 2);
         EXP = 15 + (Level * 2);
     }
 

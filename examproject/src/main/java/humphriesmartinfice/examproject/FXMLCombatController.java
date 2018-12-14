@@ -51,7 +51,8 @@ public class FXMLCombatController implements Initializable {
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
 
-    Mage weapon = new Mage(1);
+    Mage weapon = new Mage(1,"","","","",0,0,0,0,"");
+   // private Weapon weapon;
 
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
     @FXML
@@ -257,11 +258,11 @@ public class FXMLCombatController implements Initializable {
             setLevel(getLevel() + 1);
             setEXP(0);
             lblLevel.setText("LEVEL: " + getLevel());
-            setHealth(getHealth() + 10);
             setHealthMAX(getHealthMAX() + 10);
+            setHealth(getHealthMAX());
             lblHP.setText("MAX HP: " + getHealthMAX());
-            setMana(getMana() + 5);
             setManaMAX(getManaMAX() + 5);
+            setMana(getManaMAX());
             lblMana.setText("MAX MANA: " + getManaMAX());
             progress();
         }
@@ -283,8 +284,6 @@ public class FXMLCombatController implements Initializable {
         setManaMAX(10);
         setEXP(0);
         setEXPNeeded();
-        setInv(new Mage(1), 1);
-        getInv(1);
         //Only used for testing purposes//
         setup();
         btnChoice1.setText("---");
