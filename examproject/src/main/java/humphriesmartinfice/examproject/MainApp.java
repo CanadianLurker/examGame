@@ -81,7 +81,7 @@ public class MainApp extends Application {
     }
     
     public static void setEXPNeeded(){
-     MainApp.EXPNeeded = 22 + (MainApp.level * 6) ;
+     MainApp.EXPNeeded = 22 + (MainApp.level * 12) ;
     }
     
     public static Weapon getInv(int spot){

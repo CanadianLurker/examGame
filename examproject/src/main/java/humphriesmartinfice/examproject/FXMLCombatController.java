@@ -23,6 +23,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import static humphriesmartinfice.examproject.MainApp.*;
 import java.util.ArrayList;
+import java.text.DecimalFormat;
 
 public class FXMLCombatController implements Initializable {
 
@@ -48,11 +49,14 @@ public class FXMLCombatController implements Initializable {
     private boolean combat = true;//combat will always be active when coming into this scene
     private boolean DOT = false;
 
+    DecimalFormat F = new DecimalFormat("0.00");
+
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
+    Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
 
-    Mage weapon = new Mage(150,"","","","",0,0,0,0,"");
-   // private Weapon weapon;
+    Mage weapon = new Mage(2, "", "", "", "", 0, 0, 0, 0, "");
+    // private Weapon weapon;
 
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
     @FXML
@@ -187,13 +191,14 @@ public class FXMLCombatController implements Initializable {
                 DOT = false;
             }
         }
-        if(combat){
-        setHealth(getHealth() - enemies.get(0).Attack());
-        progress();
-        check(prgMC); //checks health for MC
         if (combat) {
-            start(); //the start of the players turn
-        }}
+            setHealth(getHealth() - enemies.get(0).Attack());
+            progress();
+            check(prgMC); //checks health for MC
+            if (combat) {
+                start(); //the start of the players turn
+            }
+        }
 
     }
 
@@ -217,13 +222,22 @@ public class FXMLCombatController implements Initializable {
 
     private void checkHP(ProgressBar prgT) {
         if (enemies.get(0).getHealth() <= 0) {
-            prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks poopoo
+            prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, which does not look good
+            enemies.get(0).setHealth(0);
+            if(getMana() != getManaMAX()){
+            setMana(getMana() + (enemies.get(0).getLevel()* 3) );
+            if(getMana() >= getManaMAX()){
+            setMana(getManaMAX());
+            }}
+            progress();
             exp += enemies.get(0).getEXP();
             enemies.remove(0);
             if (enemies.isEmpty()) {
                 endCombat(); //ends combat and opens up end of combat screen
             } else {
-                setup();
+                Buffer.play();
+                DOT = false;
+                count = 0;
             }
         }
     }
@@ -231,6 +245,8 @@ public class FXMLCombatController implements Initializable {
     private void check(ProgressBar prgT) {
         if (prgT.getProgress() <= 0) {
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks poopoo
+            setHealth(0);
+            progress();
             exp = 0;
             endCombat();
             //end game screen here
@@ -240,22 +256,17 @@ public class FXMLCombatController implements Initializable {
     private void progress() {
         prgMC.setProgress(getHealth() / getHealthMAX()); //sets the health of the whatever is being inputted with the method
         prgMCMana.setProgress(getMana() / getManaMAX()); //sets the mana of whatever is being inputted
-        lblMC.setText(getHealth() + " / " + getHealthMAX()); //types into a label to for more visual sight as to what health is
-        lblMCMana.setText(getMana() + " / " + getManaMAX()); // same as health but for mana
+        lblMC.setText(Double.parseDouble(F.format(getHealth())) + " / " + getHealthMAX()); //types into a label to for more visual sight as to what health is
+        lblMCMana.setText(Double.parseDouble(F.format(getMana())) + " / " + getManaMAX()); // same as health but for mana
         prgEnemy.setProgress(enemies.get(0).getHealth() / enemies.get(0).getHealthMAX()); //sets the health of the whatever is being inputted with the method
         prgEnemyMana.setProgress(enemies.get(0).getMana() / enemies.get(0).getManaMAX()); //sets the mana of whatever is being inputted
-        lblEnemy.setText(enemies.get(0).getHealth() + " / " + enemies.get(0).getHealthMAX()); //types into a label to for more visual sight as to what health is
-        lblEnemyMana.setText(enemies.get(0).getMana() + " / " + enemies.get(0).getManaMAX());
-    }
-    
-    @FXML
-    private void OK(ActionEvent event){
-    //link back to where the fight started
+        lblEnemy.setText(Double.parseDouble(F.format(enemies.get(0).getHealth())) + " / " + enemies.get(0).getHealthMAX()); //types into a label to for more visual sight as to what health is
+        lblEnemyMana.setText(Double.parseDouble(F.format(enemies.get(0).getMana())) + " / " + enemies.get(0).getManaMAX());
     }
 
-    private void setup() {
-        enemies.add(0, new Enemy(1));
-        progress();
+    @FXML
+    private void OK(ActionEvent event) {
+        //link back to where the fight started in the "explore" state
     }
 
     private void exp() {
@@ -271,12 +282,20 @@ public class FXMLCombatController implements Initializable {
             setManaMAX();
             setMana(getManaMAX());
             lblMana.setText("MAX MANA: " + getManaMAX());
-            progress();
+            prgMC.setProgress(getHealth() / getHealthMAX()); //sets the health of the whatever is being inputted with the method
+            prgMCMana.setProgress(getMana() / getManaMAX()); //sets the mana of whatever is being inputted
+            lblMC.setText(Double.parseDouble(F.format(getHealth())) + " / " + getHealthMAX()); //types into a label to for more visual sight as to what health is
+            lblMCMana.setText(Double.parseDouble(F.format(getMana())) + " / " + getManaMAX()); // same as health but for mana
+
         }
         prgEXP.setProgress(getEXP() / getEXPNeeded());
-        if (exp == 0) {
+        if (exp <= 0) {
             endscreen.stop();
         }
+    }
+
+    private void buffer() {
+        progress();
     }
 
     @Override
@@ -284,15 +303,18 @@ public class FXMLCombatController implements Initializable {
         //   music.setCycleCount(Timeline.INDEFINITE);
         //   music.play();
         //Only used for testing purposes//
-        setLevel(100);
-        setHealth(20);
+        setLevel(3);
         setHealthMAX();
-        setMana(10);
+        setHealth(getHealthMAX());
         setManaMAX();
+        setMana(getManaMAX());
         setEXP(0);
         setEXPNeeded();
         //Only used for testing purposes//
-        setup();
+        enemies.add(new Enemy(1));
+        //enemies.add(new Enemy(1));
+        //enemies.add(new Enemy(1));
+        progress();
         btnChoice1.setText("---");
         btnChoice2.setText("---");
         btnChoice3.setText("---");
