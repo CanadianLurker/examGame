@@ -51,7 +51,7 @@ public class FXMLCombatController implements Initializable {
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
 
-    Mage weapon = new Mage(1,"","","","",0,0,0,0,"");
+    Mage weapon = new Mage(150,"","","","",0,0,0,0,"");
    // private Weapon weapon;
 
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
@@ -182,16 +182,18 @@ public class FXMLCombatController implements Initializable {
         if (DOT) {
             enemies.get(0).setHealth(enemies.get(0).getHealth() - weapon.Attack3(enemies.get(0).getDefence()));
             count--;
+            checkHP(prgEnemy);
             if (count == 0) {
                 DOT = false;
             }
         }
+        if(combat){
         setHealth(getHealth() - enemies.get(0).Attack());
         progress();
         check(prgMC); //checks health for MC
         if (combat) {
             start(); //the start of the players turn
-        }
+        }}
 
     }
 
@@ -214,7 +216,7 @@ public class FXMLCombatController implements Initializable {
     }
 
     private void checkHP(ProgressBar prgT) {
-        if (prgT.getProgress() <= 0) {
+        if (enemies.get(0).getHealth() <= 0) {
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks poopoo
             exp += enemies.get(0).getEXP();
             enemies.remove(0);
@@ -245,6 +247,11 @@ public class FXMLCombatController implements Initializable {
         lblEnemy.setText(enemies.get(0).getHealth() + " / " + enemies.get(0).getHealthMAX()); //types into a label to for more visual sight as to what health is
         lblEnemyMana.setText(enemies.get(0).getMana() + " / " + enemies.get(0).getManaMAX());
     }
+    
+    @FXML
+    private void OK(ActionEvent event){
+    //link back to where the fight started
+    }
 
     private void setup() {
         enemies.add(0, new Enemy(1));
@@ -258,10 +265,10 @@ public class FXMLCombatController implements Initializable {
             setLevel(getLevel() + 1);
             setEXP(0);
             lblLevel.setText("LEVEL: " + getLevel());
-            setHealthMAX(getHealthMAX() + 10);
+            setHealthMAX();
             setHealth(getHealthMAX());
             lblHP.setText("MAX HP: " + getHealthMAX());
-            setManaMAX(getManaMAX() + 5);
+            setManaMAX();
             setMana(getManaMAX());
             lblMana.setText("MAX MANA: " + getManaMAX());
             progress();
@@ -277,11 +284,11 @@ public class FXMLCombatController implements Initializable {
         //   music.setCycleCount(Timeline.INDEFINITE);
         //   music.play();
         //Only used for testing purposes//
-        setLevel(1);
+        setLevel(100);
         setHealth(20);
-        setHealthMAX(20);
+        setHealthMAX();
         setMana(10);
-        setManaMAX(10);
+        setManaMAX();
         setEXP(0);
         setEXPNeeded();
         //Only used for testing purposes//

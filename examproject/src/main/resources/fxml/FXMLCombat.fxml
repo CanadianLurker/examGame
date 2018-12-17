@@ -58,6 +58,7 @@
             <Label fx:id="lblMana" layoutX="98.0" layoutY="288.0" prefHeight="33.0" prefWidth="120.0" text="MAX MANA :" />
             <Label layoutX="387.0" layoutY="180.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
             <Label layoutX="387.0" layoutY="288.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
+            <Button layoutX="263.0" layoutY="375.0" mnemonicParsing="false" onAction="#OK" text="OK" />
          </children></Pane>
    </children>
 </AnchorPane>

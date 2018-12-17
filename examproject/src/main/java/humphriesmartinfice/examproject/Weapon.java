@@ -11,9 +11,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Weapon {
 
     private String Attack1, Attack2, Attack3, Attack4, Name;
-    private int level, rarity, damage, manaCost, sdamage;
+    private int level, rarity, damage, sdamage;
+    private double manaCost;
 
-    public Weapon(int Level, String Attack1, String Attack2, String Attack3, String Attack4, int manaCost, int rarity, int damage, int sdamage, String Name) {
+    public Weapon(int Level, String Attack1, String Attack2, String Attack3, String Attack4, double manaCost, int rarity, int damage, int sdamage, String Name) {
         this.Attack1 = Attack1; //Just hittin em with a stick, will not get extra weapon damage 
         this.Attack2 = Attack2; //Basic attack that uses up mana
         this.Attack3 = Attack3; //DOT attack
@@ -64,7 +65,7 @@ public class Weapon {
         return Attack4;
     }
 
-    public int getCost() {
+    public double getCost() {
         return manaCost;
     }
 
@@ -73,7 +74,7 @@ public class Weapon {
     }
 
     public void SpecialAttack(int defence) {
-        setHealth(getHealth() + (damage + (getLevel() / 2)));
+        setHealth(getHealth() + (damage + (getLevel() / 1.3)));
     }
 
     public int Attack1(int defence) {

@@ -44,8 +44,8 @@ public class MainApp extends Application {
     return MainApp.health;
     }
     
-    public static void setHealthMAX(double health){
-    MainApp.healthMAX = health;
+    public static void setHealthMAX(){
+    MainApp.healthMAX = MainApp.level *10 + 10;
     }
     
     public static double getHealthMAX(){
@@ -64,8 +64,8 @@ public class MainApp extends Application {
     return MainApp.manaMAX;
     }
     
-    public static void setManaMAX(double mana){
-    MainApp.manaMAX = mana;
+    public static void setManaMAX(){
+    MainApp.manaMAX = MainApp.level * 5 + 5;
     }
     
     public static double getEXP(){
