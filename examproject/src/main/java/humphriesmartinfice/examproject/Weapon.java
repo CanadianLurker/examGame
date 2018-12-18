@@ -10,11 +10,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Weapon {
 
-    private String Attack1, Attack2, Attack3, Attack4, Name;
+    private String Attack1, Attack2, Attack3, Attack4, Name, type;
     private int level, rarity, damage, sdamage;
     private double manaCost;
 
-    public Weapon(int Level, String Attack1, String Attack2, String Attack3, String Attack4, double manaCost, int rarity, int damage, int sdamage, String Name) {
+    public Weapon(int Level, String Attack1, String Attack2, String Attack3, String Attack4, double manaCost, int rarity, int damage, int sdamage, String Name,String Type) {
         this.Attack1 = Attack1; //Just hittin em with a stick, will not get extra weapon damage 
         this.Attack2 = Attack2; //Basic attack that uses up mana
         this.Attack3 = Attack3; //DOT attack
@@ -25,8 +25,10 @@ public class Weapon {
         this.damage = ThreadLocalRandom.current().nextInt(3, (5 + Level) + 1) + Level;
         this.rarity = rarity;
         level = Level;
+        this.type = Type;
+        
     }
-
+    
     public int getDamage() {
         return this.damage;
     }
@@ -41,16 +43,6 @@ public class Weapon {
 
     public String getAttack1() {
         return Attack1;
-    }
-
-    public void setAttacks(String attack1, String attack2, String attack3, String attack4, int sdamage, int cost, String name) {
-        this.Attack1 = attack1;
-        this.Attack2 = attack2;
-        this.Attack3 = attack3;
-        this.Attack4 = attack4;
-        this.sdamage = sdamage;
-        this.manaCost = cost;
-        this.Name = name;
     }
 
     public String getAttack2() {
@@ -72,23 +64,32 @@ public class Weapon {
     public int getSDamage() {
         return sdamage;
     }
+    
+    public String getName(){
+    return this.Name;
+    }
+    
+    public String getType(){
+    return this.type;
+    }
 
     public void SpecialAttack(int defence) {
-        setHealth(getHealth() + (damage + (getLevel() / 1.3)));
+        setHealth(getHealth() + (damage + (level / 1.3)));
+        
     }
 
     public int Attack1(int defence) {
-        return ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + 1) + 1) - defence;
+        return ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1) - defence;
     }
 
     public int Attack2(int defence) {
-        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + 1) + 1)
-                + ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + 1) + 1)
+        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1)
+                + ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1)
                 - defence;
     }
 
     public int Attack3(int defence) {
-        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + 1) + 1) - defence;
+        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1) - defence;
     }
 
 }

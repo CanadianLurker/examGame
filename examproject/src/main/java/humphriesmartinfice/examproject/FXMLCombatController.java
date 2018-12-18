@@ -55,20 +55,19 @@ public class FXMLCombatController implements Initializable {
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
     Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
 
-    Mage weapon = new Mage(15, "", "", "", "", 0, 0, 0, 0, "");
-    // private Weapon weapon;
+    Mage weapon = new Mage(150, "", "", "", "", 0, 0, 0, 0, "","");
 
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
     @FXML
     private void Primary(ActionEvent event) {
         if (btnAttack.isArmed()) { //checks to see which primary button is pressed
             Choice1 = "0 Mana -" + weapon.getAttack1() + "-" + (weapon.getDamage() - (2) - enemies.get(0).getDefence()) + "-"
-                    + ((weapon.getDamage() + (getLevel() + 1)) - enemies.get(0).getDefence()) + " Damage";
+                    + ((weapon.getDamage() + (getLevel() + weapon.getLevel())) - enemies.get(0).getDefence()) + " Damage";
             Choice2 = weapon.getCost() + " Mana -" + weapon.getAttack2() + "-" + (weapon.getDamage() - 2 + (weapon.getSDamage() - 2 - enemies.get(0).getDefence())) + "-"
-                    + (((weapon.getDamage() + (getLevel() + 1)) + (weapon.getSDamage() + (getLevel() + 1))) - enemies.get(0).getDefence()) + " Damage";
+                    + (((weapon.getDamage() + (getLevel() + weapon.getLevel())) + (weapon.getSDamage() + (getLevel() + weapon.getLevel()))) - enemies.get(0).getDefence()) + " Damage";
             Choice3 = weapon.getCost() + " Mana -" + weapon.getAttack3() + "-" + (weapon.getSDamage() - 2 - enemies.get(0).getDefence()) + "-"
-                    + ((weapon.getSDamage() + (getLevel() + 1)) - enemies.get(0).getDefence()) + " Damage";
-            Choice4 = weapon.getCost() + (2 * getLevel()) + " Mana -" + weapon.getAttack4() + "-" + (weapon.getSDamage() -2) + "-" + (weapon.getSDamage() + (getLevel() + 1));
+                    + ((weapon.getSDamage() + (getLevel() + weapon.getLevel())) - enemies.get(0).getDefence()) + " Damage";
+            Choice4 = Double.parseDouble(F.format(weapon.getCost() + (1.2 * weapon.getLevel()))) + " Mana -" + weapon.getAttack4() + "-" + Double.parseDouble(F.format(weapon.getSDamage() + (weapon.getLevel() / 1.3)));
             Primary = "Attack";
             btnAttack.setDisable(true);
             btnItems.setDisable(false); //disables the button that was pressed
@@ -101,7 +100,7 @@ public class FXMLCombatController implements Initializable {
             btnChoice2.setDisable(false); //makes it so that the secondary buttons can be pressed
             btnChoice3.setDisable(false);
         }
-        if (getMana() >= weapon.getCost() + (2 * getLevel())) {
+        if (getMana() >= weapon.getCost() + (1.2 * getLevel())) {
             btnChoice4.setDisable(false);
         }
     }
@@ -149,7 +148,11 @@ public class FXMLCombatController implements Initializable {
         } else if (btnChoice4.isArmed()) {
             if (Primary.equals("Attack")) {
                 weapon.SpecialAttack(enemies.get(0).getDefence());
-                setMana(getMana() - (weapon.getCost() + (2 * getLevel())));
+                setMana(getMana() - (weapon.getCost() + (1.2 * getLevel())));
+                if(weapon.getType().equals("Mage")){
+                
+                }
+                
             }
             if (btnChoice4.getText().equals("")) {
             }
@@ -224,11 +227,12 @@ public class FXMLCombatController implements Initializable {
         if (enemies.get(0).getHealth() <= 0) {
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, which does not look good
             enemies.get(0).setHealth(0);
-            if(getMana() != getManaMAX()){
-            setMana(getMana() + (enemies.get(0).getLevel()* 3) );
-            if(getMana() >= getManaMAX()){
-            setMana(getManaMAX());
-            }}
+            if (getMana() != getManaMAX()) {
+                setMana(getMana() + (enemies.get(0).getLevel() * 3));
+                if (getMana() >= getManaMAX()) {
+                    setMana(getManaMAX());
+                }
+            }
             progress();
             exp += enemies.get(0).getEXP();
             enemies.remove(0);
@@ -266,27 +270,43 @@ public class FXMLCombatController implements Initializable {
 
     @FXML
     private void OK(ActionEvent event) {
-        //link back to where the fight started in the "explore" state
+        endscreen.stop();
+        setEXP(getEXP() + exp);
+        exp = 0;
+        prgEXP.setProgress(getEXP() / getEXPNeeded());
+        if (getEXP() / getEXPNeeded() >= 1) {
+            double leftover = getEXP() - getEXPNeeded();
+            if (leftover < 0) {
+                leftover = 0;
+            }
+            setEXP(leftover);
+            LevelUp();
+        }
+//link back to where the fight started in the "explore" state
+    }
+
+    private void LevelUp() {
+        setLevel(getLevel() + 1);
+        lblLevel.setText("LEVEL: " + getLevel());
+        setHealthMAX();
+        setHealth(getHealthMAX());
+        lblHP.setText("MAX HP: " + getHealthMAX());
+        setManaMAX();
+        setMana(getManaMAX());
+        lblMana.setText("MAX MANA: " + getManaMAX());
+        prgMC.setProgress(getHealth() / getHealthMAX()); //sets the health of the whatever is being inputted with the method
+        prgMCMana.setProgress(getMana() / getManaMAX()); //sets the mana of whatever is being inputted
+        lblMC.setText(Double.parseDouble(F.format(getHealth())) + " / " + getHealthMAX()); //types into a label to for more visual sight as to what health is
+        lblMCMana.setText(Double.parseDouble(F.format(getMana())) + " / " + getManaMAX()); // same as health but for mana
+
     }
 
     private void exp() {
         exp--;
         setEXP(getEXP() + 1);
         if (getEXP() >= getEXPNeeded()) {
-            setLevel(getLevel() + 1);
             setEXP(0);
-            lblLevel.setText("LEVEL: " + getLevel());
-            setHealthMAX();
-            setHealth(getHealthMAX());
-            lblHP.setText("MAX HP: " + getHealthMAX());
-            setManaMAX();
-            setMana(getManaMAX());
-            lblMana.setText("MAX MANA: " + getManaMAX());
-            prgMC.setProgress(getHealth() / getHealthMAX()); //sets the health of the whatever is being inputted with the method
-            prgMCMana.setProgress(getMana() / getManaMAX()); //sets the mana of whatever is being inputted
-            lblMC.setText(Double.parseDouble(F.format(getHealth())) + " / " + getHealthMAX()); //types into a label to for more visual sight as to what health is
-            lblMCMana.setText(Double.parseDouble(F.format(getMana())) + " / " + getManaMAX()); // same as health but for mana
-
+            LevelUp();
         }
         prgEXP.setProgress(getEXP() / getEXPNeeded());
         if (exp <= 0) {
@@ -303,7 +323,7 @@ public class FXMLCombatController implements Initializable {
         //   music.setCycleCount(Timeline.INDEFINITE);
         //   music.play();
         //Only used for testing purposes//
-        setLevel(20);
+        setLevel(150);
         setHealthMAX();
         setHealth(getHealthMAX());
         setManaMAX();
@@ -311,7 +331,7 @@ public class FXMLCombatController implements Initializable {
         setEXP(0);
         setEXPNeeded();
         //Only used for testing purposes//
-        enemies.add(new Enemy(1));
+        enemies.add(new Enemy(150));
         //enemies.add(new Enemy(1));
         //enemies.add(new Enemy(1));
         progress();

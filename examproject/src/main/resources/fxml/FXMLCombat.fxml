@@ -14,11 +14,11 @@
          <children>
             <Button fx:id="btnAttack" layoutX="53.0" layoutY="48.0" mnemonicParsing="false" onAction="#Primary" prefHeight="25.0" prefWidth="403.0" text="Attack" />
             <Button fx:id="btnItems" layoutX="53.0" layoutY="105.0" mnemonicParsing="false" onAction="#Primary" prefHeight="25.0" prefWidth="403.0" text="Items" />
-            <Button fx:id="btnOther" layoutX="53.0" layoutY="171.0" mnemonicParsing="false" onAction="#Primary" prefHeight="25.0" prefWidth="403.0" text="Other" />
-            <Button fx:id="btnChoice1" layoutX="625.0" layoutY="48.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="185.0" text="Choice 1" />
-            <Button fx:id="btnChoice2" layoutX="625.0" layoutY="93.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="185.0" text="Choice 2" />
-            <Button fx:id="btnChoice3" layoutX="625.0" layoutY="137.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="185.0" text="Choice 3" />
-            <Button fx:id="btnChoice4" layoutX="625.0" layoutY="183.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="185.0" text="Choice 4" />
+            <Button fx:id="btnOther" layoutX="53.0" layoutY="164.0" mnemonicParsing="false" onAction="#Primary" prefHeight="25.0" prefWidth="403.0" text="Other" />
+            <Button fx:id="btnChoice1" layoutX="605.0" layoutY="23.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="253.0" text="Choice 1" />
+            <Button fx:id="btnChoice2" layoutX="605.0" layoutY="73.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="253.0" text="Choice 2" />
+            <Button fx:id="btnChoice3" layoutX="605.0" layoutY="130.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="253.0" text="Choice 3" />
+            <Button fx:id="btnChoice4" layoutX="605.0" layoutY="184.0" mnemonicParsing="false" onAction="#Secondary" prefHeight="25.0" prefWidth="253.0" text="Choice 4" />
          </children></Pane>
       <ProgressBar fx:id="prgMC" layoutX="48.0" layoutY="107.0" prefWidth="200.0" progress="0.0">
          <effect>
@@ -46,19 +46,19 @@
       </ProgressBar>
       <Label fx:id="lblMCMana" layoutX="122.0" layoutY="135.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="101.0" />
       <Label fx:id="lblEnemyMana" layoutX="677.0" layoutY="135.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="110.0" />
-      <Pane fx:id="panEXP" layoutX="136.0" layoutY="87.0" prefHeight="426.0" prefWidth="629.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff;">
+      <Pane fx:id="panEXP" layoutX="136.0" layoutY="87.0" prefHeight="426.0" prefWidth="629.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff;" visible="false">
          <children>
             <ProgressBar fx:id="prgEXP" layoutX="88.0" layoutY="99.0" prefHeight="33.0" prefWidth="453.0" progress="0.0">
                <effect>
                   <ColorAdjust hue="-0.12" />
                </effect>
             </ProgressBar>
-            <Label fx:id="lblLevel" layoutX="235.0" layoutY="52.0" prefHeight="47.0" prefWidth="159.0" text="LEVEL:" />
+            <Label fx:id="lblLevel" layoutX="276.0" layoutY="52.0" prefHeight="47.0" prefWidth="78.0" text="LEVEL:" />
             <Label fx:id="lblHP" layoutX="98.0" layoutY="180.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
             <Label fx:id="lblMana" layoutX="98.0" layoutY="288.0" prefHeight="33.0" prefWidth="120.0" text="MAX MANA :" />
-            <Label layoutX="387.0" layoutY="180.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
-            <Label layoutX="387.0" layoutY="288.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
-            <Button layoutX="263.0" layoutY="375.0" mnemonicParsing="false" onAction="#OK" text="OK" />
+            <Label layoutX="429.0" layoutY="180.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
+            <Label layoutX="429.0" layoutY="288.0" prefHeight="33.0" prefWidth="120.0" text="MAX HP: " />
+            <Button layoutX="298.0" layoutY="377.0" mnemonicParsing="false" onAction="#OK" text="OK" />
          </children></Pane>
    </children>
 </AnchorPane>

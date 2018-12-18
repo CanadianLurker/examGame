@@ -16,10 +16,10 @@ public class Enemy {
         level = Level;
         damage = 3 + Level;
         defence = 0 + Level;
-        Health = 10 + (Level * 10);
         HealthMAX = 10 + (Level * 10);
-        Mana = 3 + (Level * 4);
+        Health = HealthMAX;
         ManaMAX = 5 + (Level * 2);
+        Mana = ManaMAX;
         EXP = 15 + (Level * 2); //the amount of exp a enemy has is based off of level
     }
 
@@ -57,10 +57,6 @@ public class Enemy {
 
     public double getEXP() {
         return EXP;
-    }
-    
-    public void setEXP(double exp){
-    EXP = exp;
     }
 
     public double Attack() {
