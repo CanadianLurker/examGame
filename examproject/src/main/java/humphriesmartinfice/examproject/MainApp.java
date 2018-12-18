@@ -65,7 +65,7 @@ public class MainApp extends Application {
     }
     
     public static void setManaMAX(){
-    MainApp.manaMAX = MainApp.level * 5 + 5;
+    MainApp.manaMAX = MainApp.level * 3 + 4;
     }
     
     public static double getEXP(){

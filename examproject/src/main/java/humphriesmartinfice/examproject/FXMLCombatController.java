@@ -55,20 +55,20 @@ public class FXMLCombatController implements Initializable {
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
     Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
 
-    Mage weapon = new Mage(2, "", "", "", "", 0, 0, 0, 0, "");
+    Mage weapon = new Mage(15, "", "", "", "", 0, 0, 0, 0, "");
     // private Weapon weapon;
 
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
     @FXML
     private void Primary(ActionEvent event) {
         if (btnAttack.isArmed()) { //checks to see which primary button is pressed
-            Choice1 = "0 Mana -" + weapon.getAttack1() + "-" + ((weapon.getDamage() - (getLevel() + 1)) - enemies.get(0).getDefence()) + "-"
+            Choice1 = "0 Mana -" + weapon.getAttack1() + "-" + (weapon.getDamage() - (2) - enemies.get(0).getDefence()) + "-"
                     + ((weapon.getDamage() + (getLevel() + 1)) - enemies.get(0).getDefence()) + " Damage";
-            Choice2 = weapon.getCost() + " Mana -" + weapon.getAttack2() + "-" + (((weapon.getDamage() - (getLevel() + 1)) + (weapon.getSDamage() - (getLevel() + 1))) - enemies.get(0).getDefence()) + "-"
+            Choice2 = weapon.getCost() + " Mana -" + weapon.getAttack2() + "-" + (weapon.getDamage() - 2 + (weapon.getSDamage() - 2 - enemies.get(0).getDefence())) + "-"
                     + (((weapon.getDamage() + (getLevel() + 1)) + (weapon.getSDamage() + (getLevel() + 1))) - enemies.get(0).getDefence()) + " Damage";
-            Choice3 = weapon.getCost() + " Mana -" + weapon.getAttack3() + "-" + ((weapon.getSDamage() - (getLevel() + 1)) - enemies.get(0).getDefence()) + "-"
+            Choice3 = weapon.getCost() + " Mana -" + weapon.getAttack3() + "-" + (weapon.getSDamage() - 2 - enemies.get(0).getDefence()) + "-"
                     + ((weapon.getSDamage() + (getLevel() + 1)) - enemies.get(0).getDefence()) + " Damage";
-            Choice4 = weapon.getCost() + (2 * getLevel()) + " Mana -" + weapon.getAttack4() + "-" + (weapon.getSDamage() + (getLevel() / 2) / 10);
+            Choice4 = weapon.getCost() + (2 * getLevel()) + " Mana -" + weapon.getAttack4() + "-" + (weapon.getSDamage() -2) + "-" + (weapon.getSDamage() + (getLevel() + 1));
             Primary = "Attack";
             btnAttack.setDisable(true);
             btnItems.setDisable(false); //disables the button that was pressed
@@ -303,7 +303,7 @@ public class FXMLCombatController implements Initializable {
         //   music.setCycleCount(Timeline.INDEFINITE);
         //   music.play();
         //Only used for testing purposes//
-        setLevel(3);
+        setLevel(20);
         setHealthMAX();
         setHealth(getHealthMAX());
         setManaMAX();
