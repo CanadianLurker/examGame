@@ -9,15 +9,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import java.io.IOException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -25,76 +24,59 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
-import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.Node;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
  *
  * @author n00bi
  */
-public class FXMLStartController implements Initializable {
-
-    private boolean cellKey = false;
-
-    @FXML
-    private ImageView key;
-    @FXML
-    private ImageView lamp;
-    @FXML
-    private ImageView table;
-    @FXML
-    private ImageView bed;
-    @FXML
-    private ImageView toilet;
-    @FXML
-    private ImageView doorOpen;
-    @FXML
-    private ImageView doorClosed;
-    @FXML
-    private ImageView poster;
-    @FXML
-    private ImageView bars;
-    @FXML
-    private ImageView Player;
-    @FXML
-    private Label keyFound;
-    @FXML
-    private Label exitMessage;
-    @FXML
-    private Button btnLeave;
-    @FXML
-    private Button btnStay;
+public class FXMLCommonRoomController implements Initializable {
     
+    @FXML
+    private ImageView guard;
+    @FXML
+    private ImageView player;
+    @FXML
+    private ImageView guardRoom;
+    @FXML
+    private ImageView blockA;
+    @FXML
+    private ImageView blockB;
+    @FXML
+    private ImageView cellDoor;
+    @FXML
+    private Label lblRoom;
+    @FXML
+    private Label lblA;
+    @FXML
+    private Label lblB;
+    @FXML
+    private Label lblCell;
+    @FXML 
+    private Button leave;
+    @FXML 
+    private Button stay;
+    @FXML 
+    private Label lblMessage;
     @FXML
     private Polygon polyPlayer;
     @FXML
     private Pane panPlayer;
-
     @FXML
-    private void btnLeaveY(ActionEvent event) throws IOException {
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); //where FXMLPage2 is the name of the scene
-
-        Scene home_page_scene = new Scene(home_page_parent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.hide();
-        stage.setScene(home_page_scene);
-
-        stage.setTitle("Common Room"); //changes the title
-        stage.show(); //shows the new page
-        home_page_scene.getRoot().requestFocus();
-    }
-
+    private Polygon polyA;
     @FXML
-    private void btnStayN(ActionEvent event) throws IOException {
-        btnLeave.setVisible(false);
-        btnStay.setVisible(false);
-        exitMessage.setVisible(false);
-    }
-
+    private Pane panA;
+    @FXML
+    private Polygon polyB;
+    @FXML
+    private Pane panB;
+    
+    int test = 0;
+    
     @FXML
     Timeline Right = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveRight()));
     @FXML
@@ -106,115 +88,91 @@ public class FXMLStartController implements Initializable {
 
     private void moveRight() {
         panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        if (collision(panPlayer, table)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-            if (cellKey == false) {
-                cellKey = true;
-                key.setVisible(false);
-                keyFound.setVisible(true);
-            }
-        }
-        if (collision(panPlayer, bed)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        }
-        if (collision(panPlayer, toilet)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        }
         if (panPlayer.getTranslateX() >= 740) {
             panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
         }
-        if (collision(panPlayer, doorClosed)) {
+        if (collision(panPlayer, panA)) {
             panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-            if (cellKey == true) {
-                doorClosed.setVisible(false);
-                btnLeave.setVisible(true);
-                btnStay.setVisible(true);
-                exitMessage.setVisible(true);
-            }
+            aTest();
+        }
+        if (collision(panPlayer, panB)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
+            bTest();
+        }
+        if (collision(panPlayer, guard)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
         }
     }
 
     private void moveLeft() {
         panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        if (collision(panPlayer, table)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-            if (cellKey == false) {
-                cellKey = true;
-                key.setVisible(false);
-                keyFound.setVisible(true);
-            }
-        }
-        if (collision(panPlayer, bed)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        }
-        if (collision(panPlayer, toilet)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        }
         if (panPlayer.getTranslateX() <= 5) {
             panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
         }
-        if (collision(panPlayer, doorClosed)) {
+        if (collision(panPlayer, panA)) {
             panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-            if (cellKey == true) {
-                doorClosed.setVisible(false);
-                btnLeave.setVisible(true);
-                btnStay.setVisible(true);
-                exitMessage.setVisible(true);
-            }
+            aTest();
+        }
+        if (collision(panPlayer, panB)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
+            bTest();
+        }
+        if (collision(panPlayer, guard)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
         }
     }
 
     private void moveUp() {
         panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        if (collision(panPlayer, table)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-            if (cellKey == false) {
-                cellKey = true;
-                key.setVisible(false);
-                keyFound.setVisible(true);
-            }
-        }
-        if (collision(panPlayer, bed)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        }
-        if (collision(panPlayer, toilet)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        }
         if (panPlayer.getTranslateY() <= 40) {
             panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
         }
-        if (collision(panPlayer, doorClosed)) {
+        if (collision(panPlayer, panA)) {
             panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-            if (cellKey == true) {
-                doorClosed.setVisible(false);
-                btnLeave.setVisible(true);
-                btnStay.setVisible(true);
-                exitMessage.setVisible(true);
-            }
+            aTest();
+        }
+        if (collision(panPlayer, panB)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
+            bTest();
+        }
+        if (collision(panPlayer, guard)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
         }
     }
 
     private void moveDown() {
         panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        if (collision(panPlayer, table)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-            if (cellKey == false) {
-                cellKey = true;
-                key.setVisible(false);
-                keyFound.setVisible(true);
-            }
-        }
-        if (collision(panPlayer, bed)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        }
-        if (collision(panPlayer, toilet)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        }
         if (panPlayer.getTranslateY() >= 415) {
             panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
         }
+        if (collision(panPlayer, panA)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
+            aTest();
+        }
+        if (collision(panPlayer, panB)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
+            bTest();
+        }
+        if (collision(panPlayer, guard)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
+        }
     }
-
+    
+    private void aTest() {
+            leave.setVisible(true);
+            stay.setVisible(true);
+            lblMessage.setVisible(true);
+            test = 1;
+            lblMessage.setText("Would you like to enter Cell Block A?");
+    }      
+    private void bTest() {
+            leave.setVisible(true);
+            stay.setVisible(true);
+            lblMessage.setVisible(true);
+            test = 2;
+            lblMessage.setText("Would you like to enter Cell Block B?");
+    }    
+    
     @FXML
     public void keyPressed(KeyEvent event) {
         if ((event.getCode() == KeyCode.D)) {
@@ -251,10 +209,7 @@ public class FXMLStartController implements Initializable {
         }
     }
 
-    //public boolean collision(ImageView imgP, ImageView imgO) {
-    //    return (imgP.getBoundsInParent().intersects(imgO.getBoundsInParent()));
-    //}
-      public boolean collision(Object block1, Object block2) {
+    public boolean collision(Object block1, Object block2) {
         try {
             //If the objects can be changed to shapes just see if they intersect
             Shape s1 = (Shape) block1;
@@ -289,13 +244,50 @@ public class FXMLStartController implements Initializable {
             return a.getBoundsInLocal().getWidth() != -1;
         }
       }
+    
+    @FXML
+    private void btnLeave(ActionEvent event) throws IOException {
+        if (test == 1) {
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")); //where FXMLPage2 is the name of the scene
 
+        Scene home_page_scene = new Scene(home_page_parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        stage.hide();
+        stage.setScene(home_page_scene);
+
+        stage.setTitle("Cell Block A"); //changes the title
+        stage.show(); //shows the new page
+        home_page_scene.getRoot().requestFocus();
+    }
+        if (test == 2) {
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml")); //where FXMLPage2 is the name of the scene
+
+        Scene home_page_scene = new Scene(home_page_parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        stage.hide();
+        stage.setScene(home_page_scene);
+
+        stage.setTitle("Cell Block B"); //changes the title
+        stage.show(); //shows the new page
+        home_page_scene.getRoot().requestFocus();
+    }
+    }
+    
+    @FXML
+    private void btnStay(ActionEvent event) throws IOException {
+        leave.setVisible(false);
+        stay.setVisible(false);
+        lblMessage.setVisible(false);
+        test = 0;
+    }
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
-
+    }    
+    
 }
