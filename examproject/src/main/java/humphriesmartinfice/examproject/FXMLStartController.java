@@ -23,7 +23,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.scene.Node;
 
 /**
  * FXML Controller class
@@ -32,7 +37,7 @@ import javafx.stage.Stage;
  */
 public class FXMLStartController implements Initializable {
 
-    private boolean keys = false;
+    private boolean cellKey = false;
 
     @FXML
     private ImageView key;
@@ -53,7 +58,7 @@ public class FXMLStartController implements Initializable {
     @FXML
     private ImageView bars;
     @FXML
-    private ImageView player;
+    private ImageView Player;
     @FXML
     private Label keyFound;
     @FXML
@@ -62,6 +67,11 @@ public class FXMLStartController implements Initializable {
     private Button btnLeave;
     @FXML
     private Button btnStay;
+    
+    @FXML
+    private Polygon polyPlayer;
+    @FXML
+    private Pane panPlayer;
 
     @FXML
     private void btnLeaveY(ActionEvent event) throws IOException {
@@ -75,6 +85,7 @@ public class FXMLStartController implements Initializable {
 
         stage.setTitle("Common Room"); //changes the title
         stage.show(); //shows the new page
+        home_page_scene.getRoot().requestFocus();
     }
 
     @FXML
@@ -85,36 +96,36 @@ public class FXMLStartController implements Initializable {
     }
 
     @FXML
-    Timeline Right = new Timeline(new KeyFrame(Duration.millis(10), ae -> moveRight()));
+    Timeline Right = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveRight()));
     @FXML
-    Timeline Left = new Timeline(new KeyFrame(Duration.millis(10), ae -> moveLeft()));
+    Timeline Left = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveLeft()));
     @FXML
-    Timeline Up = new Timeline(new KeyFrame(Duration.millis(10), ae -> moveUp()));
+    Timeline Up = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveUp()));
     @FXML
-    Timeline Down = new Timeline(new KeyFrame(Duration.millis(10), ae -> moveDown()));
+    Timeline Down = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveDown()));
 
     private void moveRight() {
-        player.setTranslateX(player.getTranslateX() + 5);
-        if (collision(player, table)) {
-            player.setTranslateX(player.getTranslateX() - 5);
-            if (keys == false) {
-                keys = true;
+        panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
+        if (collision(panPlayer, table)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
+            if (cellKey == false) {
+                cellKey = true;
                 key.setVisible(false);
                 keyFound.setVisible(true);
             }
         }
-        if (collision(player, bed)) {
-            player.setTranslateX(player.getTranslateX() - 5);
+        if (collision(panPlayer, bed)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
         }
-        if (collision(player, toilet)) {
-            player.setTranslateX(player.getTranslateX() - 5);
+        if (collision(panPlayer, toilet)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
         }
-        if (player.getTranslateX() >= 740) {
-            player.setTranslateX(player.getTranslateX() - 5);
+        if (panPlayer.getTranslateX() >= 740) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
         }
-        if (collision(player, doorClosed)) {
-            player.setTranslateX(player.getTranslateX() - 5);
-            if (keys == true) {
+        if (collision(panPlayer, doorClosed)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
+            if (cellKey == true) {
                 doorClosed.setVisible(false);
                 btnLeave.setVisible(true);
                 btnStay.setVisible(true);
@@ -124,27 +135,27 @@ public class FXMLStartController implements Initializable {
     }
 
     private void moveLeft() {
-        player.setTranslateX(player.getTranslateX() - 5);
-        if (collision(player, table)) {
-            player.setTranslateX(player.getTranslateX() + 5);
-            if (keys == false) {
-                keys = true;
+        panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
+        if (collision(panPlayer, table)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
+            if (cellKey == false) {
+                cellKey = true;
                 key.setVisible(false);
                 keyFound.setVisible(true);
             }
         }
-        if (collision(player, bed)) {
-            player.setTranslateX(player.getTranslateX() + 5);
+        if (collision(panPlayer, bed)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
         }
-        if (collision(player, toilet)) {
-            player.setTranslateX(player.getTranslateX() + 5);
+        if (collision(panPlayer, toilet)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
         }
-        if (player.getTranslateX() <= 5) {
-            player.setTranslateX(player.getTranslateX() + 5);
+        if (panPlayer.getTranslateX() <= 5) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
         }
-        if (collision(player, doorClosed)) {
-            player.setTranslateX(player.getTranslateX() + 5);
-            if (keys == true) {
+        if (collision(panPlayer, doorClosed)) {
+            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
+            if (cellKey == true) {
                 doorClosed.setVisible(false);
                 btnLeave.setVisible(true);
                 btnStay.setVisible(true);
@@ -154,27 +165,27 @@ public class FXMLStartController implements Initializable {
     }
 
     private void moveUp() {
-        player.setTranslateY(player.getTranslateY() - 5);
-        if (collision(player, table)) {
-            player.setTranslateY(player.getTranslateY() + 5);
-            if (keys == false) {
-                keys = true;
+        panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
+        if (collision(panPlayer, table)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
+            if (cellKey == false) {
+                cellKey = true;
                 key.setVisible(false);
                 keyFound.setVisible(true);
             }
         }
-        if (collision(player, bed)) {
-            player.setTranslateY(player.getTranslateY() + 5);
+        if (collision(panPlayer, bed)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
         }
-        if (collision(player, toilet)) {
-            player.setTranslateY(player.getTranslateY() + 5);
+        if (collision(panPlayer, toilet)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
         }
-        if (player.getTranslateY() <= 40) {
-            player.setTranslateY(player.getTranslateY() + 5);
+        if (panPlayer.getTranslateY() <= 40) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
         }
-        if (collision(player, doorClosed)) {
-            player.setTranslateY(player.getTranslateY() + 5);
-            if (keys == true) {
+        if (collision(panPlayer, doorClosed)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
+            if (cellKey == true) {
                 doorClosed.setVisible(false);
                 btnLeave.setVisible(true);
                 btnStay.setVisible(true);
@@ -184,23 +195,23 @@ public class FXMLStartController implements Initializable {
     }
 
     private void moveDown() {
-        player.setTranslateY(player.getTranslateY() + 5);
-        if (collision(player, table)) {
-            player.setTranslateY(player.getTranslateY() - 5);
-            if (keys == false) {
-                keys = true;
+        panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
+        if (collision(panPlayer, table)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
+            if (cellKey == false) {
+                cellKey = true;
                 key.setVisible(false);
                 keyFound.setVisible(true);
             }
         }
-        if (collision(player, bed)) {
-            player.setTranslateY(player.getTranslateY() - 5);
+        if (collision(panPlayer, bed)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
         }
-        if (collision(player, toilet)) {
-            player.setTranslateY(player.getTranslateY() - 5);
+        if (collision(panPlayer, toilet)) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
         }
-        if (player.getTranslateY() >= 415) {
-            player.setTranslateY(player.getTranslateY() - 5);
+        if (panPlayer.getTranslateY() >= 415) {
+            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
         }
     }
 
@@ -240,9 +251,44 @@ public class FXMLStartController implements Initializable {
         }
     }
 
-    public boolean collision(ImageView imgP, ImageView imgO) {
-        return (imgP.getBoundsInParent().intersects(imgO.getBoundsInParent()));
-    }
+    //public boolean collision(ImageView imgP, ImageView imgO) {
+    //    return (imgP.getBoundsInParent().intersects(imgO.getBoundsInParent()));
+    //}
+      public boolean collision(Object block1, Object block2) {
+        try {
+            //If the objects can be changed to shapes just see if they intersect
+            Shape s1 = (Shape) block1;
+            Shape s2 = (Shape) block2;
+            Shape a = Shape.intersect(s1, s2);
+            return a.getBoundsInLocal().getWidth() != -1;
+        } catch (Exception e) {
+            //If the objects can't be changed to shapes, make a shape with there size and location
+            //Then rotate them
+
+            //Gets the real location and size of the first object
+            double rectX = ((Node) block1).getLayoutX() + ((Node) block1).getTranslateX();
+            double rectY = ((Node) block1).getLayoutY() + ((Node) block1).getTranslateY();
+            double rectWidth = ((Node) block1).getBoundsInLocal().getWidth();
+            double rectHeight = ((Node) block1).getBoundsInLocal().getHeight();
+
+            //Gets the real location and sizr of the second object
+            double rectX2 = ((Node) block2).getLayoutX() + ((Node) block2).getTranslateX();
+            double rectY2 = ((Node) block2).getLayoutY() + ((Node) block2).getTranslateY();
+            double rectWidth2 = ((Node) block2).getBoundsInLocal().getWidth();
+            double rectHeight2 = ((Node) block2).getBoundsInLocal().getHeight();
+
+            //makes two new shapes and rotates them
+            Shape rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+            Shape rect2 = new Rectangle(rectX2, rectY2, rectWidth2, rectHeight2);
+            rect.setRotate(((Node) ((Node) block1)).getRotate());
+            rect2.setRotate(((Node) block2).getRotate());
+            //Makes a new shapes of where they touch
+            Shape a = Shape.intersect(rect, rect2);
+
+            //returns if they touch
+            return a.getBoundsInLocal().getWidth() != -1;
+        }
+      }
 
     /**
      * Initializes the controller class.
