@@ -13,11 +13,9 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    public static int level;
+    public static int level,STR,DEX,INT;
     
     public static double health, healthMAX, mana, manaMAX,EXP, EXPNeeded;
-    
-    private static Weapon[][] Inventory = new Weapon[2][1];
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -26,6 +24,30 @@ public class MainApp extends Application {
         stage.setTitle("This Game still needs to be named");
         stage.setScene(scene);
         stage.show();
+    }
+    
+    public static int getSTR(){
+    return MainApp.STR;
+    }
+    
+    public static void setSTR(int point){
+    MainApp.STR = point;
+    }
+    
+    public static int getDEX(){
+    return MainApp.DEX;
+    }
+    
+    public static void setDEX(int point){
+    MainApp.DEX = point;
+    }
+    
+    public static int getINT(){
+    return MainApp.INT;
+    }
+    
+    public static void setINT(int point){
+    MainApp.INT = point;
     }
     
     public static void setLevel(int level){
@@ -45,7 +67,7 @@ public class MainApp extends Application {
     }
     
     public static void setHealthMAX(){
-    MainApp.healthMAX = MainApp.level *10 + 10;
+    MainApp.healthMAX = MainApp.level *10 + (MainApp.STR * 5) + (MainApp.DEX * 2); 
     }
     
     public static double getHealthMAX(){
@@ -65,7 +87,7 @@ public class MainApp extends Application {
     }
     
     public static void setManaMAX(){
-    MainApp.manaMAX = MainApp.level * 3 + 4;
+    MainApp.manaMAX = MainApp.level * 3 + 4 + (MainApp.INT * 2) + MainApp.DEX;
     }
     
     public static double getEXP(){
@@ -82,14 +104,6 @@ public class MainApp extends Application {
     
     public static void setEXPNeeded(){
      MainApp.EXPNeeded = 22 + (MainApp.level * 12) ;
-    }
-    
-    public static Weapon getInv(int spot){
-        return Inventory[spot][0];
-    }
-    
-    public static void setInv(Weapon thing, int spot){
-    Inventory[spot][0] = thing;
     }
 
     /**

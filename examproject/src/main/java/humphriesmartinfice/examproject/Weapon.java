@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Weapon {
 
     private String Attack1, Attack2, Attack3, Attack4, Name, type;
-    private int level, rarity, damage, sdamage;
+    private int level, rarity, damage, sdamage, extra;
     private double manaCost;
 
     public Weapon(int Level, String Attack1, String Attack2, String Attack3, String Attack4, double manaCost, int rarity, int damage, int sdamage, String Name,String Type) {
@@ -77,19 +77,51 @@ public class Weapon {
         setHealth(getHealth() + (damage + (level / 1.3)));
         
     }
+    
+    public int getExtra(){
+    extraget();
+    return extra;
+    }
 
     public int Attack1(int defence) {
-        return ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1) - defence;
+        extraget();
+        return ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1) - defence + extra;
     }
 
     public int Attack2(int defence) {
+        extraget();
         return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1)
                 + ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1)
-                - defence;
+                - defence + extra ;
     }
 
     public int Attack3(int defence) {
-        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1) - defence;
+        extraget();
+        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1) - defence + extra;
+    }
+    
+    private void extraget(){
+    if(Type(type)==1){
+        extra = getINT();
+        }
+        if(Type(type)==2){
+        extra = getDEX();
+        }if(Type(type)==3){
+        extra = getSTR();
+        }
+    }
+    
+    private int Type(String type){
+    int t = 0;
+    if (type.equals("Mage")){
+    t= 1;
+    }if(type.equals("Rogue")){
+    t= 2;
+    }
+    if(type.equals("Warrior")){
+    t= 3;
+    }
+    return t; 
     }
 
 }

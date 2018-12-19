@@ -16,7 +16,7 @@ public class Enemy {
         level = Level;
         damage = 3 + Level;
         defence = 0 + Level;
-        HealthMAX = 10 + (Level * 10);
+        HealthMAX = Level * 10;
         Health = HealthMAX;
         ManaMAX = 5 + (Level * 2);
         Mana = ManaMAX;
