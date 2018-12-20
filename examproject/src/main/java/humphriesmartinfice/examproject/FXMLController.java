@@ -51,7 +51,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void btnExit(ActionEvent event) {
-
+        System.exit(0);
     }
 
     @Override

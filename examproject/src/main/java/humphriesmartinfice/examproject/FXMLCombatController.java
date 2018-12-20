@@ -55,7 +55,7 @@ public class FXMLCombatController implements Initializable {
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
     Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
     
-    Mage weapon = new Mage(1, "", "", "", "", 0, 0, 0, 0, "", "");
+    Mage weapon = new Mage(1,"","","","",0,0,0,0,"","");
 
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
     @FXML
