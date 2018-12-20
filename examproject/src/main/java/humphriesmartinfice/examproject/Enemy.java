@@ -26,6 +26,10 @@ public class Enemy {
     public double getHealth() {
         return Health;
     }
+    
+    public void setDef(int def){
+    def = this.defence;
+    }
 
     public void setHealth(double health) {
         this.Health = health;
