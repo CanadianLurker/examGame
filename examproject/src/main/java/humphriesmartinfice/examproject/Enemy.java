@@ -63,8 +63,16 @@ public class Enemy {
         return EXP;
     }
 
-    public double Attack() {
-        return ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (1 + level) + 1);
+    public double Attack() { //Needs to be improved upon
+        int damageRe = 0;
+        if((this.Health / this.HealthMAX) > 2/4){
+        damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (1 + level) + 1);
+        }
+        if((this.Health / this.HealthMAX) < 2/4){
+        damageRe = 0;
+        this.setHealth(this.Health + (this.HealthMAX / 3));
+        }
+        return damageRe;
     }
 
 }
