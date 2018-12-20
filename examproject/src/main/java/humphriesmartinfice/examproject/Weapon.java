@@ -23,11 +23,20 @@ public class Weapon {
         this.sdamage = sdamage; //base amount of damage added onto weapon(which already randomizes damage)
         this.Name = Name; //base name off of rarity and level    
         this.damage = ThreadLocalRandom.current().nextInt(3, (5 + Level) + 1) + Level;
-        this.rarity = rarity;
+        int possible = ThreadLocalRandom.current().nextInt(1, 100 + 1);
+        if (possible < 65) {
+            this.rarity = 1;
+        } else if (possible >= 65 && possible < 85) {
+            this.rarity = 2;
+        } else if (possible >= 85 && possible < 95) {
+            this.rarity = 3;
+        } else if (possible > 95) {
+            this.rarity = 4;
+        }
         level = Level;
         this.type = Type;
     }
- 
+
     public int getDamage() {
         return this.damage;
     }
@@ -73,41 +82,41 @@ public class Weapon {
     }
 
     public void MageAttack() {
-        setHealth(getHealth() + (damage + (level / 1.3))+ extra);
+        setHealth(getHealth() + (damage + (level / 1.3)) + extra);
     }
 
-    public void RogueAttack(Enemy enemy){
-    enemy.setDef(enemy.getDefence() * (2/3));
+    public void RogueAttack(Enemy enemy) {
+        enemy.setDef(enemy.getDefence() * (2 / 3));
     }
-    
-    public void WarriorAttack(){
-    damage = damage * (3/2);
+
+    public void WarriorAttack() {
+        damage = damage * (3 / 2);
     }
-    
-    public void ResetWar(){
-    damage =  damage / (3/2);
+
+    public void ResetWar() {
+        damage = damage / (3 / 2);
     }
-    
+
     public int getExtra() {
         extraget();
         return extra;
     }
-    
+
     public int Attack1(int defence) {
         extraget();
-        return ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1)  + extra- defence;
+        return ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1) + extra - defence;
     }
 
     public int Attack2(int defence) {
         extraget();
         return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1)
                 + ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1)
-                 + extra- defence;
+                + extra - defence;
     }
 
     public int Attack3(int defence) {
         extraget();
-        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1)  + extra- defence ;
+        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1) + extra - defence;
     }
 
     private void extraget() {
