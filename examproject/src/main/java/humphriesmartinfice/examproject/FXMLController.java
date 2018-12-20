@@ -39,8 +39,8 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void btnOptions(ActionEvent event) {
-            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
+    private void btnOptions(ActionEvent event) throws IOException {
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml")); // now hosting the testing grounds for combat
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.hide();
