@@ -19,11 +19,14 @@ public class MainApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));    
-        Scene scene = new Scene(root);    
-        stage.setTitle("This Game still needs to be named");
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("/styles/Styles.css"); 
+        stage.setTitle("Prison Escape");
         stage.setScene(scene);
         stage.show();
+        scene.getRoot().requestFocus();
+        stage.setOnCloseRequest(e -> System.exit(0));
     }
     
     public static int getSTR(){
