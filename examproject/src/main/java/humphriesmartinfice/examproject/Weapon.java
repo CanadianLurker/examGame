@@ -103,7 +103,7 @@ public class Weapon {
     }
 
     public int Attack1(int defence) {
-        extraget();
+        extraget(); //gets extra damage from attributes
         return ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1) + extra - defence;
     }
 
