@@ -48,6 +48,7 @@ public class FXMLCombatController implements Initializable {
 
     private boolean combat = true;//combat will always be active when coming into this scene
     private boolean DOT = false;
+    public boolean EDOT = false;
 
     DecimalFormat F = new DecimalFormat("0.00"); //format so decimals don't go on for ever
 
@@ -288,7 +289,7 @@ public class FXMLCombatController implements Initializable {
 
     private void check(ProgressBar prgT) {
         if (prgT.getProgress() <= 0) {
-            prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks poopoo
+            prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks awful
             setHealth(0);
             progress();
             exp = 0;
@@ -391,7 +392,7 @@ public class FXMLCombatController implements Initializable {
     private void buffer() { //quite literally a buffer, so that the enemy seems to have a "thinking phase"
         progress();
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //   music.setCycleCount(Timeline.INDEFINITE);
@@ -400,7 +401,7 @@ public class FXMLCombatController implements Initializable {
         setINT(0);
         setSTR(0);
         setDEX(0);
-        setLevel(1);
+        setLevel(50);
         setHealthMAX();
         setHealth(getHealthMAX());
         setManaMAX();

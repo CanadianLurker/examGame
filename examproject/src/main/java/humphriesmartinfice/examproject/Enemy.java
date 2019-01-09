@@ -6,11 +6,13 @@
 package humphriesmartinfice.examproject;
 
 import java.util.concurrent.ThreadLocalRandom;
+import static humphriesmartinfice.examproject.FXMLCombatController.*;
 
 public class Enemy {
 
     private int level, damage, defence;
     private double Health, HealthMAX, Mana, ManaMAX, EXP, cost;
+    private boolean chose = false;
 
     public Enemy(int Level) {
         level = Level;
@@ -70,27 +72,33 @@ public class Enemy {
 
     public double Attack() { //Needs to be improved upon
         int damageRe = 0;
-        switch (ThreadLocalRandom.current().nextInt(1, 2 + 1)) {
-            case 1: //basic attack/heavy
-                if ((this.Health / this.HealthMAX) > 0.5) {
-                    damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (1 + level) + 1);
-                }
-                if ((this.Health / this.HealthMAX) < 0.5 && this.getMana() > cost) {
-                    damageRe = ThreadLocalRandom.current().nextInt(damage - (level / 2), damage + (2 + level) + 1);
-                    this.setMana(this.getMana() - cost);
-                }
-                break;
-            case 2: //dot/heal 
-                if ((this.Health / this.HealthMAX) > 0.5 && this.getMana() > cost) {
-                    damageRe = ThreadLocalRandom.current().nextInt(damage - (2 + level), damage + (level) + 1);
-                    this.setMana(this.getMana() - cost);
-                }
-                if ((this.Health / this.HealthMAX) < 0.5 && this.getMana() > (cost * 1.5)) {
-                    damageRe = 0;
-                    this.setHealth(this.Health + (this.HealthMAX / 3));
-                    this.setMana(this.getMana() - (cost * 1.5));
-                }
-                break;
+        while (chose == false) {
+            switch (ThreadLocalRandom.current().nextInt(1, 2 + 1)) {
+                case 1: //basic attack/heavy
+                    if ((this.Health / this.HealthMAX) > 0.5) {
+                        damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (1 + level) + 1);
+                        chose = true;
+                    }
+                    if ((this.Health / this.HealthMAX) < 0.5 && this.getMana() > cost) {
+                        damageRe = ThreadLocalRandom.current().nextInt(damage - (level / 2), damage + (2 + level) + 1);
+                        this.setMana(this.getMana() - cost);
+                        chose = true;
+                    }
+                    break;
+                case 2: //dot/heal 
+                    if ((this.Health / this.HealthMAX) > 0.5 && this.getMana() > cost) {
+                        damageRe = ThreadLocalRandom.current().nextInt(damage - (2 + level), damage + (level) + 1);
+                        this.setMana(this.getMana() - cost);
+                        chose = true;
+                    }
+                    if ((this.Health / this.HealthMAX) < 0.5 && this.getMana() > (cost * 1.5)) {
+                        damageRe = 0;
+                        this.setHealth(this.Health + (this.HealthMAX / 3));
+                        this.setMana(this.getMana() - (cost * 1.5));
+                        chose = true;
+                    }
+                    break;
+            }
         }
         return damageRe;
     }//need to make this a method or something, just so that it can loop when the enemy doesn't have enough mana
