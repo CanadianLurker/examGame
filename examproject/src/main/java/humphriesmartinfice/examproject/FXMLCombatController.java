@@ -40,8 +40,6 @@ public class FXMLCombatController implements Initializable {
 
     private String Choice1, Choice2, Choice3, Choice4, Primary;
 
-    ArrayList<Enemy> enemies = new ArrayList();
-
     private int count, points, buffcount;
 
     private double exp;
@@ -50,13 +48,11 @@ public class FXMLCombatController implements Initializable {
     private boolean DOT = false;
     public boolean EDOT = false;
 
-    DecimalFormat F = new DecimalFormat("0.00"); //format so decimals don't go on for ever
+    DecimalFormat F = new DecimalFormat("0"); //format so decimals don't go on for ever
 
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
     Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
-
-    Mage weapon = new Mage(1, "", "", "", "", 0, 0, 0, 0, "", "");
 
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
     @FXML
@@ -255,7 +251,7 @@ public class FXMLCombatController implements Initializable {
         lblHP.setText("MAX HP: " + getHealthMAX()); //reminds the player of their characters health
         lblMana.setText("MAX MANA: " + getManaMAX()); //reminds the player of their characters mana
         count = 0; //makes it so the next enemy fought doesn't have a dot for a random reason
-        buffcount = 0; 
+        buffcount = 0;
         weapon.ResetWar(); //resets buff
         DOT = false;
         lblSTR.setText("STR: " + getSTR());
@@ -316,7 +312,7 @@ public class FXMLCombatController implements Initializable {
             setEXP(getEXP() + exp);
             exp = 0;
             while (getEXP() / getEXPNeeded() >= 1) {
-                double leftover = getEXP() - getEXPNeeded(); 
+                double leftover = getEXP() - getEXPNeeded();
                 if (leftover < 0) {
                     leftover = 0;
                 }
@@ -392,7 +388,7 @@ public class FXMLCombatController implements Initializable {
     private void buffer() { //quite literally a buffer, so that the enemy seems to have a "thinking phase"
         progress();
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //   music.setCycleCount(Timeline.INDEFINITE);
@@ -408,8 +404,8 @@ public class FXMLCombatController implements Initializable {
         setMana(getManaMAX());
         setEXP(0);
         setEXPNeeded();
-        enemies.add(new Enemy(1));
-        //enemies.add(new Enemy(1));
+        enemies.add(new Enemy(35));
+        enemies.add(new Enemy(35));
         //enemies.add(new Enemy(1));
         //Only used for testing purposes//    
         progress();
@@ -425,7 +421,6 @@ public class FXMLCombatController implements Initializable {
         buffcount = 0;
         panEXP.setVisible(false);//Makes it so that when you re-enter comabt the end combat screen isn't already there
         //imgMC.setImage(); //set image from whatever the image is
-        //imgEnemy.setImage(); //gets the images from the enemy
 
     }
 
