@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import java.io.IOException;
@@ -38,13 +39,19 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void btnOptions(ActionEvent event) {
-
+    private void btnOptions(ActionEvent event) throws IOException {
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml")); // now hosting the testing grounds for combat
+            Scene home_page_scene = new Scene(home_page_parent);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.hide();
+            stage.setScene(home_page_scene); 
+            stage.setTitle("Combat!!!"); 
+            stage.show(); 
     }
 
     @FXML
     private void btnExit(ActionEvent event) {
-
+        System.exit(0);
     }
 
     @Override
