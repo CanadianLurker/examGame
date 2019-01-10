@@ -75,13 +75,12 @@ public class Enemy {
         while (chose == false) {
             switch (ThreadLocalRandom.current().nextInt(1, 2 + 1)) {
                 case 1: //basic attack/heavy
-                    if ((this.Health / this.HealthMAX) > 0.5) {
-                        damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (1 + level) + 1);
-                        chose = true;
-                    }
                     if ((this.Health / this.HealthMAX) < 0.5 && this.getMana() > cost) {
                         damageRe = ThreadLocalRandom.current().nextInt(damage - (level / 2), damage + (2 + level) + 1);
                         this.setMana(this.getMana() - cost);
+                        chose = true;
+                    }else {
+                        damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (1 + level) + 1);
                         chose = true;
                     }
                     break;
