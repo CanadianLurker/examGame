@@ -6,12 +6,13 @@
 package humphriesmartinfice.examproject;
 
 import java.util.concurrent.ThreadLocalRandom;
-import static humphriesmartinfice.examproject.FXMLCombatController.*;
+import static humphriesmartinfice.examproject.MainApp.*;
 import javafx.scene.image.Image;
 
 public class Enemy {
 
     private int level, damage, defence;
+    private int manause = 1;
     private double Health, HealthMAX, Mana, ManaMAX, EXP, cost;
     private boolean chose = false;
     private Image imgE;
@@ -96,9 +97,12 @@ public class Enemy {
                 damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (1 + level) + 1);
                 chose = true;
             }
-            if (attack <= 19 && attack > 15 && this.getMana() > cost) {
-                damageRe = ThreadLocalRandom.current().nextInt(damage - (2 + level), damage + (level) + 1);
+            if (attack <= 19 && attack > 15 && this.getMana() > cost && dot == false) {
+                damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (level) + 1);
                 this.setMana(this.getMana() - cost);
+                setEdot(damageRe);
+                setEcount(4);
+                dot = true;
                 chose = true;
             }
             if (this.Health / this.HealthMAX != 1 && attack == 20 && this.getMana() > (cost * 1.2)) {
@@ -110,9 +114,17 @@ public class Enemy {
                 this.setMana(this.getMana() - (cost * 1.5));
                 chose = true;
             }
-            if (this.Mana < cost && attack > 20) {
+            if (this.Mana < cost && attack > 20 && manause > 0) {
                 this.setMana(this.Mana + (cost * 2));
+                manause--;
+                if(this.Mana / this.ManaMAX > 1){
+                this.setMana(this.ManaMAX);
+                }
+                chose = true;
             }
+        }
+        if(damageRe < 0){
+        damageRe = 0;
         }
         return damageRe;
     }//need to make this a method or something, just so that it can loop when the enemy doesn't have enough mana

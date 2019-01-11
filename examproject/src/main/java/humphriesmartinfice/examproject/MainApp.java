@@ -12,7 +12,11 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    public static int level, STR, DEX, INT;
+    public static int level, STR, DEX, INT, edot;
+    
+    public static int ecount = 0;
+    
+    public static boolean dot = false;
 
     public static double health, healthMAX, mana, manaMAX, EXP, EXPNeeded;
 
@@ -42,6 +46,22 @@ public class MainApp extends Application {
 
     public static int getDEX() {
         return MainApp.DEX;
+    }
+    
+    public static void setEcount(int E){
+    ecount = E;
+    }
+    
+    public static int getEcount(){
+    return ecount;
+    }
+    
+    public static void setEdot(int E){
+    edot = E;
+    }
+    
+    public static int getEdot(){
+    return edot;
     }
 
     public static void setDEX(int point) {

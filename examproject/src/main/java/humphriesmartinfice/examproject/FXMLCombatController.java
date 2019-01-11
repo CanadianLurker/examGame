@@ -22,8 +22,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import static humphriesmartinfice.examproject.MainApp.*;
-import java.util.ArrayList;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
+import javafx.scene.control.ListView;
 
 public class FXMLCombatController implements Initializable {
 
@@ -32,12 +33,14 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private ImageView imgMC, imgEnemy;
     @FXML
-    private Button btnAttack, btnItems, btnOther, btnChoice1, btnChoice2, btnChoice3, btnChoice4, btnSTR, btnDEX, btnINT;
+    private Button btnAttack, btnItems, btnOther, btnChoice1, btnChoice2, btnChoice3, btnChoice4, btnSTR, btnDEX, btnINT, btnLog;
     @FXML
     private Pane panEXP;
     @FXML
     private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel, lblMana, lblPoints, lblSTR, lblDEX, lblINT;
-
+    @FXML
+    private ListView listLog;
+    
     private String Choice1, Choice2, Choice3, Choice4, Primary;
 
     private int count, points, buffcount;
@@ -55,6 +58,7 @@ public class FXMLCombatController implements Initializable {
     Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
 
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
+    
     @FXML
     private void Primary(ActionEvent event) {
         if (btnAttack.isArmed()) { //checks to see which primary button is pressed
@@ -185,6 +189,7 @@ public class FXMLCombatController implements Initializable {
         }
         setPos(damage); //if damage is negative, it gets set to zero
         enemies.get(0).setHealth(enemies.get(0).getHealth() - damage); //the damaging process
+        listLog.getItems().add(damage + " damage dealt to enemy!");
         progress(); //shows all the values to the player through progress bars and labels
         btnOther.setDisable(true);
         btnItems.setDisable(true);
@@ -212,7 +217,9 @@ public class FXMLCombatController implements Initializable {
 
     private void enemyTurn() {
         if (DOT) { //checks to see if enemy has a dot on them
-            enemies.get(0).setHealth(enemies.get(0).getHealth() - weapon.Attack3(enemies.get(0).getDefence()));
+            int dotd = weapon.Attack3(enemies.get(0).getDefence());
+            enemies.get(0).setHealth(enemies.get(0).getHealth() - dotd);
+            listLog.getItems().add(dotd + " damage dealt to enemy by dot!");
             count--;
             buffcount--;
             checkHP(prgEnemy); //check to make sure they don't attack while dead
@@ -224,7 +231,17 @@ public class FXMLCombatController implements Initializable {
             }
         }
         if (combat) {
-            setHealth(getHealth() - enemies.get(0).Attack()); //the enemy strikes
+            double d = enemies.get(0).Attack();
+            setHealth(getHealth() - d); //the enemy strikes
+            listLog.getItems().add(d + " damage dealt to player!");
+            if(getEcount() > 0){
+            setHealth(getHealth() - getEdot());
+            listLog.getItems().add(getEdot() + " damage dealt to player by dot!");
+            setEcount(getEcount() - 1);
+            if(getEcount() == 0){
+            dot = false;
+            }
+            }
             progress(); //sets things for the player to see
             check(prgMC); //checks health for MC
             if (combat) {
@@ -262,6 +279,8 @@ public class FXMLCombatController implements Initializable {
 
     private void checkHP(ProgressBar prgT) { //checks enemy health
         if (enemies.get(0).getHealth() <= 0) {
+            System.out.println("Enemy defeated! " + enemies.get(0).getEXP() + " EXP gained!");
+            listLog.getItems().add("Enemy defeated! " + enemies.get(0).getEXP() + " EXP gained!");
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, which does not look good
             enemies.get(0).setHealth(0);
             if (getMana() != getManaMAX()) {
@@ -388,6 +407,15 @@ public class FXMLCombatController implements Initializable {
     private void buffer() { //quite literally a buffer, so that the enemy seems to have a "thinking phase"
         progress();
     }
+    
+    @FXML
+    private void Log(ActionEvent E){
+    if(listLog.isVisible() == false){
+    listLog.setVisible(true);
+    }else if(listLog.isVisible()){
+    listLog.setVisible(false);
+    }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -404,9 +432,9 @@ public class FXMLCombatController implements Initializable {
         setMana(getManaMAX());
         setEXP(0);
         setEXPNeeded();
-        enemies.add(new Enemy(35));
-        enemies.add(new Enemy(35));
-        //enemies.add(new Enemy(1));
+        enemies.add(new Enemy(45));
+        enemies.add(new Enemy(45));
+        enemies.add(new Enemy(45));
         //Only used for testing purposes//    
         progress();
         btnChoice1.setText("---");
