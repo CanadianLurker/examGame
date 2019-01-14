@@ -94,16 +94,16 @@ public class Enemy {
         while (chose == false) {
             int attack = ThreadLocalRandom.current().nextInt(1, 25 + 1);
             if (attack <= 15 && attack > 10 && this.getMana() > cost) {
-                damageRe = ThreadLocalRandom.current().nextInt(damage - (level / 2), damage + ((3 * level) / 2) + 1);
+                damageRe = ThreadLocalRandom.current().nextInt(damage - (level / 2), damage + ((3 * level) / 2) + 1) - weapon.getNerf();
                 this.setMana(this.getMana() - cost);
                 chose = true;
             }
             if (attack <= 10) {
-                damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (1 + level) + 1);
+                damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (1 + level) + 1) -  weapon.getNerf();
                 chose = true;
             }
             if (attack <= 19 && attack > 15 && this.getMana() > cost && dot == false) {
-                damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (level) + 1);
+                damageRe = ThreadLocalRandom.current().nextInt(damage - (1 + level), damage + (level) + 1) - weapon.getNerf();
                 this.setMana(this.getMana() - cost);
                 setEdot(damageRe);
                 setEcount(4);
@@ -111,7 +111,6 @@ public class Enemy {
                 chose = true;
             }
             if (this.Health / this.HealthMAX != 1 && attack == 20 && this.getMana() > (cost * 1.2)) {
-                damageRe = 0;
                 this.setHealth(this.Health + (this.HealthMAX / 3));
                 if (this.Health / this.HealthMAX > 1) {
                     this.setHealth(this.HealthMAX);

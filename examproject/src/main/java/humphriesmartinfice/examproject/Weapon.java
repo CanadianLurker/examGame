@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Weapon {
 
     private String Attack1, Attack2, Attack3, Attack4, Name, type;
-    private int level, rarity, damage, sdamage, extra;
+    private int level, rarity,damage, sdamage, extra, nerf, extrawar;
     private double manaCost;
 
     public Weapon(int Level, String Attack1, String Attack2, String Attack3, String Attack4, double manaCost, int rarity, int damage, int sdamage, String Name, String Type) {
@@ -80,21 +80,29 @@ public class Weapon {
     public String getType() {
         return this.type;
     }
+    
+    public double getExtraWar(){
+    return extrawar;
+    } 
 
     public void MageAttack() {
         setHealth(getHealth() + (damage + (level / 1.3)) + extra);
     }
 
     public void RogueAttack(Enemy enemy) {
-        enemy.setDef(enemy.getDefence() * (2 / 3));
+        nerf += this.getLevel();
+    }
+    
+    public int getNerf(){
+    return nerf;
     }
 
     public void WarriorAttack() {
-        damage = damage * (3 / 2);
+        extrawar = damage * (3 / 2);
     }
 
     public void ResetWar() {
-        damage = damage / (3 / 2);
+        extrawar = 0;
     }
 
     public int getExtra() {

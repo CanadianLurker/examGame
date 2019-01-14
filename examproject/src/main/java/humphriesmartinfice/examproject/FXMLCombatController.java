@@ -23,11 +23,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import static humphriesmartinfice.examproject.MainApp.*;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.text.DecimalFormat;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
@@ -57,7 +54,7 @@ public class FXMLCombatController implements Initializable {
     private boolean DOT = false;
     public boolean EDOT = false;
 
-    DecimalFormat F = new DecimalFormat("0"); //format so decimals don't go on for ever
+    
 
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
@@ -67,10 +64,10 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private void Primary(ActionEvent event) {
         if (btnAttack.isArmed()) { //checks to see which primary button is pressed
-            int reglow = (weapon.getDamage() - (2) + weapon.getExtra() - enemies.get(0).getDefence());
-            int reghigh = ((weapon.getDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() - enemies.get(0).getDefence());
-            int spec = (weapon.getSDamage() - 2 + weapon.getExtra() - enemies.get(0).getDefence());
-            int spechigh = ((weapon.getSDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() - enemies.get(0).getDefence());
+            double reglow = (weapon.getDamage() - (2) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+            double reghigh = ((weapon.getDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+            double spec = (weapon.getSDamage() - 2 + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+            double spechigh = ((weapon.getSDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
             //gets damage numbers from weapon to display with attack
             setPos(reglow); //if any number is negative, it will set it to 0
             setPos(reghigh);
@@ -128,7 +125,7 @@ public class FXMLCombatController implements Initializable {
 
     @FXML
     private void Secondary(ActionEvent event) {
-        int damage = 0;
+        double damage = 0;
         if (btnChoice1.isArmed()) {
             if (Primary.equals("Attack")) { //checks to see if the choice buttons show attacks
                 damage = weapon.Attack1(enemies.get(0).getDefence()); // basic attack, no mana cost
@@ -216,7 +213,7 @@ public class FXMLCombatController implements Initializable {
         }
     }
 
-    public void setPos(int p) { //quick method that turns something negative into 0
+    public void setPos(double p) { //quick method that turns something negative into 0
         if (p < 0) {
             p = 0;
         }
@@ -224,7 +221,7 @@ public class FXMLCombatController implements Initializable {
 
     private void enemyTurn() {
         if (DOT) { //checks to see if enemy has a dot on them
-            int dotd = weapon.Attack3(enemies.get(0).getDefence());
+            double dotd = weapon.Attack3(enemies.get(0).getDefence());
             enemies.get(0).setHealth(enemies.get(0).getHealth() - dotd);
             listLog.getItems().add(dotd + " damage dealt to enemy by dot!");
             count--;
