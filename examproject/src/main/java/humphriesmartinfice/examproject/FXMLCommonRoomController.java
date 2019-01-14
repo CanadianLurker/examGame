@@ -28,6 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import static humphriesmartinfice.examproject.MainApp.*;
 
 /**
  * FXML Controller class
@@ -226,7 +227,7 @@ public class FXMLCommonRoomController implements Initializable {
             double rectWidth = ((Node) block1).getBoundsInLocal().getWidth();
             double rectHeight = ((Node) block1).getBoundsInLocal().getHeight();
 
-            //Gets the real location and sizr of the second object
+            //Gets the real location and size of the second object
             double rectX2 = ((Node) block2).getLayoutX() + ((Node) block2).getTranslateX();
             double rectY2 = ((Node) block2).getLayoutY() + ((Node) block2).getTranslateY();
             double rectWidth2 = ((Node) block2).getBoundsInLocal().getWidth();
@@ -258,7 +259,7 @@ public class FXMLCommonRoomController implements Initializable {
 
         stage.setTitle("Cell Block A"); //changes the title
         stage.show(); //shows the new page
-        home_page_scene.getRoot().requestFocus();
+        home_page_scene.getRoot().requestFocus();  
     }
         if (test == 2) {
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml")); //where FXMLPage2 is the name of the scene
@@ -272,6 +273,7 @@ public class FXMLCommonRoomController implements Initializable {
         stage.setTitle("Cell Block B"); //changes the title
         stage.show(); //shows the new page
         home_page_scene.getRoot().requestFocus();
+        MainApp.saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 20, 400);
     }
     }
     
