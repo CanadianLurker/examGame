@@ -49,7 +49,7 @@
       </ProgressBar>
       <Label fx:id="lblMCMana" layoutX="53.0" layoutY="54.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="101.0" />
       <Label fx:id="lblEnemyMana" layoutX="615.0" layoutY="54.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="110.0" />
-      <Pane fx:id="panEXP" layoutX="136.0" layoutY="87.0" prefHeight="426.0" prefWidth="629.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff;" visible="false">
+      <Pane fx:id="panEXP" layoutX="136.0" layoutY="87.0" prefHeight="426.0" prefWidth="629.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff;">
          <children>
             <ProgressBar fx:id="prgEXP" layoutX="88.0" layoutY="99.0" prefHeight="33.0" prefWidth="453.0" progress="0.0">
                <effect>
@@ -67,6 +67,7 @@
             <Button fx:id="btnDEX" focusTraversable="false" layoutX="515.0" layoutY="238.0" mnemonicParsing="false" onAction="#PointUp" text="+" />
             <Button fx:id="btnINT" focusTraversable="false" layoutX="515.0" layoutY="292.0" mnemonicParsing="false" onAction="#PointUp" text="+" />
             <Label fx:id="lblPoints" layoutX="513.0" layoutY="155.0" />
+            <Label fx:id="lblCigs" layoutX="276.0" layoutY="132.0" text="Cigs: " />
          </children></Pane>
    </children>
 </AnchorPane>

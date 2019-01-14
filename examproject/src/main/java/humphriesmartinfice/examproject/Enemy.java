@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
 
 public class Enemy {
 
-    private int level, damage, defence;
+    private int level, damage, defence, cigs;
     private int manause = 1;
     private double Health, HealthMAX, Mana, ManaMAX, EXP, cost;
     private boolean chose = false;
@@ -21,12 +21,13 @@ public class Enemy {
         level = Level;
         damage = 3 + Level;
         defence = 0 + Level;
-        HealthMAX = Level * 10;
+        HealthMAX = Level * 12;
         Health = HealthMAX;
-        ManaMAX = 5 + (Level * 2);
+        ManaMAX = 5 + (Level * 4);
         Mana = ManaMAX;
-        cost = 1 + Level;
-        EXP = 20 + (Level * 2.5); //the amount of exp a enemy has is based off of level
+        cost = 2 + Level;
+        EXP = 25 + (Level * 3); //the amount of exp a enemy has is based off of level
+        cigs = 5 + (Level * 5);
         int look = ThreadLocalRandom.current().nextInt(1, 3 + 1);
         if (look == 1) {
             //enemy 1
@@ -41,6 +42,10 @@ public class Enemy {
 
     public double getHealth() {
         return Health;
+    }
+    
+    public double getECigs(){
+    return cigs;
     }
 
     public void setDef(int def) {
