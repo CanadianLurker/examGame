@@ -54,8 +54,6 @@ public class FXMLCombatController implements Initializable {
     private boolean DOT = false;
     public boolean EDOT = false;
 
-    
-
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
     Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
@@ -69,13 +67,21 @@ public class FXMLCombatController implements Initializable {
             double spec = (weapon.getSDamage() - 2 + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
             double spechigh = ((weapon.getSDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
             //gets damage numbers from weapon to display with attack
-            setPos(reglow); //if any number is negative, it will set it to 0
-            setPos(reghigh);
-            setPos(spec);
-            setPos(spechigh);
+            if (reglow < 0) { //if any number is negative, it will set it to 0
+                reglow = 0;
+            }
+            if (reghigh < 0) {
+                reghigh = 0;
+            }
+            if (spec < 0) {
+                spec = 0;
+            }
+            if (spechigh < 0) {
+                spechigh = 0;
+            }
             Choice1 = "0 Mana -" + weapon.getAttack1() + "-" + reglow + "-" + reghigh + " Damage";
-            Choice2 = weapon.getCost() + " Mana -" + weapon.getAttack2() + "-" + (reglow + spec)  + "-"
-                    + (reghigh + spechigh)  + " Damage";
+            Choice2 = weapon.getCost() + " Mana -" + weapon.getAttack2() + "-" + (reglow + spec) + "-"
+                    + (reghigh + spechigh) + " Damage";
             Choice3 = weapon.getCost() + " Mana -" + weapon.getAttack3() + "-" + spec + "-" + spechigh + " Damage";
             Choice4 = Double.parseDouble(F.format(weapon.getCost() + (1.2 * weapon.getLevel()))) + " Mana -" + weapon.getAttack4();
             //sets what will be displayed in choices
@@ -170,7 +176,7 @@ public class FXMLCombatController implements Initializable {
                 setMana(getMana() - (weapon.getCost() + (1.2 * getLevel())));
                 if (weapon.getType().equals("Mage")) { //checks to see which weapon type is being used
                     weapon.MageAttack(); //heal
-                    listLog.getItems().add(("Player heals for " + (weapon.getDamage() + (weapon.getLevel() / 1.3)) + getINT())+ "health");
+                    listLog.getItems().add(("Player heals for " + (weapon.getDamage() + (weapon.getLevel() / 1.3)) + getINT()) + "health");
                 }
                 if (weapon.getType().equals("Rogue")) {
                     weapon.RogueAttack(enemies.get(0)); //lowers enemy defence
@@ -190,7 +196,9 @@ public class FXMLCombatController implements Initializable {
         if (getHealth() > getHealthMAX()) { //makes it so that the player can not overheal
             setHealth(getHealthMAX());
         }
-        setPos(damage); //if damage is negative, it gets set to zero
+        if (damage < 0) {
+            damage = 0;
+        }
         enemies.get(0).setHealth(enemies.get(0).getHealth() - damage); //the damaging process
         listLog.getItems().add(damage + " damage dealt to enemy!");
         listLog.scrollTo(listLog.getItems().size());
@@ -213,12 +221,6 @@ public class FXMLCombatController implements Initializable {
         }
     }
 
-    public void setPos(double p) { //quick method that turns something negative into 0
-        if (p < 0) {
-            p = 0;
-        }
-    }
-
     private void enemyTurn() {
         if (DOT) { //checks to see if enemy has a dot on them
             double dotd = weapon.Attack3(enemies.get(0).getDefence());
@@ -238,8 +240,8 @@ public class FXMLCombatController implements Initializable {
             double d = enemies.get(0).Attack();
             setHealth(getHealth() - d); //the enemy strikes
             listLog.getItems().add(d + " damage dealt to player!");
-            if (d == 0) {
-                listLog.getItems().add("Enemy healed for " + (enemies.get(0).getHealth() + (enemies.get(0).getHealthMAX() / 3)) + "health.");
+            if (getEcount() == 0) {
+                listLog.getItems().add("Enemy healed for " + (enemies.get(0).getHealth() + (enemies.get(0).getHealthMAX() / 3)) + " health.");
             }
             if (getEcount() > 0) {
                 setHealth(getHealth() - getEdot());

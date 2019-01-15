@@ -36,260 +36,87 @@ import static humphriesmartinfice.examproject.MainApp.*;
  * @author n00bi
  */
 public class FXMLCommonRoomController implements Initializable {
-    
+
     @FXML
-    private ImageView guard;
+    private ImageView imgGuard, imgGuardRoom, imgBlockA, imgBlockB, imgCell;
     @FXML
-    private ImageView player;
-    @FXML
-    private ImageView guardRoom;
-    @FXML
-    private ImageView blockA;
-    @FXML
-    private ImageView blockB;
-    @FXML
-    private ImageView cellDoor;
-    @FXML
-    private Label lblRoom;
-    @FXML
-    private Label lblA;
-    @FXML
-    private Label lblB;
-    @FXML
-    private Label lblCell;
-    @FXML 
-    private Button leave;
-    @FXML 
-    private Button stay;
-    @FXML 
-    private Label lblMessage;
-    @FXML
-    private Polygon polyPlayer;
+    private Polygon polPlayer;
     @FXML
     private Pane panPlayer;
-    @FXML
-    private Polygon polyA;
-    @FXML
-    private Pane panA;
-    @FXML
-    private Polygon polyB;
-    @FXML
-    private Pane panB;
-    
+
     int test = 0;
-    
-    @FXML
-    Timeline Right = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveRight()));
-    @FXML
-    Timeline Left = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveLeft()));
-    @FXML
-    Timeline Up = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveUp()));
-    @FXML
-    Timeline Down = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveDown()));
+    private int xvar, yvar;
 
-    private void moveRight() {
-        panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        if (panPlayer.getTranslateX() >= 740) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        }
-        if (collision(panPlayer, panA)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-            aTest();
-        }
-        if (collision(panPlayer, panB)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-            bTest();
-        }
-        if (collision(panPlayer, guard)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        }
+    Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(15), ae -> x()));
+    Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(15), ae -> y()));
+
+    private void y() {
+        panPlayer.setLayoutY(panPlayer.getLayoutY() + yvar);
     }
 
-    private void moveLeft() {
-        panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        if (panPlayer.getTranslateX() <= 5) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        }
-        if (collision(panPlayer, panA)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-            aTest();
-        }
-        if (collision(panPlayer, panB)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-            bTest();
-        }
-        if (collision(panPlayer, guard)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        }
+    private void x() {
+        panPlayer.setLayoutX(panPlayer.getLayoutX() + xvar);
+        if(col(polPlayer, imgBlockA)){
+        try {
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")); //where FXMLPage2 is the name of the scene
+            Scene home_page_scene = new Scene(home_page_parent);
+            Stage stage = new Stage();
+            stage.setScene(home_page_scene);
+            stage.setTitle("Cell Block A"); //changes the title
+            stage.show(); //shows the new page
+            home_page_scene.getRoot().requestFocus();
+        } catch (IOException iOException) {
+        }}
     }
 
-    private void moveUp() {
-        panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        if (panPlayer.getTranslateY() <= 40) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        }
-        if (collision(panPlayer, panA)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-            aTest();
-        }
-        if (collision(panPlayer, panB)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-            bTest();
-        }
-        if (collision(panPlayer, guard)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        }
-    }
-
-    private void moveDown() {
-        panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        if (panPlayer.getTranslateY() >= 415) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        }
-        if (collision(panPlayer, panA)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-            aTest();
-        }
-        if (collision(panPlayer, panB)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-            bTest();
-        }
-        if (collision(panPlayer, guard)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        }
-    }
-    
-    private void aTest() {
-            leave.setVisible(true);
-            stay.setVisible(true);
-            lblMessage.setVisible(true);
-            test = 1;
-            lblMessage.setText("Would you like to enter Cell Block A?");
-    }      
-    private void bTest() {
-            leave.setVisible(true);
-            stay.setVisible(true);
-            lblMessage.setVisible(true);
-            test = 2;
-            lblMessage.setText("Would you like to enter Cell Block B?");
-    }    
-    
     @FXML
     public void keyPressed(KeyEvent event) {
         if ((event.getCode() == KeyCode.D)) {
-            Right.setCycleCount(Timeline.INDEFINITE);
-            Right.play();
+            xvar = 2;
         }
         if ((event.getCode() == KeyCode.A)) {
-            Left.setCycleCount(Timeline.INDEFINITE);
-            Left.play();
+            xvar = - 2;
         }
         if ((event.getCode() == KeyCode.W)) {
-            Up.setCycleCount(Timeline.INDEFINITE);
-            Up.play();
+            yvar = -2;
         }
         if ((event.getCode() == KeyCode.S)) {
-            Down.setCycleCount(Timeline.INDEFINITE);
-            Down.play();
+            yvar = 2;
         }
     }
 
     @FXML
     public void keyReleased(KeyEvent event) {
         if ((event.getCode() == KeyCode.D)) {
-            Right.stop();
+            xvar = 0;
         }
         if ((event.getCode() == KeyCode.A)) {
-            Left.stop();
+            xvar = -0;
         }
         if ((event.getCode() == KeyCode.W)) {
-            Up.stop();
+            yvar = -0;
         }
         if ((event.getCode() == KeyCode.S)) {
-            Down.stop();
+            yvar = 0;
         }
     }
 
-    public boolean collision(Object block1, Object block2) {
-        try {
-            //If the objects can be changed to shapes just see if they intersect
-            Shape s1 = (Shape) block1;
-            Shape s2 = (Shape) block2;
-            Shape a = Shape.intersect(s1, s2);
-            return a.getBoundsInLocal().getWidth() != -1;
-        } catch (Exception e) {
-            //If the objects can't be changed to shapes, make a shape with there size and location
-            //Then rotate them
-
-            //Gets the real location and size of the first object
-            double rectX = ((Node) block1).getLayoutX() + ((Node) block1).getTranslateX();
-            double rectY = ((Node) block1).getLayoutY() + ((Node) block1).getTranslateY();
-            double rectWidth = ((Node) block1).getBoundsInLocal().getWidth();
-            double rectHeight = ((Node) block1).getBoundsInLocal().getHeight();
-
-            //Gets the real location and size of the second object
-            double rectX2 = ((Node) block2).getLayoutX() + ((Node) block2).getTranslateX();
-            double rectY2 = ((Node) block2).getLayoutY() + ((Node) block2).getTranslateY();
-            double rectWidth2 = ((Node) block2).getBoundsInLocal().getWidth();
-            double rectHeight2 = ((Node) block2).getBoundsInLocal().getHeight();
-
-            //makes two new shapes and rotates them
-            Shape rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
-            Shape rect2 = new Rectangle(rectX2, rectY2, rectWidth2, rectHeight2);
-            rect.setRotate(((Node) ((Node) block1)).getRotate());
-            rect2.setRotate(((Node) block2).getRotate());
-            //Makes a new shapes of where they touch
-            Shape a = Shape.intersect(rect, rect2);
-
-            //returns if they touch
-            return a.getBoundsInLocal().getWidth() != -1;
-        }
-      }
-    
-    @FXML
-    private void btnLeave(ActionEvent event) throws IOException {
-        if (test == 1) {
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")); //where FXMLPage2 is the name of the scene
-
-        Scene home_page_scene = new Scene(home_page_parent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.hide();
-        stage.setScene(home_page_scene);
-
-        stage.setTitle("Cell Block A"); //changes the title
-        stage.show(); //shows the new page
-        home_page_scene.getRoot().requestFocus();  
+    public boolean col(Object block1, Object block2) {
+        Shape s1 = (Shape) block1;
+        Shape s2 = (Shape) block2;
+        Shape a = Shape.intersect(s1, s2);
+        return a.getBoundsInLocal().getWidth() != -1;
     }
-        if (test == 2) {
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml")); //where FXMLPage2 is the name of the scene
 
-        Scene home_page_scene = new Scene(home_page_parent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.hide();
-        stage.setScene(home_page_scene);
-
-        stage.setTitle("Cell Block B"); //changes the title
-        stage.show(); //shows the new page
-        home_page_scene.getRoot().requestFocus();
-        MainApp.saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 20, 400);
-    }
-    }
-    
-    @FXML
-    private void btnStay(ActionEvent event) throws IOException {
-        leave.setVisible(false);
-        stay.setVisible(false);
-        lblMessage.setVisible(false);
-        test = 0;
-    }
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        Horizontal.setCycleCount(Timeline.INDEFINITE);
+        Vertical.setCycleCount(Timeline.INDEFINITE);
+        Horizontal.play();
+        Vertical.play();
+    }
+
 }

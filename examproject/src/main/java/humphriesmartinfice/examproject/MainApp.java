@@ -26,7 +26,7 @@ public class MainApp extends Application {
     
     public static DecimalFormat F = new DecimalFormat("0"); //format so decimals don't go on for ever
 
-    public static Weapon weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "", "");
+    public static Weapon weapon = new Warrior(1, "", "", "", "", 0, 0, 0, 0, "", "");
 
     @Override
     public void start(Stage stage) throws Exception {
