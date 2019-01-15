@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
  * @author darbym26
  */
 public class Item {
-
+private String type;
     private int rarityI, level, damage;
     private Image icon;
 
@@ -55,5 +55,11 @@ public class Item {
     public void setIcon(Image i) {
         icon = i;
     }
+public String getType() {
+        return this.type;
+    }
 
+    public void setType(String i) {
+        type = i;
+    }
 }
