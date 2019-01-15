@@ -55,7 +55,7 @@ public class FXMLController implements Initializable {
         setINT(1);
         setSTR(1);
         setDEX(1);
-        setLevel(700);
+        setLevel(1);
         setHealthMAX();
         setHealth(getHealthMAX());
         setManaMAX();
