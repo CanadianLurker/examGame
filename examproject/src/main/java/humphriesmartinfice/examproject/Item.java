@@ -17,18 +17,13 @@ public class Item {
     private Image icon;
 
     public Item() {
-        this.setIcon(new Image(getClass().getResource("/white.png").toString()));
+        icon = null;
     }
 
     public Item(int i) {
         rarityI = i;
     }
 
-    
-    
-    
-    
-    
     public int getRarity() {
         return this.rarityI;
     }
@@ -36,6 +31,7 @@ public class Item {
     public void setRarity(int i) {
         rarityI = i;
     }
+
     public int getDamage() {
         return this.damage;
     }
@@ -43,6 +39,7 @@ public class Item {
     public void setDamage(int i) {
         damage = i;
     }
+
     public int getLevel() {
         return this.level;
     }

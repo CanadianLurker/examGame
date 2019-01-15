@@ -1,6 +1,7 @@
 package humphriesmartinfice.examproject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -11,25 +12,27 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    public static int level, STR, DEX, INT, edot, cigs;
+    public static int level, STR, DEX, INT,  cigs;
 
     public static int ecount = 0;
 
     public static boolean dot = false;
 
-    public static double health, healthMAX, mana, manaMAX, EXP, EXPNeeded, layX, layY;
+    public static double health, healthMAX, mana, manaMAX, EXP, EXPNeeded, layX, layY, edot;
 
     public static Parent area;
 
     public static ArrayList<Enemy> enemies = new ArrayList();
+    
+    public static DecimalFormat F = new DecimalFormat("0"); //format so decimals don't go on for ever
 
-    public static Weapon weapon = new Mage(1, "", "", "", "", 0, 0, 0, 0, "", "");
+    public static Weapon weapon = new Warrior(1, "", "", "", "", 0, 0, 0, 0, "", "");
 
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
+//        scene.getStylesheets().add("/styles/Styles.css");
         stage.setTitle("Prison Escape");
         stage.setScene(scene);
         stage.show();
@@ -83,11 +86,11 @@ public class MainApp extends Application {
         return ecount;
     }
 
-    public static void setEdot(int E) {
+    public static void setEdot(double E) {
         edot = E;
     }
 
-    public static int getEdot() {
+    public static double getEdot() {
         return edot;
     }
 
@@ -120,7 +123,7 @@ public class MainApp extends Application {
     }
 
     public static void setHealthMAX() {
-        MainApp.healthMAX = MainApp.level * 10 + (MainApp.STR * 5) + (MainApp.DEX * 2) + (MainApp.INT);
+        MainApp.healthMAX = MainApp.level * 10 + (MainApp.STR * 5) + (MainApp.DEX * 2);
     }
 
     public static double getHealthMAX() {
@@ -140,7 +143,7 @@ public class MainApp extends Application {
     }
 
     public static void setManaMAX() {
-        MainApp.manaMAX = MainApp.level * 3 + 4 + (MainApp.INT * 3) + (MainApp.DEX * 2) + MainApp.INT;
+        MainApp.manaMAX = MainApp.level * 3 + 4 + (MainApp.INT * 3) + (MainApp.DEX * 2);
     }
 
     public static double getEXP() {
