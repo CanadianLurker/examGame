@@ -4,10 +4,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -59,16 +57,11 @@
             <Image url="@../door_open.png" />
          </image>
       </ImageView>
-      <Pane fx:id="panPlayer" layoutX="-119.0" layoutY="76.0" prefHeight="139.0" prefWidth="63.0" translateX="369.0" translateY="100.0">
-         <children>
-            <ImageView fitHeight="136.0" fitWidth="135.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../prisoner.png" />
-               </image>
-            </ImageView>
-            <Polygon fx:id="polPlayer" fill="#1f93ff00" layoutX="34.0" layoutY="99.0" points="-21.5, 31.5, 21.5, 31.5, 15.5, -62.0, 0.2152099609375, -99.0, -14.5, -62.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-         </children>
-      </Pane>
+      <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="248.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../prisoner.png" />
+         </image>
+      </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="180.0" layoutY="420.0" stroke="BLACK" strokeType="INSIDE" width="900.0">
          <fill>
             <LinearGradient endX="0.8857142857142858" endY="0.2857142857142857" startX="0.8809523809523808">
