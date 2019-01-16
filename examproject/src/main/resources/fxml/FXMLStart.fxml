@@ -75,6 +75,6 @@
             <Image url="@../prisoner2.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="imgTable" fitHeight="152.0" fitWidth="159.0" layoutX="731.0" layoutY="435.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgSTable" fitHeight="152.0" fitWidth="159.0" layoutX="741.0" layoutY="442.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
