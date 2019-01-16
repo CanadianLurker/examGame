@@ -75,13 +75,16 @@ public class FXMLGuardRoomController implements Initializable {
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
+        if (imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
+        }
     }
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
-        if (imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+        if (imgPlayer.getLayoutX() >= 1730 || imgPlayer.getLayoutX() <= 0) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
-            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
+
         }
     }
 
