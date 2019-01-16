@@ -41,6 +41,8 @@ public class FXMLCommonRoomController implements Initializable {
     @FXML
     private ImageView imgGuard, imgGuardRoom, imgBlockA, imgBlockB, imgCell, imgPlayer;
 
+    Image closed = new Image(getClass().getResource("/door closed.png").toString());
+    Image open = new Image(getClass().getResource("/door_open.png").toString());
     Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
     Image front = new Image(getClass().getResource("/prisoner2.png").toString());
 
@@ -52,13 +54,39 @@ public class FXMLCommonRoomController implements Initializable {
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
+        if (col(imgGuard, imgPlayer) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
+        }
     }
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
-        if (imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+        if (col(imgGuard, imgPlayer) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
-            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
+        }
+        if (col(imgPlayer, imgCell)) {
+            imgCell.setImage(open);
+        }
+        if (col(imgPlayer, imgBlockA)) {
+            imgBlockA.setImage(open);
+        }
+        if (col(imgPlayer, imgBlockB)) {
+            imgBlockB.setImage(open);
+        }
+        if (col(imgPlayer, imgGuardRoom)) {
+            imgGuardRoom.setImage(open);
+        }
+        if (col(imgPlayer, imgCell)== false) {
+            imgCell.setImage(closed);
+        }
+        if (col(imgPlayer, imgBlockA) == false) {
+            imgBlockA.setImage(closed);
+        }
+        if (col(imgPlayer, imgBlockB)== false) {
+            imgBlockB.setImage(closed);
+        }
+        if (col(imgPlayer, imgGuardRoom)== false) {
+            imgGuardRoom.setImage(closed);
         }
     }
 
@@ -77,6 +105,7 @@ public class FXMLCommonRoomController implements Initializable {
             yvar = 1;
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgBlockA)) {
+            saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 750,88);
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -124,10 +153,10 @@ public class FXMLCommonRoomController implements Initializable {
             xvar = 0;
         }
         if ((event.getCode() == KeyCode.A)) {
-            xvar = -0;
+            xvar = 0;
         }
         if ((event.getCode() == KeyCode.W)) {
-            yvar = -0;
+            yvar = 0;
             imgPlayer.setImage(back);
         }
         if ((event.getCode() == KeyCode.S)) {
