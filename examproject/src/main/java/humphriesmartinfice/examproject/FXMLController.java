@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import static humphriesmartinfice.examproject.MainApp.*;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -40,13 +41,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void btnOptions(ActionEvent event) throws IOException {
-            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml")); // now hosting the testing grounds for combat
-            Scene home_page_scene = new Scene(home_page_parent);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.hide();
-            stage.setScene(home_page_scene); 
-            stage.setTitle("Combat!!!"); 
-            stage.show(); 
+
     }
 
     @FXML
@@ -56,6 +51,17 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //Only used for testing purposes//
+        setINT(1);
+        setSTR(1);
+        setDEX(1);
+        setLevel(1);
+        setHealthMAX();
+        setHealth(getHealthMAX());
+        setManaMAX();
+        setMana(getManaMAX());
+        setEXP(0);
+        setEXPNeeded();
+        //Only used for testing purposes// 
     }
 }

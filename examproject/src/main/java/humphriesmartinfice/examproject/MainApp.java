@@ -1,7 +1,7 @@
 package humphriesmartinfice.examproject;
 
-import humphriesmartinfice.examproject.MainApp;
-import java.lang.reflect.Array;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -12,19 +12,27 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    public static int level, STR, DEX, INT;
+    public static int level, STR, DEX, INT,  cigs;
 
-    public static double health, healthMAX, mana, manaMAX, EXP, EXPNeeded;
+    public static int ecount = 0;
+
+    public static boolean dot = false;
+
+    public static double health, healthMAX, mana, manaMAX, EXP, EXPNeeded, layX, layY, edot;
+
+    public static Parent area;
 
     public static ArrayList<Enemy> enemies = new ArrayList();
+    
+    public static DecimalFormat F = new DecimalFormat("0"); //format so decimals don't go on for ever
 
-    public static Weapon weapon = new Mage(50, "", "", "", "", 0, 0, 0, 0, "", "");
+    public static Weapon weapon = new Warrior(1, "", "", "", "", 0, 0, 0, 0, "", "");
 
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
+//        scene.getStylesheets().add("/styles/Styles.css");
         stage.setTitle("Prison Escape");
         stage.setScene(scene);
         stage.show();
@@ -32,8 +40,34 @@ public class MainApp extends Application {
         stage.setOnCloseRequest(e -> System.exit(0));
     }
 
+    public static void saveLoc(Parent a, double x, double y){
+        area = a;
+        layX = x;
+        layY = y;
+    }
+    
+    public static double getLocX(){
+    return layX; 
+    }
+    
+    public static double getLocY(){
+    return layY;
+    }
+    
+    public static Parent getArea(){
+    return area;
+    }
+
     public static int getSTR() {
         return MainApp.STR;
+    }
+
+    public static int getCigs() {
+        return cigs;
+    }
+
+    public static void setCigs(int c) {
+        cigs = c;
     }
 
     public static void setSTR(int point) {
@@ -42,6 +76,22 @@ public class MainApp extends Application {
 
     public static int getDEX() {
         return MainApp.DEX;
+    }
+
+    public static void setEcount(int E) {
+        ecount = E;
+    }
+
+    public static int getEcount() {
+        return ecount;
+    }
+
+    public static void setEdot(double E) {
+        edot = E;
+    }
+
+    public static double getEdot() {
+        return edot;
     }
 
     public static void setDEX(int point) {
@@ -93,7 +143,7 @@ public class MainApp extends Application {
     }
 
     public static void setManaMAX() {
-        MainApp.manaMAX = MainApp.level * 3 + 4 + (MainApp.INT * 2) + MainApp.DEX;
+        MainApp.manaMAX = MainApp.level * 3 + 4 + (MainApp.INT * 3) + (MainApp.DEX * 2);
     }
 
     public static double getEXP() {
@@ -109,9 +159,40 @@ public class MainApp extends Application {
     }
 
     public static void setEXPNeeded() {
-        MainApp.EXPNeeded = 22 + (MainApp.level * 12);
+        MainApp.EXPNeeded = 25 + (MainApp.level * 18);
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
      * main() serves only as fallback in case the application can not be

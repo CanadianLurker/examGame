@@ -22,8 +22,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import static humphriesmartinfice.examproject.MainApp.*;
-import java.util.ArrayList;
-import java.text.DecimalFormat;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 public class FXMLCombatController implements Initializable {
 
@@ -32,23 +36,23 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private ImageView imgMC, imgEnemy;
     @FXML
-    private Button btnAttack, btnItems, btnOther, btnChoice1, btnChoice2, btnChoice3, btnChoice4, btnSTR, btnDEX, btnINT;
+    private Button btnAttack, btnItems, btnOther, btnChoice1, btnChoice2, btnChoice3, btnChoice4, btnSTR, btnDEX, btnINT, btnLog;
     @FXML
     private Pane panEXP;
     @FXML
-    private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel, lblMana, lblPoints, lblSTR, lblDEX, lblINT;
+    private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel, lblMana, lblPoints, lblSTR, lblDEX, lblINT, lblCigs;
+    @FXML
+    private ListView listLog;
 
     private String Choice1, Choice2, Choice3, Choice4, Primary;
 
-    private int count, points, buffcount;
+    private int count, points, buffcount, cigs;
 
     private double exp;
 
     private boolean combat = true;//combat will always be active when coming into this scene
     private boolean DOT = false;
     public boolean EDOT = false;
-
-    DecimalFormat F = new DecimalFormat("0"); //format so decimals don't go on for ever
 
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
@@ -58,18 +62,26 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private void Primary(ActionEvent event) {
         if (btnAttack.isArmed()) { //checks to see which primary button is pressed
-            int reglow = (weapon.getDamage() - (2) + weapon.getExtra() - enemies.get(0).getDefence());
-            int reghigh = ((weapon.getDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() - enemies.get(0).getDefence());
-            int spec = (weapon.getSDamage() - 2 + weapon.getExtra() - enemies.get(0).getDefence());
-            int spechigh = ((weapon.getSDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() - enemies.get(0).getDefence());
+            double reglow = (weapon.getDamage() - (2) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+            double reghigh = ((weapon.getDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+            double spec = (weapon.getSDamage() - 2 + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+            double spechigh = ((weapon.getSDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
             //gets damage numbers from weapon to display with attack
-            setPos(reglow); //if any number is negative, it will set it to 0
-            setPos(reghigh);
-            setPos(spec);
-            setPos(spechigh);
+            if (reglow < 0) { //if any number is negative, it will set it to 0
+                reglow = 0;
+            }
+            if (reghigh < 0) {
+                reghigh = 0;
+            }
+            if (spec < 0) {
+                spec = 0;
+            }
+            if (spechigh < 0) {
+                spechigh = 0;
+            }
             Choice1 = "0 Mana -" + weapon.getAttack1() + "-" + reglow + "-" + reghigh + " Damage";
-            Choice2 = weapon.getCost() + " Mana -" + weapon.getAttack2() + "-" + (reglow + spec + enemies.get(0).getDefence()) + "-"
-                    + (reghigh + spechigh + enemies.get(0).getDefence()) + " Damage";
+            Choice2 = weapon.getCost() + " Mana -" + weapon.getAttack2() + "-" + (reglow + spec) + "-"
+                    + (reghigh + spechigh) + " Damage";
             Choice3 = weapon.getCost() + " Mana -" + weapon.getAttack3() + "-" + spec + "-" + spechigh + " Damage";
             Choice4 = Double.parseDouble(F.format(weapon.getCost() + (1.2 * weapon.getLevel()))) + " Mana -" + weapon.getAttack4();
             //sets what will be displayed in choices
@@ -119,7 +131,7 @@ public class FXMLCombatController implements Initializable {
 
     @FXML
     private void Secondary(ActionEvent event) {
-        int damage = 0;
+        double damage = 0;
         if (btnChoice1.isArmed()) {
             if (Primary.equals("Attack")) { //checks to see if the choice buttons show attacks
                 damage = weapon.Attack1(enemies.get(0).getDefence()); // basic attack, no mana cost
@@ -164,6 +176,7 @@ public class FXMLCombatController implements Initializable {
                 setMana(getMana() - (weapon.getCost() + (1.2 * getLevel())));
                 if (weapon.getType().equals("Mage")) { //checks to see which weapon type is being used
                     weapon.MageAttack(); //heal
+                    listLog.getItems().add(("Player heals for " + (weapon.getDamage() + (weapon.getLevel() / 1.3)) + getINT()) + "health");
                 }
                 if (weapon.getType().equals("Rogue")) {
                     weapon.RogueAttack(enemies.get(0)); //lowers enemy defence
@@ -183,8 +196,12 @@ public class FXMLCombatController implements Initializable {
         if (getHealth() > getHealthMAX()) { //makes it so that the player can not overheal
             setHealth(getHealthMAX());
         }
-        setPos(damage); //if damage is negative, it gets set to zero
+        if (damage < 0) {
+            damage = 0;
+        }
         enemies.get(0).setHealth(enemies.get(0).getHealth() - damage); //the damaging process
+        listLog.getItems().add(damage + " damage dealt to enemy!");
+        listLog.scrollTo(listLog.getItems().size());
         progress(); //shows all the values to the player through progress bars and labels
         btnOther.setDisable(true);
         btnItems.setDisable(true);
@@ -204,15 +221,11 @@ public class FXMLCombatController implements Initializable {
         }
     }
 
-    public void setPos(int p) { //quick method that turns something negative into 0
-        if (p < 0) {
-            p = 0;
-        }
-    }
-
     private void enemyTurn() {
         if (DOT) { //checks to see if enemy has a dot on them
-            enemies.get(0).setHealth(enemies.get(0).getHealth() - weapon.Attack3(enemies.get(0).getDefence()));
+            double dotd = weapon.Attack3(enemies.get(0).getDefence());
+            enemies.get(0).setHealth(enemies.get(0).getHealth() - dotd);
+            listLog.getItems().add(dotd + " damage dealt to enemy by dot!");
             count--;
             buffcount--;
             checkHP(prgEnemy); //check to make sure they don't attack while dead
@@ -224,7 +237,20 @@ public class FXMLCombatController implements Initializable {
             }
         }
         if (combat) {
-            setHealth(getHealth() - enemies.get(0).Attack()); //the enemy strikes
+            double d = enemies.get(0).Attack();
+            setHealth(getHealth() - d); //the enemy strikes
+            listLog.getItems().add(d + " damage dealt to player!");
+            if (getEcount() == 0) {
+                listLog.getItems().add("Enemy healed for " + (enemies.get(0).getHealth() + (enemies.get(0).getHealthMAX() / 3)) + " health.");
+            }
+            if (getEcount() > 0) {
+                setHealth(getHealth() - getEdot());
+                listLog.getItems().add(getEdot() + " damage dealt to player by dot!");
+                setEcount(getEcount() - 1);
+                if (getEcount() == 0) {
+                    dot = false;
+                }
+            }
             progress(); //sets things for the player to see
             check(prgMC); //checks health for MC
             if (combat) {
@@ -254,6 +280,9 @@ public class FXMLCombatController implements Initializable {
         buffcount = 0;
         weapon.ResetWar(); //resets buff
         DOT = false;
+        setCigs(getCigs() + cigs);
+        lblCigs.setText("Cigs: " + getCigs());
+        cleanLog();
         lblSTR.setText("STR: " + getSTR());
         lblDEX.setText("DEX: " + getDEX()); //reminds the player of their characters attributes
         lblINT.setText("INT: " + getINT());
@@ -262,6 +291,8 @@ public class FXMLCombatController implements Initializable {
 
     private void checkHP(ProgressBar prgT) { //checks enemy health
         if (enemies.get(0).getHealth() <= 0) {
+            listLog.getItems().add("Enemy defeated! " + enemies.get(0).getEXP() + " EXP gained!");
+            listLog.getItems().add(enemies.get(0).getECigs() + " cigs attained");
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, which does not look good
             enemies.get(0).setHealth(0);
             if (getMana() != getManaMAX()) {
@@ -272,6 +303,7 @@ public class FXMLCombatController implements Initializable {
             }
             progress();
             exp += enemies.get(0).getEXP();
+            cigs += enemies.get(0).getECigs();
             enemies.remove(0);
             if (enemies.isEmpty()) {
                 endCombat(); //ends combat and opens up end of combat screen
@@ -283,12 +315,19 @@ public class FXMLCombatController implements Initializable {
         }
     }
 
+    private void cleanLog() {
+        if (listLog.getItems().size() == 4) {
+            listLog.getItems().clear();
+        }
+    }
+
     private void check(ProgressBar prgT) {
         if (prgT.getProgress() <= 0) {
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks awful
             setHealth(0);
             progress();
             exp = 0;
+            cigs = 0;
             endCombat();
             //end game screen here
         }
@@ -306,7 +345,17 @@ public class FXMLCombatController implements Initializable {
     }
 
     @FXML
-    private void OK(ActionEvent event) {
+    private void OK(ActionEvent event) throws IOException {
+        if (points == 0 && exp == 0) {
+            Scene scene = new Scene(getArea());
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.hide();
+            stage.setScene(scene);
+            stage.setTitle("Prison Escape");
+            stage.show();
+            scene.getRoot().requestFocus();
+//link back to where the fight started in the "explore" state
+        }
         if (exp != 0) { //if any exp is still being gathered, the exp bar will be filled up to whatever it should go to.
             endscreen.stop();
             setEXP(getEXP() + exp);
@@ -321,9 +370,7 @@ public class FXMLCombatController implements Initializable {
             }
             prgEXP.setProgress(getEXP() / getEXPNeeded());
         }
-        if (points == 0) {
-//link back to where the fight started in the "explore" state
-        }
+
     }
 
     @FXML
@@ -389,25 +436,19 @@ public class FXMLCombatController implements Initializable {
         progress();
     }
 
+    @FXML
+    private void Log(ActionEvent E) {
+        if (listLog.isVisible() == false) {
+            listLog.setVisible(true);
+        } else if (listLog.isVisible()) {
+            listLog.setVisible(false);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //   music.setCycleCount(Timeline.INDEFINITE);
         //   music.play();
-        //Only used for testing purposes//
-        setINT(0);
-        setSTR(0);
-        setDEX(0);
-        setLevel(50);
-        setHealthMAX();
-        setHealth(getHealthMAX());
-        setManaMAX();
-        setMana(getManaMAX());
-        setEXP(0);
-        setEXPNeeded();
-        enemies.add(new Enemy(35));
-        enemies.add(new Enemy(35));
-        //enemies.add(new Enemy(1));
-        //Only used for testing purposes//    
         progress();
         btnChoice1.setText("---");
         btnChoice2.setText("---");

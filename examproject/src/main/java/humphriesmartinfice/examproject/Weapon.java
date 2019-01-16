@@ -8,10 +8,10 @@ package humphriesmartinfice.examproject;
 import static humphriesmartinfice.examproject.MainApp.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Weapon {
+public class Weapon extends Item {
 
     private String Attack1, Attack2, Attack3, Attack4, Name, type;
-    private int level, rarity, damage, sdamage, extra;
+    private int level, rarity,damage, sdamage, extra, nerf, extrawar;
     private double manaCost;
 
     public Weapon(int Level, String Attack1, String Attack2, String Attack3, String Attack4, double manaCost, int rarity, int damage, int sdamage, String Name, String Type) {
@@ -22,21 +22,23 @@ public class Weapon {
         this.manaCost = manaCost; //Base cost of Inferno, Thunder and heal, which will have more initial cost in combat controller
         this.sdamage = sdamage; //base amount of damage added onto weapon(which already randomizes damage)
         this.Name = Name; //base name off of rarity and level    
-        this.damage = ThreadLocalRandom.current().nextInt(3, (5 + Level) + 1) + Level;
+        this.setDamage(ThreadLocalRandom.current().nextInt(3, (5 + Level) + 1) + Level)  ;
         int possible = ThreadLocalRandom.current().nextInt(1, 100 + 1);
         if (possible < 65) {
-            this.rarity = 1;
+            this.setRarity(1);
         } else if (possible >= 65 && possible < 85) {
-            this.rarity = 2;
+            this.setRarity(2);
         } else if (possible >= 85 && possible < 95) {
-            this.rarity = 3;
+            this.setRarity(3);
         } else if (possible > 95) {
-            this.rarity = 4;
+            this.setRarity(4) ;
         }
-        level = Level;
+        this.setLevel(Level); 
         this.type = Type;
+        this.setDamage(damage);
+        this.setRarity(rarity);
     }
-
+/*
     public int getDamage() {
         return this.damage;
     }
@@ -48,7 +50,7 @@ public class Weapon {
     public int getLevel() {
         return this.level;
     }
-
+*/
     public String getAttack1() {
         return Attack1;
     }
@@ -80,21 +82,31 @@ public class Weapon {
     public String getType() {
         return this.type;
     }
+    
+    public double getExtraWar(){
+    return extrawar;
+    } 
 
     public void MageAttack() {
-        setHealth(getHealth() + (damage + (level / 1.3)) + extra);
+        setHealth(getHealth() + (this.getDamage() + (this.getLevel() / 1.3)) + extra);
     }
 
     public void RogueAttack(Enemy enemy) {
-        enemy.setDef(enemy.getDefence() * (2 / 3));
+        nerf += this.getLevel();
+    }
+    
+    public int getNerf(){
+    return nerf;
     }
 
     public void WarriorAttack() {
-        damage = damage * (3 / 2);
+
+        extrawar = damage * (3 / 2);
     }
 
     public void ResetWar() {
-        damage = damage / (3 / 2);
+        extrawar = 0;
+
     }
 
     public int getExtra() {
@@ -104,19 +116,19 @@ public class Weapon {
 
     public int Attack1(int defence) {
         extraget(); //gets extra damage from attributes
-        return ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1) + extra - defence;
+        return ThreadLocalRandom.current().nextInt(this.getDamage() - 2, this.getDamage() + (getLevel() + this.getLevel()) + 1) + extra - defence;
     }
 
     public int Attack2(int defence) {
         extraget();
-        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1)
-                + ThreadLocalRandom.current().nextInt(damage - 2, damage + (getLevel() + level) + 1)
+        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + this.getLevel()) + 1)
+                + ThreadLocalRandom.current().nextInt(this.getDamage() - 2, this.getDamage() + (getLevel() + this.getLevel()) + 1)
                 + extra - defence;
     }
 
     public int Attack3(int defence) {
         extraget();
-        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + level) + 1) + extra - defence;
+        return ThreadLocalRandom.current().nextInt(sdamage - 2, sdamage + (getLevel() + this.getLevel()) + 1) + extra - defence;
     }
 
     private void extraget() {
