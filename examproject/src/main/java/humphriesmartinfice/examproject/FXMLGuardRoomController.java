@@ -11,10 +11,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 
 /**
@@ -25,29 +24,27 @@ import javafx.util.Duration;
 public class FXMLGuardRoomController implements Initializable {
 
     @FXML
-    private Pane panPlayer;
-    @FXML
-    private Polygon polPlayer;
+    private ImageView imgPlayer;
 
     private double xvar = 0;
     private double yvar = 0;
 
-    Timeline xmove = new Timeline(new KeyFrame(Duration.millis(15), ae -> x()));
-    Timeline ymove = new Timeline(new KeyFrame(Duration.millis(15), ae -> y()));
+    Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
+    Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
 
     @FXML
     private void move(KeyEvent e) {
         if (e.getCode() == KeyCode.D) {
-            xvar = 4;
+            xvar = 1;
         }
         if (e.getCode() == KeyCode.A) {
-            xvar = -4;
+            xvar = -1;
         }
         if (e.getCode() == KeyCode.S) {
-            yvar = 4;
+            yvar = 1;
         }
         if (e.getCode() == KeyCode.W) {
-            yvar = -4;
+            yvar = -1;
         }
     }
 
@@ -68,16 +65,23 @@ public class FXMLGuardRoomController implements Initializable {
     }
 
     private void y() {
-        panPlayer.setLayoutY(panPlayer.getLayoutY() + yvar);
+        imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
     }
 
     private void x() {
-        panPlayer.setLayoutX(panPlayer.getLayoutY() + xvar);
+        imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
+        if (imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+            imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
+            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        xmove.setCycleCount(Timeline.INDEFINITE);
+        ymove.setCycleCount(Timeline.INDEFINITE);
+        xmove.play();
+        ymove.play();
     }
 
 }

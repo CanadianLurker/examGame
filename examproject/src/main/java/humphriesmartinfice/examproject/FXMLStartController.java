@@ -29,6 +29,8 @@ import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -37,265 +39,96 @@ import javafx.scene.Node;
  */
 public class FXMLStartController implements Initializable {
 
-    private boolean cellKey = false;
+    @FXML
+    private ImageView imgKey, imgTable, imgBed, imgToilet, imgDoor, imgPoster, imgPlayer, imgSTable;
 
-    @FXML
-    private ImageView key;
-    @FXML
-    private ImageView lamp;
-    @FXML
-    private ImageView table;
-    @FXML
-    private ImageView bed;
-    @FXML
-    private ImageView toilet;
-    @FXML
-    private ImageView doorOpen;
-    @FXML
-    private ImageView doorClosed;
-    @FXML
-    private ImageView poster;
-    @FXML
-    private ImageView bars;
-    @FXML
-    private ImageView Player;
-    @FXML
-    private Label keyFound;
-    @FXML
-    private Label exitMessage;
-    @FXML
-    private Button btnLeave;
-    @FXML
-    private Button btnStay;
-    
-    @FXML
-    private Polygon polyPlayer;
-    @FXML
-    private Pane panPlayer;
+    private int xvar, yvar;
 
-    @FXML
-    private void btnLeaveY(ActionEvent event) throws IOException {
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); //where FXMLPage2 is the name of the scene
+    Image closed = new Image(getClass().getResource("/door closed.png").toString());
+    Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
+    Image front = new Image(getClass().getResource("/prisoner2.png").toString());
 
-        Scene home_page_scene = new Scene(home_page_parent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
+    Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
 
-        stage.hide();
-        stage.setScene(home_page_scene);
+    private boolean key;
 
-        stage.setTitle("Common Room"); //changes the title
-        stage.show(); //shows the new page
-        home_page_scene.getRoot().requestFocus();
-    }
-
-    @FXML
-    private void btnStayN(ActionEvent event) throws IOException {
-        btnLeave.setVisible(false);
-        btnStay.setVisible(false);
-        exitMessage.setVisible(false);
-    }
-
-    @FXML
-    Timeline Right = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveRight()));
-    @FXML
-    Timeline Left = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveLeft()));
-    @FXML
-    Timeline Up = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveUp()));
-    @FXML
-    Timeline Down = new Timeline(new KeyFrame(Duration.millis(25), ae -> moveDown()));
-
-    private void moveRight() {
-        panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        if (collision(panPlayer, table)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-            if (cellKey == false) {
-                cellKey = true;
-                key.setVisible(false);
-                keyFound.setVisible(true);
-            }
+    private void x() {
+        imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
+        if (col(imgTable, imgPlayer) || col(imgPlayer, imgBed) || col(imgPlayer, imgToilet) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+            imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
+            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
         }
-        if (collision(panPlayer, bed)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        }
-        if (collision(panPlayer, toilet)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        }
-        if (panPlayer.getTranslateX() >= 740) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        }
-        if (collision(panPlayer, doorClosed)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-            if (cellKey == true) {
-                doorClosed.setVisible(false);
-                btnLeave.setVisible(true);
-                btnStay.setVisible(true);
-                exitMessage.setVisible(true);
-            }
+        if (col(imgPlayer, imgDoor) && key) {
+            imgDoor.setImage(closed);
         }
     }
 
-    private void moveLeft() {
-        panPlayer.setTranslateX(panPlayer.getTranslateX() - 5);
-        if (collision(panPlayer, table)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-            if (cellKey == false) {
-                cellKey = true;
-                key.setVisible(false);
-                keyFound.setVisible(true);
-            }
-        }
-        if (collision(panPlayer, bed)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        }
-        if (collision(panPlayer, toilet)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        }
-        if (panPlayer.getTranslateX() <= 5) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-        }
-        if (collision(panPlayer, doorClosed)) {
-            panPlayer.setTranslateX(panPlayer.getTranslateX() + 5);
-            if (cellKey == true) {
-                doorClosed.setVisible(false);
-                btnLeave.setVisible(true);
-                btnStay.setVisible(true);
-                exitMessage.setVisible(true);
-            }
-        }
-    }
-
-    private void moveUp() {
-        panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        if (collision(panPlayer, table)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-            if (cellKey == false) {
-                cellKey = true;
-                key.setVisible(false);
-                keyFound.setVisible(true);
-            }
-        }
-        if (collision(panPlayer, bed)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        }
-        if (collision(panPlayer, toilet)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        }
-        if (panPlayer.getTranslateY() <= 40) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        }
-        if (collision(panPlayer, doorClosed)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-            if (cellKey == true) {
-                doorClosed.setVisible(false);
-                btnLeave.setVisible(true);
-                btnStay.setVisible(true);
-                exitMessage.setVisible(true);
-            }
-        }
-    }
-
-    private void moveDown() {
-        panPlayer.setTranslateY(panPlayer.getTranslateY() + 5);
-        if (collision(panPlayer, table)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-            if (cellKey == false) {
-                cellKey = true;
-                key.setVisible(false);
-                keyFound.setVisible(true);
-            }
-        }
-        if (collision(panPlayer, bed)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        }
-        if (collision(panPlayer, toilet)) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        }
-        if (panPlayer.getTranslateY() >= 415) {
-            panPlayer.setTranslateY(panPlayer.getTranslateY() - 5);
-        }
+    private void y() {
+        imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
     }
 
     @FXML
-    public void keyPressed(KeyEvent event) {
+    public void keyPressed(KeyEvent event) throws IOException {
         if ((event.getCode() == KeyCode.D)) {
-            Right.setCycleCount(Timeline.INDEFINITE);
-            Right.play();
+            xvar = 1;
         }
         if ((event.getCode() == KeyCode.A)) {
-            Left.setCycleCount(Timeline.INDEFINITE);
-            Left.play();
+            xvar = -1;
         }
         if ((event.getCode() == KeyCode.W)) {
-            Up.setCycleCount(Timeline.INDEFINITE);
-            Up.play();
+            yvar = -1;
         }
         if ((event.getCode() == KeyCode.S)) {
-            Down.setCycleCount(Timeline.INDEFINITE);
-            Down.play();
+            yvar = 1;
+        }
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgDoor) && key) {
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
+            Scene home_page_scene = new Scene(home_page_parent);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.hide();
+            stage.setScene(home_page_scene);
+            stage.setTitle("Common Room");
+            stage.show();
+            home_page_scene.getRoot().requestFocus();
+        }
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgSTable)) {
+            imgKey.setVisible(false);
+            key = true;
         }
     }
 
     @FXML
     public void keyReleased(KeyEvent event) {
-        if ((event.getCode() == KeyCode.D)) {
-            Right.stop();
+        if (event.getCode() == KeyCode.D ) {
+            xvar = 0;
         }
-        if ((event.getCode() == KeyCode.A)) {
-            Left.stop();
+        if (event.getCode() == KeyCode.A ) {
+            xvar = 0;
         }
-        if ((event.getCode() == KeyCode.W)) {
-            Up.stop();
+        if (event.getCode() == KeyCode.W) {
+            yvar = 0;
+            imgPlayer.setImage(back);
         }
-        if ((event.getCode() == KeyCode.S)) {
-            Down.stop();
+        if (event.getCode() == KeyCode.S) {
+            yvar = 0;
+            imgPlayer.setImage(front);
         }
     }
 
-    //public boolean collision(ImageView imgP, ImageView imgO) {
-    //    return (imgP.getBoundsInParent().intersects(imgO.getBoundsInParent()));
-    //}
-      public boolean collision(Object block1, Object block2) {
-        try {
-            //If the objects can be changed to shapes just see if they intersect
-            Shape s1 = (Shape) block1;
-            Shape s2 = (Shape) block2;
-            Shape a = Shape.intersect(s1, s2);
-            return a.getBoundsInLocal().getWidth() != -1;
-        } catch (Exception e) {
-            //If the objects can't be changed to shapes, make a shape with there size and location
-            //Then rotate them
+    public boolean col(ImageView block1, ImageView block2) {
+        return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
+    }
 
-            //Gets the real location and size of the first object
-            double rectX = ((Node) block1).getLayoutX() + ((Node) block1).getTranslateX();
-            double rectY = ((Node) block1).getLayoutY() + ((Node) block1).getTranslateY();
-            double rectWidth = ((Node) block1).getBoundsInLocal().getWidth();
-            double rectHeight = ((Node) block1).getBoundsInLocal().getHeight();
-
-            //Gets the real location and sizr of the second object
-            double rectX2 = ((Node) block2).getLayoutX() + ((Node) block2).getTranslateX();
-            double rectY2 = ((Node) block2).getLayoutY() + ((Node) block2).getTranslateY();
-            double rectWidth2 = ((Node) block2).getBoundsInLocal().getWidth();
-            double rectHeight2 = ((Node) block2).getBoundsInLocal().getHeight();
-
-            //makes two new shapes and rotates them
-            Shape rect = new Rectangle(rectX, rectY, rectWidth, rectHeight);
-            Shape rect2 = new Rectangle(rectX2, rectY2, rectWidth2, rectHeight2);
-            rect.setRotate(((Node) ((Node) block1)).getRotate());
-            rect2.setRotate(((Node) block2).getRotate());
-            //Makes a new shapes of where they touch
-            Shape a = Shape.intersect(rect, rect2);
-
-            //returns if they touch
-            return a.getBoundsInLocal().getWidth() != -1;
-        }
-      }
-
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        Horizontal.setCycleCount(Timeline.INDEFINITE);
+        Vertical.setCycleCount(Timeline.INDEFINITE);
+        Horizontal.play();
+        Vertical.play();
+        if (key) {
+            imgKey.setVisible(false);
+        }
     }
 
 }
