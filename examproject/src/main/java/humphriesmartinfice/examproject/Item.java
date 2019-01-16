@@ -18,6 +18,7 @@ private String type;
 
     public Item() {
         icon = null;
+        type="Item";
     }
 
     public Item(int i) {
