@@ -12,7 +12,7 @@ package humphriesmartinfice.examproject;
 public class Warrior extends Weapon {
 
     public Warrior(int Level, String Attack1, String Attack2, String Attack3, String Attack4, double manaCost, int rarity, int damage, int sdamage, String Name, String Type) {
-        super(Level, "Smash", "Great Strike", "Slash", "Rage\nRaises Attack Briefly", (1 + Level), rarity, (4 +damage), Level, "Big Stick", "Warrior");
+        super(Level, "Smash", "Great Strike", "Slash", "Rage\nRaises Attack Briefly", (1 + Level), rarity, (2 * damage), Level, "Big Stick", "Warrior");
 
     }
 

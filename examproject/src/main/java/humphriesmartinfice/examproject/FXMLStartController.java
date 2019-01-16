@@ -30,6 +30,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -39,18 +40,27 @@ import javafx.scene.image.Image;
 public class FXMLStartController implements Initializable {
 
     @FXML
-    private ImageView imgKey, imgTable, imgBed, imgToilet, imgDoor, imgPoster, imgPlayer, imgTableS;
+    private ImageView imgKey, imgTable, imgBed, imgToilet, imgDoor, imgPoster, imgPlayer, imgSTable;
 
     private int xvar, yvar;
 
-    Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(15), ae -> x()));
-    Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(15), ae -> y()));
+    Image closed = new Image(getClass().getResource("/door closed.png").toString());
+    Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
+    Image front = new Image(getClass().getResource("/prisoner2.png").toString());
+
+    Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
+    Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
+
+    private boolean key;
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
-        if(col(imgTable, imgPlayer)|| col(imgPlayer, imgBed)||col(imgPlayer, imgToilet)|| imgPlayer.getLayoutX() >= 850 ||imgPlayer.getLayoutX() <= 3 || imgPlayer.getLayoutY() >= 540 ||imgPlayer.getLayoutY() <= 20 ){
-        imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
-        imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
+        if (col(imgTable, imgPlayer) || col(imgPlayer, imgBed) || col(imgPlayer, imgToilet) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+            imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
+            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
+        }
+        if (col(imgPlayer, imgDoor) && key) {
+            imgDoor.setImage(closed);
         }
     }
 
@@ -61,22 +71,19 @@ public class FXMLStartController implements Initializable {
     @FXML
     public void keyPressed(KeyEvent event) throws IOException {
         if ((event.getCode() == KeyCode.D)) {
-            xvar = 3;
+            xvar = 1;
         }
         if ((event.getCode() == KeyCode.A)) {
-            xvar = -3;
+            xvar = -1;
         }
         if ((event.getCode() == KeyCode.W)) {
-            yvar = -3;
+            yvar = -1;
         }
         if ((event.getCode() == KeyCode.S)) {
-            yvar = 3;
+            yvar = 1;
         }
-        if(col(imgPlayer, imgDoor)&& imgKey.isVisible() == false){
-        imgDoor.setImage(new Image(getClass().getResource("/door closed.png").toString()));
-        }
-        if(event.getCode() == KeyCode.E && col(imgPlayer, imgDoor) && imgKey.isVisible() == false){
-            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); 
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgDoor) && key) {
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.hide();
@@ -85,18 +92,27 @@ public class FXMLStartController implements Initializable {
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
-        if(event.getCode() == KeyCode.E && col(imgPlayer, imgTableS)){
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgSTable)) {
             imgKey.setVisible(false);
+            key = true;
         }
     }
 
     @FXML
     public void keyReleased(KeyEvent event) {
-        if ((event.getCode() == KeyCode.D || event.getCode() == KeyCode.A)) {
+        if (event.getCode() == KeyCode.D ) {
             xvar = 0;
         }
-        if ((event.getCode() == KeyCode.W || event.getCode() == KeyCode.S)) {
+        if (event.getCode() == KeyCode.A ) {
+            xvar = 0;
+        }
+        if (event.getCode() == KeyCode.W) {
             yvar = 0;
+            imgPlayer.setImage(back);
+        }
+        if (event.getCode() == KeyCode.S) {
+            yvar = 0;
+            imgPlayer.setImage(front);
         }
     }
 
@@ -110,6 +126,9 @@ public class FXMLStartController implements Initializable {
         Vertical.setCycleCount(Timeline.INDEFINITE);
         Horizontal.play();
         Vertical.play();
+        if (key) {
+            imgKey.setVisible(false);
+        }
     }
 
 }
