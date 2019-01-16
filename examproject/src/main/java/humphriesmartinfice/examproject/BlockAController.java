@@ -24,7 +24,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
@@ -38,31 +41,45 @@ public class BlockAController implements Initializable {
     @FXML
     private Pane panPlayer, panEnemy, panTourn;
     @FXML
-    private Polygon polPlayer, polEnemy;
+    private Polygon polPlayer, polEnemy, polDoor;
     @FXML
     private Button btnFight1, btnFight2, btnFight3, btnFight4;
     @FXML
     private Label lblFight1, lblFight2, lblFight3, lblFight4;
+    @FXML
+    private ImageView imgCommonRoom;
 
     private double xvar = 0;
     private double yvar = 0;
 
-    Timeline xmove = new Timeline(new KeyFrame(Duration.millis(15), ae -> x()));
-    Timeline ymove = new Timeline(new KeyFrame(Duration.millis(15), ae -> y()));
+    Image closed = new Image(getClass().getResource("/door closed.png").toString());
+    Image open = new Image(getClass().getResource("/door_open.png").toString());
+    Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
+    Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
 
     @FXML
-    private void move(KeyEvent e) {
+    private void move(KeyEvent e) throws IOException {
         if (e.getCode() == KeyCode.D) {
-            xvar = 4;
+            xvar = 1;
         }
         if (e.getCode() == KeyCode.A) {
-            xvar = -4;
+            xvar = -1;
         }
         if (e.getCode() == KeyCode.S) {
-            yvar = 4;
+            yvar = 1;
         }
         if (e.getCode() == KeyCode.W) {
-            yvar = -4;
+            yvar = -1;
+        }
+        if (e.getCode() == KeyCode.E && col(polPlayer, polDoor)) {
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); // now hosting the testing grounds for combat
+            Scene scene = new Scene(home_page_parent);
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.hide();
+            stage.setScene(scene);
+            stage.setTitle("Common Room");
+            stage.show();
+            home_page_parent.requestFocus();
         }
     }
 
@@ -85,6 +102,9 @@ public class BlockAController implements Initializable {
     private void x() {
         if (panTourn.isVisible() == false) {
             panPlayer.setLayoutX(panPlayer.getLayoutX() + xvar);
+        }
+        if (panPlayer.getLayoutX() >= 830 || panPlayer.getLayoutX() <= 0 || panPlayer.getLayoutY() >= 470 || panPlayer.getLayoutY() <= 30) {
+            panPlayer.setLayoutX(panPlayer.getLayoutX() - xvar);
         }
         if (col(polPlayer, polEnemy)) {
             panTourn.setVisible(true);
@@ -111,11 +131,20 @@ public class BlockAController implements Initializable {
                 lblFight4.setText("Head Guard Johnathan\nEnemy Level: " + (getLevel() + 10));
             }
         }
+        if (col(polDoor,polPlayer)) {
+            imgCommonRoom.setImage(open);
+        }
+        if (col(polDoor,polPlayer)== false) {
+            imgCommonRoom.setImage(closed);
+        }
     }
 
     private void y() {
         if (panTourn.isVisible() == false) {
             panPlayer.setLayoutY(panPlayer.getLayoutY() + yvar);
+        }
+        if (panPlayer.getLayoutX() >= 830 || panPlayer.getLayoutX() <= 0 || panPlayer.getLayoutY() >= 470 || panPlayer.getLayoutY() <= 30) {
+            panPlayer.setLayoutY(panPlayer.getLayoutY() - yvar);
         }
     }
 
@@ -143,7 +172,7 @@ public class BlockAController implements Initializable {
         if (btnFight4.isArmed()) {
             enemies.add(new Enemy(getLevel() + 10));
         }
-        MainApp.saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), panPlayer.getLayoutX(), panPlayer.getLayoutY());
+        saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 300, 340);
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml")); // now hosting the testing grounds for combat
         Scene scene = new Scene(home_page_parent);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -161,7 +190,7 @@ public class BlockAController implements Initializable {
         ymove.setCycleCount(Timeline.INDEFINITE);
         xmove.play();
         ymove.play();
-        panPlayer.setLayoutX(getLocX() - 10);
+        panPlayer.setLayoutX(getLocX());
         panPlayer.setLayoutY(getLocY());
     }
 

@@ -92,6 +92,7 @@ public class FXMLStartController implements Initializable {
     private int xvar, yvar;
 
     Image closed = new Image(getClass().getResource("/door closed.png").toString());
+    Image open = new Image(getClass().getResource("/door_open.png").toString());
     Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
     Image front = new Image(getClass().getResource("/prisoner2.png").toString());
 
@@ -107,7 +108,10 @@ public class FXMLStartController implements Initializable {
             imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
         }
         if (col(imgPlayer, imgDoor) && key) {
-            imgDoor.setImage(closed);
+            imgDoor.setImage(open);
+        }
+        if(col(imgPlayer,imgDoor) == false){
+        imgDoor.setImage(closed);
         }
     }
 
@@ -162,10 +166,10 @@ public class FXMLStartController implements Initializable {
 
     @FXML
     public void keyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.D ) {
+        if (event.getCode() == KeyCode.D) {
             xvar = 0;
         }
-        if (event.getCode() == KeyCode.A ) {
+        if (event.getCode() == KeyCode.A) {
             xvar = 0;
         }
         if (event.getCode() == KeyCode.W) {
