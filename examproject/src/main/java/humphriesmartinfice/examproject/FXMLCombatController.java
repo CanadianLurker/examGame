@@ -352,6 +352,7 @@ public class FXMLCombatController implements Initializable {
             stage.hide();
             stage.setScene(scene);
             stage.setTitle("Prison Escape");
+            stage.setResizable(false);
             stage.show();
             scene.getRoot().requestFocus();
 //link back to where the fight started in the "explore" state

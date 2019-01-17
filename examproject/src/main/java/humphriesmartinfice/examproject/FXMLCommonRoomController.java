@@ -81,16 +81,16 @@ public class FXMLCommonRoomController implements Initializable {
         if (col(imgPlayer, imgGuardRoom)) {
             imgGuardRoom.setImage(open);
         }
-        if (col(imgPlayer, imgCell)== false) {
+        if (col(imgPlayer, imgCell) == false) {
             imgCell.setImage(closed);
         }
         if (col(imgPlayer, imgBlockA) == false) {
             imgBlockA.setImage(closed);
         }
-        if (col(imgPlayer, imgBlockB)== false) {
+        if (col(imgPlayer, imgBlockB) == false) {
             imgBlockB.setImage(closed);
         }
-        if (col(imgPlayer, imgGuardRoom)== false) {
+        if (col(imgPlayer, imgGuardRoom) == false) {
             imgGuardRoom.setImage(closed);
         }
     }
@@ -110,25 +110,28 @@ public class FXMLCommonRoomController implements Initializable {
             yvar = 1;
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgBlockA)) {
-            saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 750,88);
+            saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 750, 88);
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.hide();
             stage.setScene(home_page_scene);
             stage.setTitle("Block A");
+            stage.setResizable(false);
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgGuardRoom)) {
-            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLGuardRoom.fxml"));
-            Scene home_page_scene = new Scene(home_page_parent);
+            Parent parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLGuardRoom.fxml"));
+            Scene scene = new Scene(parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.hide();
-            stage.setScene(home_page_scene);
+            stage.setScene(scene);
+            stage.setWidth(900);
             stage.setTitle("Guard Room");
+            stage.setResizable(false);
             stage.show();
-            home_page_scene.getRoot().requestFocus();
+            parent.requestFocus();
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgBlockB)) {
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml"));
@@ -137,6 +140,7 @@ public class FXMLCommonRoomController implements Initializable {
             stage.hide();
             stage.setScene(home_page_scene);
             stage.setTitle("Block B");
+            stage.setResizable(false);
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
@@ -147,6 +151,7 @@ public class FXMLCommonRoomController implements Initializable {
             stage.hide();
             stage.setScene(home_page_scene);
             stage.setTitle("Your Cell");
+            stage.setResizable(false);
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
