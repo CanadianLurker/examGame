@@ -41,51 +41,7 @@ import javafx.scene.paint.Color;
  * @author n00bi
  */
 public class FXMLStartController implements Initializable {
-    @FXML
-    ImageView img1,
-
     
-     img2,
-    
-     img3,
-    
-     img4,
-    
-     img5,
-    
-     img6,
-    
-     img7,
-    
-     img8,
-    
-     img9;
-
-   @FXML
-    Rectangle rec1,
-
-    
-     rec2,
-    
-     rec3,
-    
-     rec4,
-    
-     rec5,
-    
-     rec6,
-    
-     rec7,
-    
-     rec8,
-    
-     rec9;
-   
-   
-   @FXML
-    Pane pnlInv;
-    @FXML
-     TextField txtIn;
     @FXML
     private ImageView imgKey, imgTable, imgBed, imgToilet, imgDoor, imgPoster, imgPlayer, imgSTable;
 
@@ -119,6 +75,14 @@ public class FXMLStartController implements Initializable {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
     @FXML
     public void keyPressed(KeyEvent event) throws IOException {
         if ((event.getCode() == KeyCode.D)) {
@@ -186,6 +150,60 @@ public class FXMLStartController implements Initializable {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @FXML
+    ImageView img1,
+
+    
+     img2,
+    
+     img3,
+    
+     img4,
+    
+     img5,
+    
+     img6,
+    
+     img7,
+    
+     img8,
+    
+     img9;
+
+   @FXML
+    Rectangle rec1,
+
+    
+     rec2,
+    
+     rec3,
+    
+     rec4,
+    
+     rec5,
+    
+     rec6,
+    
+     rec7,
+    
+     rec8,
+    
+     rec9;
+   
+   
+   @FXML
+    Pane pnlInv;
+    @FXML
+     TextField txtIn;
     
      @FXML
     private void click(MouseEvent e) {
