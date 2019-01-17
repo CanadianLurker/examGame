@@ -26,15 +26,13 @@ public class FXMLController implements Initializable {
     @FXML
     private void btnLoad(ActionEvent event) throws IOException {
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
-
         Scene home_page_scene = new Scene(home_page_parent);
         //get reference to the stage 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
         stage.hide(); //optional
         stage.setScene(home_page_scene); //puts the new scence in the stage
-
         stage.setTitle("Spawn Room"); //changes the title
+        stage.setResizable(false);
         stage.show(); //shows the new page
         home_page_scene.getRoot().requestFocus();
     }
@@ -55,7 +53,7 @@ public class FXMLController implements Initializable {
         setINT(1);
         setSTR(1);
         setDEX(1);
-        setLevel(1);
+        setLevel(30);
         setHealthMAX();
         setHealth(getHealthMAX());
         setManaMAX();

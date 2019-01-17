@@ -93,6 +93,7 @@ public class FXMLStartController implements Initializable {
             stage.hide();
             stage.setScene(home_page_scene);
             stage.setTitle("Common Room");
+            stage.setResizable(false);
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
