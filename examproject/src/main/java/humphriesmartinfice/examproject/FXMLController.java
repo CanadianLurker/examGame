@@ -49,6 +49,9 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+for (int i = 0; i < 9; i++) {
+    MainApp.inventory[i] = new Item();
+         }
         //Only used for testing purposes//
         setINT(1);
         setSTR(1);
