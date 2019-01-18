@@ -394,7 +394,6 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
                  MainApp.inv[i][j] = 0;
-                 MainApp.inventory[i] = new Item();
                  MainApp.IS[i] = new InnerShadow();
 
                  MainApp.rec[i].setFill(Color.GREY);

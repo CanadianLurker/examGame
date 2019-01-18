@@ -129,6 +129,9 @@ public class FXMLStartController implements Initializable {
            home_page_scene.getRoot().requestFocus();*/
             }
         }
+        if ((event.getCode() == KeyCode.P)) {
+            MainApp.addToInventory("WWA005009WRD005009WWD005009OIZ000000WRB110090WMA999709OIZ000000WMA900080OIZ000000");
+        }
     }
 
     @FXML
@@ -314,7 +317,6 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
                  MainApp.inv[i][j] = 0;
-                 MainApp.inventory[i] = new Item();
                  MainApp.IS[i] = new InnerShadow();
 
                  MainApp.rec[i].setFill(Color.GREY);

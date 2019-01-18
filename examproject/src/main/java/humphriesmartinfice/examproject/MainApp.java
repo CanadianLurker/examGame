@@ -291,6 +291,7 @@ public class MainApp extends Application {
            // inv[i][1] = inventory[i].getClass().getSimpleName().charAt(0);                 //not usable
             //new
             inv[i][0]=inventory[i].getClass().getSuperclass().getSimpleName().charAt(0);
+            System.out.println("type "+inventory[i].getType());
             inv[i][1] = inventory[i].getType().charAt(0);
             
             s = s + inv[i][0] + inv[i][1] + inv[i][2] + sInv[i][0] + sInv[i][1]; //[4] added 
@@ -374,6 +375,7 @@ public class MainApp extends Application {
         sInv[j][1]="";
             inv[j][0] = s.charAt(i);
             inv[j][1] = s.charAt(i + 1);
+            System.out.println("!!!!!!!!!!!!!!!!!!!!"+inv[j][1]);
             inv[j][2] = s.charAt(i + 2);
             sInv[j][0] = sInv[j][0] + s.charAt(i + 3);
             sInv[j][0] = sInv[j][0] + s.charAt(i + 4);
@@ -436,7 +438,7 @@ public class MainApp extends Application {
                  
             } catch (NumberFormatException numberFormatException) {
                 for (int q = 0; q <3 ; q++) {
-                System.out.println("welp.");
+                
                
                  if (sInv[i][1].startsWith("0")){
                     sInv[i][1].replaceFirst("0", "");
@@ -450,7 +452,7 @@ public class MainApp extends Application {
             }
             }
             ////
-            
+            System.out.println("inv "+inv[i][1]);
             // blank, delete item
             if (inv[i][0] == 'O') {
 
