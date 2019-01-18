@@ -123,6 +123,7 @@ public class FXMLCommonRoomController implements Initializable {
             stage.hide();
             stage.setScene(scene);
             stage.setWidth(900);
+            
             stage.setTitle("Guard Room");
             stage.setResizable(false);
             stage.show();

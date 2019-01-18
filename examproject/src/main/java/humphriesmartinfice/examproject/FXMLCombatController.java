@@ -224,6 +224,9 @@ public class FXMLCombatController implements Initializable {
     private void enemyTurn() {
         if (DOT) { //checks to see if enemy has a dot on them
             double dotd = weapon.Attack3(enemies.get(0).getDefence());
+            if(dotd < 0){
+            dotd = 0;
+            }
             enemies.get(0).setHealth(enemies.get(0).getHealth() - dotd);
             listLog.getItems().add(dotd + " damage dealt to enemy by dot!");
             count--;

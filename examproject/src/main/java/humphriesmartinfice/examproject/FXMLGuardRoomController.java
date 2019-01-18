@@ -5,6 +5,7 @@ package humphriesmartinfice.examproject;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import static humphriesmartinfice.examproject.MainApp.getArea;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,10 +38,6 @@ public class FXMLGuardRoomController implements Initializable {
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
 
-    private Parent parent;
-    private Scene scene;
-    private Stage stage;
-
     @FXML
     private void move(KeyEvent e) {
         if (e.getCode() == KeyCode.D) {
@@ -54,6 +51,9 @@ public class FXMLGuardRoomController implements Initializable {
         }
         if (e.getCode() == KeyCode.W) {
             yvar = -1;
+        }
+        if(e.getCode() == KeyCode.E){
+        
         }
     }
 
@@ -82,9 +82,8 @@ public class FXMLGuardRoomController implements Initializable {
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
-        if (imgPlayer.getLayoutX() >= 1730 || imgPlayer.getLayoutX() <= 0) {
+        if (imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
-
         }
     }
 
@@ -94,12 +93,6 @@ public class FXMLGuardRoomController implements Initializable {
         ymove.setCycleCount(Timeline.INDEFINITE);
         xmove.play();
         ymove.play();
-        try {
-            parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLGuardRoom.fxml"));
-        } catch (IOException ex) {
-        }
-        scene = new Scene(parent);
-        stage.setScene(scene);
     }
 
 }

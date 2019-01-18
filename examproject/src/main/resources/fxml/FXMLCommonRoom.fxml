@@ -32,7 +32,7 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgCell" fitHeight="131.0" fitWidth="131.0" layoutX="217.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgCell" fitHeight="131.0" fitWidth="131.0" layoutX="217.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../door%20closed.png" />
          </image>
@@ -47,12 +47,12 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <ImageView fitHeight="139.0" fitWidth="145.0" layoutX="462.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="139.0" fitWidth="145.0" layoutX="462.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../door%20closed.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="imgBlockB" fitHeight="131.0" fitWidth="139.0" layoutX="725.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgBlockB" fitHeight="131.0" fitWidth="139.0" layoutX="725.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../door%20closed.png" />
          </image>
@@ -73,7 +73,7 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <ImageView fx:id="imgGuardRoom" fitHeight="157.0" fitWidth="165.0" layoutX="725.0" layoutY="449.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgGuardRoom" fitHeight="157.0" fitWidth="165.0" layoutX="725.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../door%20closed.png" />
          </image>
@@ -88,12 +88,12 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgBlockA" fitHeight="139.0" fitWidth="139.0" layoutX="120.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgBlockA" fitHeight="175.0" fitWidth="157.0" layoutX="117.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../door%20closed.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="157.0" fitWidth="157.0" layoutX="394.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="157.0" fitWidth="157.0" layoutX="396.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../door%20closed.png" />
          </image>
