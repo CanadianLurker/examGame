@@ -24,7 +24,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
@@ -38,31 +45,67 @@ public class BlockAController implements Initializable {
     @FXML
     private Pane panPlayer, panEnemy, panTourn;
     @FXML
-    private Polygon polPlayer, polEnemy;
+    private Polygon polPlayer, polEnemy, polDoor;
     @FXML
     private Button btnFight1, btnFight2, btnFight3, btnFight4;
     @FXML
     private Label lblFight1, lblFight2, lblFight3, lblFight4;
+    @FXML
+    private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3;
 
     private double xvar = 0;
     private double yvar = 0;
 
-    Timeline xmove = new Timeline(new KeyFrame(Duration.millis(15), ae -> x()));
-    Timeline ymove = new Timeline(new KeyFrame(Duration.millis(15), ae -> y()));
+    private Stage stage;
+    private Scene scene;
+
+    Image closed = new Image(getClass().getResource("/door closed.png").toString());
+    Image open = new Image(getClass().getResource("/door_open.png").toString());
+
+    Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
+    Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
+    Timeline enemymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> yes()));
+    //  Timeline buffer = new Timeline(new KeyFrame(Duration.millis(5), ae -> goFight()));
 
     @FXML
-    private void move(KeyEvent e) {
+    private void move(KeyEvent e) throws IOException {
         if (e.getCode() == KeyCode.D) {
-            xvar = 4;
+            xvar = 1;
         }
         if (e.getCode() == KeyCode.A) {
-            xvar = -4;
+            xvar = -1;
         }
         if (e.getCode() == KeyCode.S) {
-            yvar = 4;
+            yvar = 1;
         }
         if (e.getCode() == KeyCode.W) {
-            yvar = -4;
+            yvar = -1;
+        }
+        if (e.getCode() == KeyCode.E && col(polPlayer, polDoor)) {
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); // now hosting the testing grounds for combat
+            scene = new Scene(home_page_parent);
+            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.hide();
+            stage.setScene(scene);
+            stage.setTitle("Common Room");
+            stage.setResizable(false);
+            stage.show();
+            home_page_parent.requestFocus();
+        }
+         if ((e.getCode() == KeyCode.I)) {
+            if(!MainApp.invVis){
+            MainApp.invVis=true;
+            pnlInv.setVisible(true);
+            /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+            Scene home_page_scene = new Scene(home_page_parent);
+            home_page_scene.getRoot().requestFocus();*/
+            }else{
+                 MainApp.invVis=false;
+           pnlInv.setVisible(false);
+           /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+           Scene home_page_scene = new Scene(home_page_parent);
+           home_page_scene.getRoot().requestFocus();*/
+            }
         }
     }
 
@@ -85,6 +128,9 @@ public class BlockAController implements Initializable {
     private void x() {
         if (panTourn.isVisible() == false) {
             panPlayer.setLayoutX(panPlayer.getLayoutX() + xvar);
+        }
+        if (panPlayer.getLayoutX() >= 830 || panPlayer.getLayoutX() <= 0 || panPlayer.getLayoutY() >= 470 || panPlayer.getLayoutY() <= 30) {
+            panPlayer.setLayoutX(panPlayer.getLayoutX() - xvar);
         }
         if (col(polPlayer, polEnemy)) {
             panTourn.setVisible(true);
@@ -111,11 +157,20 @@ public class BlockAController implements Initializable {
                 lblFight4.setText("Head Guard Johnathan\nEnemy Level: " + (getLevel() + 10));
             }
         }
+        if (col(polDoor, polPlayer)) {
+            imgCommonRoom.setImage(open);
+        }
+        if (col(polDoor, polPlayer) == false) {
+            imgCommonRoom.setImage(closed);
+        }
     }
 
     private void y() {
         if (panTourn.isVisible() == false) {
             panPlayer.setLayoutY(panPlayer.getLayoutY() + yvar);
+        }
+        if (panPlayer.getLayoutX() >= 830 || panPlayer.getLayoutX() <= 0 || panPlayer.getLayoutY() >= 470 || panPlayer.getLayoutY() <= 30) {
+            panPlayer.setLayoutY(panPlayer.getLayoutY() - yvar);
         }
     }
 
@@ -143,26 +198,229 @@ public class BlockAController implements Initializable {
         if (btnFight4.isArmed()) {
             enemies.add(new Enemy(getLevel() + 10));
         }
-        MainApp.saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), panPlayer.getLayoutX(), panPlayer.getLayoutY());
+        panTourn.setVisible(false);
+        xmove.stop();
+        ymove.stop();
+        EnemyEmerge(enemies.size());
+        saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 300, 340);
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml")); // now hosting the testing grounds for combat
-        Scene scene = new Scene(home_page_parent);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.hide();
-        stage.setScene(scene);
-        stage.setTitle("Combat!!!");
-        stage.show();
+        scene = new Scene(home_page_parent);
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.setResizable(false);
+    }
+
+    private void EnemyEmerge(int i) {
+        if (i == 1) {
+            imgEnemy2.setVisible(true);
+        }
+        if (i == 2) {
+            imgEnemy1.setVisible(true);
+            imgEnemy3.setVisible(true);
+        }
+        if (i == 3) {
+            imgEnemy1.setVisible(true);
+            imgEnemy2.setVisible(true);
+            imgEnemy3.setVisible(true);
+        }
+        enemymove.setCycleCount(Timeline.INDEFINITE);
+        enemymove.play();
+    }
+
+    private void yes() {
+        if (imgEnemy1.getLayoutY() < 200) {
+            imgEnemy1.setLayoutY(imgEnemy1.getLayoutY() + 1);
+            imgEnemy2.setLayoutY(imgEnemy2.getLayoutY() + 1);
+            imgEnemy3.setLayoutY(imgEnemy3.getLayoutY() + 1);
+            if (imgEnemy1.isVisible()) {
+                imgDoor1.setImage(open);
+            }
+            if (imgEnemy2.isVisible()) {
+                imgDoor2.setImage(open);
+            }
+            if (imgEnemy3.isVisible()) {
+                imgDoor3.setImage(open);
+            }
+        }
+        if (imgEnemy1.getLayoutY() >= 200) {
+            enemymove.stop();
+            imgDoor1.setImage(closed);
+            imgDoor2.setImage(closed);
+            imgDoor3.setImage(closed);
+            stage.hide();
+            stage.setScene(scene);
+            stage.setTitle("Combat!!!");
+            stage.show();
+        }
+    }
+     @FXML
+    ImageView img1,
+
+    
+     img2,
+    
+     img3,
+    
+     img4,
+    
+     img5,
+    
+     img6,
+    
+     img7,
+    
+     img8,
+    
+     img9;
+
+   @FXML
+    Rectangle rec1,
+
+    
+     rec2,
+    
+     rec3,
+    
+     rec4,
+    
+     rec5,
+    
+     rec6,
+    
+     rec7,
+    
+     rec8,
+    
+     rec9;
+   
+   
+   @FXML
+    Pane pnlInv;
+    @FXML
+     TextField txtIn;
+    
+     @FXML
+    private void click(MouseEvent e) {
+
+        MainApp.selected = (ImageView) e.getSource();
+
+        for (int i = 0; i < 9; i++) {
+
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                MainApp.rec[i].toFront();
+                MainApp.iSpaces[i].toFront();
+                MainApp.rec[i].setFill(Color.BLACK);
+                
+                
+                ////////////// make sure to change damage
+                
+                
+if(MainApp.inventory[i].getType().equals("Warrior")){
+                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage()/2); //////////damage!!!!!!!!!!
+}
+
+else if(MainApp.inventory[i].getType().equals("Rogue")){
+                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+(MainApp.inventory[i].getDamage()-2));      //////////damage!!!!!!!!!!
+}else{
+    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+}
+
+
+            } else {
+                MainApp.rec[i].setFill(Color.GREY);
+
+            }
+        }
+
+    }
+
+    @FXML
+    private void paneClick(MouseEvent e) {
+        for (int i = 0; i < 9; i++) {
+            MainApp.rec[i].setFill(Color.GREY);
+            MainApp.selected = null;
+        }
+
+    }
+
+    @FXML
+    private void btnDelete() {
+        for (int i = 0; i < 9; i++) {
+
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                MainApp.inventory[i] = new Item();
+                MainApp.iSpaces[i].toFront();
+
+                MainApp.iSpaces[i].setEffect(null);
+                MainApp.displayIcons();
+
+            }
+        }
+    }
+
+    ////not needed{
+    @FXML
+    private void btnIn() {
+        MainApp.addToInventory(txtIn.getText());
+    }
+
+    @FXML
+    private void save() {
+        System.out.println(MainApp.saveInventory());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Shit not broke yo");
         panTourn.setVisible(false);
         xmove.setCycleCount(Timeline.INDEFINITE);
         ymove.setCycleCount(Timeline.INDEFINITE);
         xmove.play();
         ymove.play();
-        panPlayer.setLayoutX(getLocX() - 10);
+        panPlayer.setLayoutX(getLocX());
         panPlayer.setLayoutY(getLocY());
+        
+        
+        
+       
+        
+        MainApp.rec[0] = rec1;
+         MainApp.rec[1] = rec2;
+         MainApp.rec[2] = rec3;
+         MainApp.rec[3] = rec4;
+         MainApp.rec[4] = rec5;
+         MainApp.rec[5] = rec6;
+         MainApp.rec[6] = rec7;
+         MainApp.rec[7] = rec8;
+         MainApp.rec[8] = rec9;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 3; j++) {
+                 MainApp.inv[i][j] = 0;
+                 MainApp.inventory[i] = new Item();
+                 MainApp.IS[i] = new InnerShadow();
+
+                 MainApp.rec[i].setFill(Color.GREY);
+            }
+
+        }
+         MainApp.iSpaces[0] = img1;
+         MainApp.iSpaces[1] = img2;
+         MainApp.iSpaces[2] = img3;
+         MainApp.iSpaces[3] = img4;
+         MainApp.iSpaces[4] = img5;
+         MainApp.iSpaces[5] = img6;
+         MainApp.iSpaces[6] = img7;
+         MainApp.iSpaces[7] = img8;
+         MainApp.iSpaces[8] = img9;
+         
+         MainApp.txtIn=txtIn;
+         MainApp.img1=img1;
+         MainApp.img2=img2;
+         MainApp.img3=img3;
+         MainApp.img4=img4;
+         MainApp.img5=img5;
+         MainApp.img6=img6;
+         MainApp.img7=img7;
+         MainApp.img8=img8;
+         MainApp.img9=img9;
     }
 
 }
