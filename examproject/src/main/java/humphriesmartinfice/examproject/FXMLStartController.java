@@ -59,20 +59,22 @@ public class FXMLStartController implements Initializable {
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
-        if (col(imgTable, imgPlayer) || col(imgPlayer, imgBed) || col(imgPlayer, imgToilet) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+        if (col(imgTable, imgPlayer) || col(imgPlayer, imgBed) || col(imgPlayer, imgToilet) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
-            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
         }
         if (col(imgPlayer, imgDoor) && key) {
             imgDoor.setImage(open);
         }
-        if(col(imgPlayer,imgDoor) == false){
-        imgDoor.setImage(closed);
+        if (col(imgPlayer, imgDoor) == false) {
+            imgDoor.setImage(closed);
         }
     }
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
+        if (col(imgTable, imgPlayer) || col(imgPlayer, imgBed) || col(imgPlayer, imgToilet) || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
+        }
     }
 
     

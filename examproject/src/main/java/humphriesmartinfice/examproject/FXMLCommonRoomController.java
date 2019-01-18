@@ -59,14 +59,14 @@ public class FXMLCommonRoomController implements Initializable {
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
-        if (col(imgGuard, imgPlayer) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+        if (col(imgGuard, imgPlayer)|| imgPlayer.getLayoutY() >= 420 || imgPlayer.getLayoutY() <= 30) {
             imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
         }
     }
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
-        if (col(imgGuard, imgPlayer) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+        if (col(imgGuard, imgPlayer) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
         }
         if (col(imgPlayer, imgCell)) {
@@ -128,21 +128,22 @@ public class FXMLCommonRoomController implements Initializable {
             stage.hide();
             stage.setScene(scene);
             stage.setWidth(900);
+            
             stage.setTitle("Guard Room");
             stage.setResizable(false);
             stage.show();
             parent.requestFocus();
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgBlockB)) {
-            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml"));
-            Scene home_page_scene = new Scene(home_page_parent);
+            Parent parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml"));
+            Scene scene = new Scene(parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.hide();
-            stage.setScene(home_page_scene);
+            stage.setScene(scene);
             stage.setTitle("Block B");
             stage.setResizable(false);
             stage.show();
-            home_page_scene.getRoot().requestFocus();
+            parent.requestFocus();
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgCell)) {
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
