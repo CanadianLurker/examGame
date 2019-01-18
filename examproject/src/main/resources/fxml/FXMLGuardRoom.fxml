@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#move" onKeyReleased="#rmove" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLGuardRoomController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#move" onKeyReleased="#rmove" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: a6a6a6;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLGuardRoomController">
    <children>
       <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="289.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true">
          <image>

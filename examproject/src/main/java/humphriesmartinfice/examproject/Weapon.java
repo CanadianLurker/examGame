@@ -35,8 +35,6 @@ public class Weapon extends Item {
         }
         this.setLevel(Level); 
         this.type = Type;
-        this.setDamage(damage);
-        this.setRarity(rarity);
     }
 /*
     public int getDamage() {
@@ -100,8 +98,7 @@ public class Weapon extends Item {
     }
 
     public void WarriorAttack() {
-
-        extrawar = damage * (3 / 2);
+        extrawar = this.getDamage() * (3 / 2);
     }
 
     public void ResetWar() {

@@ -5,15 +5,21 @@ package humphriesmartinfice.examproject;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import static humphriesmartinfice.examproject.MainApp.getArea;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -46,6 +52,9 @@ public class FXMLGuardRoomController implements Initializable {
         if (e.getCode() == KeyCode.W) {
             yvar = -1;
         }
+        if(e.getCode() == KeyCode.E){
+        
+        }
     }
 
     @FXML
@@ -66,13 +75,15 @@ public class FXMLGuardRoomController implements Initializable {
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
+        if (imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
+        }
     }
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
-        if (imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
+        if (imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
-            imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
         }
     }
 

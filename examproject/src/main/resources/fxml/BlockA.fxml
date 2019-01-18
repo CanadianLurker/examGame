@@ -59,6 +59,36 @@
          </children>
       </Pane>
       <Polygon fx:id="polDoor" fill="DODGERBLUE" layoutX="784.0" layoutY="67.0" points="-57.0, 72.0, 58.0, 72.0, 58.0, -49.0, -57.0, -49.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+      <ImageView fx:id="imgDoor3" fitHeight="139.0" fitWidth="139.0" layoutX="425.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../door%20closed.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgDoor2" fitHeight="139.0" fitWidth="139.0" layoutX="229.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../door%20closed.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgDoor1" fitHeight="139.0" fitWidth="139.0" layoutX="32.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../door%20closed.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgEnemy3" fitHeight="136.0" fitWidth="135.0" layoutX="460.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../prisoner.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgEnemy1" fitHeight="136.0" fitWidth="135.0" layoutX="67.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../prisoner.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgEnemy2" fitHeight="136.0" fitWidth="135.0" layoutX="264.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../prisoner.png" />
+         </image>
+      </ImageView>
       <Pane fx:id="panTourn" layoutX="164.0" layoutY="95.0" prefHeight="410.0" prefWidth="573.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff;" stylesheets="@../styles/Styles.css" visible="false">
          <children>
             <Button fx:id="btnFight1" layoutX="11.0" layoutY="110.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0">

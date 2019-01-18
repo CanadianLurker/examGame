@@ -47,15 +47,21 @@ public class BlockAController implements Initializable {
     @FXML
     private Label lblFight1, lblFight2, lblFight3, lblFight4;
     @FXML
-    private ImageView imgCommonRoom;
+    private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3;
 
     private double xvar = 0;
     private double yvar = 0;
 
+    private Stage stage;
+    private Scene scene;
+
     Image closed = new Image(getClass().getResource("/door closed.png").toString());
     Image open = new Image(getClass().getResource("/door_open.png").toString());
+
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
+    Timeline enemymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> yes()));
+    //  Timeline buffer = new Timeline(new KeyFrame(Duration.millis(5), ae -> goFight()));
 
     @FXML
     private void move(KeyEvent e) throws IOException {
@@ -73,11 +79,12 @@ public class BlockAController implements Initializable {
         }
         if (e.getCode() == KeyCode.E && col(polPlayer, polDoor)) {
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); // now hosting the testing grounds for combat
-            Scene scene = new Scene(home_page_parent);
-            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            scene = new Scene(home_page_parent);
+            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             stage.hide();
             stage.setScene(scene);
             stage.setTitle("Common Room");
+            stage.setResizable(false);
             stage.show();
             home_page_parent.requestFocus();
         }
@@ -131,10 +138,10 @@ public class BlockAController implements Initializable {
                 lblFight4.setText("Head Guard Johnathan\nEnemy Level: " + (getLevel() + 10));
             }
         }
-        if (col(polDoor,polPlayer)) {
+        if (col(polDoor, polPlayer)) {
             imgCommonRoom.setImage(open);
         }
-        if (col(polDoor,polPlayer)== false) {
+        if (col(polDoor, polPlayer) == false) {
             imgCommonRoom.setImage(closed);
         }
     }
@@ -172,19 +179,63 @@ public class BlockAController implements Initializable {
         if (btnFight4.isArmed()) {
             enemies.add(new Enemy(getLevel() + 10));
         }
+        panTourn.setVisible(false);
+        xmove.stop();
+        ymove.stop();
+        EnemyEmerge(enemies.size());
         saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 300, 340);
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml")); // now hosting the testing grounds for combat
-        Scene scene = new Scene(home_page_parent);
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.hide();
-        stage.setScene(scene);
-        stage.setTitle("Combat!!!");
-        stage.show();
+        scene = new Scene(home_page_parent);
+        stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.setResizable(false);
+    }
+
+    private void EnemyEmerge(int i) {
+        if (i == 1) {
+            imgEnemy2.setVisible(true);
+        }
+        if (i == 2) {
+            imgEnemy1.setVisible(true);
+            imgEnemy3.setVisible(true);
+        }
+        if (i == 3) {
+            imgEnemy1.setVisible(true);
+            imgEnemy2.setVisible(true);
+            imgEnemy3.setVisible(true);
+        }
+        enemymove.setCycleCount(Timeline.INDEFINITE);
+        enemymove.play();
+    }
+
+    private void yes() {
+        if (imgEnemy1.getLayoutY() < 200) {
+            imgEnemy1.setLayoutY(imgEnemy1.getLayoutY() + 1);
+            imgEnemy2.setLayoutY(imgEnemy2.getLayoutY() + 1);
+            imgEnemy3.setLayoutY(imgEnemy3.getLayoutY() + 1);
+            if (imgEnemy1.isVisible()) {
+                imgDoor1.setImage(open);
+            }
+            if (imgEnemy2.isVisible()) {
+                imgDoor2.setImage(open);
+            }
+            if (imgEnemy3.isVisible()) {
+                imgDoor3.setImage(open);
+            }
+        }
+        if (imgEnemy1.getLayoutY() >= 200) {
+            enemymove.stop();
+            imgDoor1.setImage(closed);
+            imgDoor2.setImage(closed);
+            imgDoor3.setImage(closed);
+            stage.hide();
+            stage.setScene(scene);
+            stage.setTitle("Combat!!!");
+            stage.show();
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Shit not broke yo");
         panTourn.setVisible(false);
         xmove.setCycleCount(Timeline.INDEFINITE);
         ymove.setCycleCount(Timeline.INDEFINITE);
