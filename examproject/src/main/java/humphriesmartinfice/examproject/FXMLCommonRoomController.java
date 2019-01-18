@@ -46,7 +46,6 @@ public class FXMLCommonRoomController implements Initializable {
     Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
     Image front = new Image(getClass().getResource("/prisoner2.png").toString());
 
-    int test = 0;
     private int xvar, yvar;
 
     Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
@@ -123,7 +122,6 @@ public class FXMLCommonRoomController implements Initializable {
             stage.hide();
             stage.setScene(scene);
             stage.setWidth(900);
-            
             stage.setTitle("Guard Room");
             stage.setResizable(false);
             stage.show();

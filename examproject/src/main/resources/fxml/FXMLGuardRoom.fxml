@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#move" onKeyReleased="#rmove" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: a6a6a6;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLGuardRoomController">
    <children>
-      <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="289.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="33.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../prisoner2.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="imgEnemy" fitHeight="136.0" fitWidth="135.0" layoutX="564.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../prisoner.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgCommonRoom" fitHeight="139.0" fitWidth="139.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../door_open.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="153.0" layoutY="23.0" style="-fx-background-color: #c6c5c4; -fx-border-color: #000000;" text="Common Room">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -89,7 +89,7 @@
             <Image url="@../prisoner.png" />
          </image>
       </ImageView>
-      <Pane fx:id="panTourn" layoutX="164.0" layoutY="95.0" prefHeight="410.0" prefWidth="573.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff;" stylesheets="@../styles/Styles.css" visible="false">
+      <Pane fx:id="panTourn" layoutX="164.0" layoutY="95.0" prefHeight="410.0" prefWidth="573.0" style="-fx-border-color: #000000; -fx-border-width: 5; -fx-background-color: #ffffff;" stylesheets="@../styles/Styles.css">
          <children>
             <Button fx:id="btnFight1" layoutX="11.0" layoutY="110.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0">
                <graphic>
@@ -100,7 +100,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Line endX="286.0" layoutX="287.0" layoutY="100.0" startX="-287.0" />
+            <Line endX="286.0" layoutX="287.0" layoutY="100.0" startX="-287.0" strokeWidth="0.0" />
             <Line endX="286.0" layoutX="287.0" layoutY="173.0" startX="-287.0" />
             <Line endX="286.0" layoutX="287.0" layoutY="254.0" startX="-287.0" />
             <Line endX="286.0" layoutX="287.0" layoutY="334.0" startX="-287.0" />
