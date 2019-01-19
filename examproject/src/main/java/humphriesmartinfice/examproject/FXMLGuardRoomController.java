@@ -5,7 +5,6 @@ package humphriesmartinfice.examproject;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import static humphriesmartinfice.examproject.MainApp.getArea;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,13 +35,15 @@ import javafx.util.Duration;
 public class FXMLGuardRoomController implements Initializable {
 
     @FXML
-    private ImageView imgPlayer;
+    private ImageView imgPlayer, imgEnemy, imgCommonRoom;
 
     private double xvar = 0;
     private double yvar = 0;
+    private double evar = 1;
 
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
+    Timeline enemymove = new Timeline(new KeyFrame(Duration.millis(4), ae -> enemy()));
 
     @FXML
     private void move(KeyEvent e) {
@@ -58,8 +59,8 @@ public class FXMLGuardRoomController implements Initializable {
         if (e.getCode() == KeyCode.W) {
             yvar = -1;
         }
-        if(e.getCode() == KeyCode.E){
-        
+        if (e.getCode() == KeyCode.E) {
+
         }
          if ((e.getCode() == KeyCode.I)) {
             if(!MainApp.invVis){
@@ -106,6 +107,15 @@ public class FXMLGuardRoomController implements Initializable {
         if (imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
         }
+    }
+    
+    private void enemy(){
+    // this is meant to patrol this one spot until the player is spotted, it will then run at them at super fast speeds
+    // or something
+    imgEnemy.setLayoutY(imgEnemy.getLayoutY() + evar);
+    if(imgEnemy.getLayoutY() >= 470 || imgEnemy.getLayoutY() <= 30){
+    evar = evar * -1;
+    }
     }
 
     
@@ -231,6 +241,8 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
     public void initialize(URL url, ResourceBundle rb) {
         xmove.setCycleCount(Timeline.INDEFINITE);
         ymove.setCycleCount(Timeline.INDEFINITE);
+        enemymove.setCycleCount(Timeline.INDEFINITE);
+        enemymove.play();
         xmove.play();
         ymove.play();
         

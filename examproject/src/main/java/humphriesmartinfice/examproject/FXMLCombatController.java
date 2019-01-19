@@ -240,10 +240,11 @@ public class FXMLCombatController implements Initializable {
             }
         }
         if (combat) {
+            double enemyh = enemies.get(0).getHealth();
             double d = enemies.get(0).Attack();
             setHealth(getHealth() - d); //the enemy strikes
             listLog.getItems().add(d + " damage dealt to player!");
-            if (getEcount() == 0) {
+            if (enemyh < enemies.get(0).getHealth()) {
                 listLog.getItems().add("Enemy healed for " + (enemies.get(0).getHealth() + (enemies.get(0).getHealthMAX() / 3)) + " health.");
             }
             if (getEcount() > 0) {
