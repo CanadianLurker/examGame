@@ -18,5 +18,11 @@ public class Rogue extends Weapon {
         this.setType("Rogue");
         this.setIcon(new Image(getClass().getResource("/dagger.png").toString()));
     }
+    public Rogue(int level, int rarity, int damage, String type){
+         super(level,rarity,damage,type);
+        this.setType("Rogue");
+         this.setIcon(new Image(getClass().getResource("/dagger.png").toString()));
+        
+    }
 
 }
