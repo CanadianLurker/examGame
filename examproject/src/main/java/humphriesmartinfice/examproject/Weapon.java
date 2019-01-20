@@ -36,6 +36,12 @@ public class Weapon extends Item {
         this.setLevel(Level); 
         this.type = Type;
     }
+    public Weapon(int level, int rarity, int damage, String type){
+        this.setDamage(damage);
+        this.setLevel(level);
+        this.setRarity(rarity);
+        this.setType(type);
+    }
     
     
     public String getAttack1() {

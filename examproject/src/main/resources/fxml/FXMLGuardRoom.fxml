@@ -4,6 +4,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#move" onKeyReleased="#rmove" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: a6a6a6;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLGuardRoomController">
@@ -28,6 +30,33 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
+      <Pane fx:id="pnlInv" layoutX="194.0" layoutY="143.0" prefHeight="405.0" prefWidth="506.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b3f43" height="405.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="506.0" />
+            <Label onMouseClicked="#paneClick" prefHeight="472.0" prefWidth="590.0" />
+            <Rectangle fx:id="rec9" arcHeight="10.0" arcWidth="10.0" fill="#cfcfcf" height="110.0" layoutX="295.0" layoutY="236.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+            <Rectangle fx:id="rec1" arcHeight="10.0" arcWidth="10.0" fill="#cfcfcf" height="110.0" layoutX="95.0" layoutY="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+            <Rectangle fx:id="rec2" arcHeight="10.0" arcWidth="10.0" fill="#cfcfcf" height="110.0" layoutX="195.0" layoutY="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+            <Rectangle fx:id="rec3" arcHeight="10.0" arcWidth="10.0" fill="#cfcfcf" height="110.0" layoutX="295.0" layoutY="36.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+            <Rectangle fx:id="rec4" arcHeight="10.0" arcWidth="10.0" fill="#cfcfcf" height="110.0" layoutX="95.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+            <Rectangle fx:id="rec5" arcHeight="10.0" arcWidth="10.0" fill="#cfcfcf" height="110.0" layoutX="195.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+            <Rectangle fx:id="rec6" arcHeight="10.0" arcWidth="10.0" fill="#cfcfcf" height="110.0" layoutX="295.0" layoutY="136.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+            <Rectangle fx:id="rec7" arcHeight="10.0" arcWidth="10.0" fill="#cfcfcf" height="110.0" layoutX="95.0" layoutY="236.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+            <Rectangle fx:id="rec8" arcHeight="10.0" arcWidth="10.0" fill="#cfcfcf" height="110.0" layoutX="195.0" layoutY="236.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="110.0" />
+            <ImageView fx:id="img9" fitHeight="90.0" fitWidth="90.0" layoutX="305.0" layoutY="246.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img4" fitHeight="90.0" fitWidth="90.0" layoutX="105.0" layoutY="146.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img7" fitHeight="90.0" fitWidth="90.0" layoutX="105.0" layoutY="246.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img3" fitHeight="90.0" fitWidth="90.0" layoutX="305.0" layoutY="46.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img2" fitHeight="90.0" fitWidth="90.0" layoutX="205.0" layoutY="46.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img5" fitHeight="90.0" fitWidth="90.0" layoutX="205.0" layoutY="146.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img8" fitHeight="90.0" fitWidth="90.0" layoutX="205.0" layoutY="246.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img6" fitHeight="90.0" fitWidth="90.0" layoutX="305.0" layoutY="146.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img1" fitHeight="90.0" fitWidth="90.0" layoutX="105.0" layoutY="46.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#928496" height="25.0" layoutX="371.0" layoutY="357.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="126.0" />
+            <Label layoutX="380.0" layoutY="361.0" onMouseClicked="#btnDelete" text="Delete selected item" textFill="#fcfcfc" />
+            <Label fx:id="lblStats" layoutX="21.0" layoutY="85.0" text="Level:&#10;Rarity:&#10;Damage:" textFill="WHITE" />
+         </children>
+      </Pane>
 
    </children>
 </AnchorPane>

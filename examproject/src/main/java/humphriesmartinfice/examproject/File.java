@@ -13,7 +13,14 @@ import java.io.RandomAccessFile;
  * @author darbym26
  */
 public class File {
-    public final int RECSIZE=162; //CHANGE THIS 
+    public final int RECSIZE=242; //Good for now 
+    String username;
+        String usernameTemp;
+        String inventory;
+
+    File(){
+        
+    }
     
     
     
@@ -28,14 +35,26 @@ public class File {
     
     
     
-    
-    
-    
+    public void setUsername() {
+        StringBuffer temp = new StringBuffer(MainApp.username);
+        temp.setLength(30);
+        username = temp.toString();
+    }
+    public String getUsername() {
+        return username.trim();
+    }
      public void save(String fileName, int record) {
+         setUsername();
         try {
              RandomAccessFile recordFile = new RandomAccessFile(fileName, "rw");
             recordFile.seek(RECSIZE * record);
+            recordFile.writeChars(username);
             recordFile.writeChars(MainApp.saveInventory());
+            recordFile.writeInt(MainApp.level);
+            recordFile.writeInt(MainApp.DEX);
+            recordFile.writeInt(MainApp.INT);
+            recordFile.writeInt(MainApp.STR);
+            recordFile.writeInt(MainApp.cigs);
             recordFile.close();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -48,12 +67,37 @@ public class File {
 
             RandomAccessFile recordFile = new RandomAccessFile(fileName, "rw");
             recordFile.seek(RECSIZE * record);
+            char user[] = new char[30];
+            for (int i = 0; i < user.length; i++) {
+                user[i] = recordFile.readChar();
+            }
+            username = new String(user);
+            System.out.println("start"+username);
+            MainApp.username=username.trim();
             char inventoryS[] = new char[81];
             for (int i = 0; i < inventoryS.length; i++) {
                 inventoryS[i] = recordFile.readChar();
             }
+            inventory = new String(inventoryS);
+                        System.out.println(inventory);
+
+            MainApp.addToInventory(inventory);
             
-           
+             MainApp.level = recordFile.readInt();
+                                     System.out.println(MainApp.level);
+
+            MainApp.DEX = recordFile.readInt();
+                                    System.out.println(MainApp.DEX);
+
+            MainApp.INT = recordFile.readInt();
+                                    System.out.println(MainApp.INT);
+
+            MainApp.STR = recordFile.readInt();
+                                    System.out.println(MainApp.STR);
+
+            MainApp.cigs = recordFile.readInt();
+                                   System.out.println(MainApp.cigs);
+
 
            
             recordFile.close();
@@ -64,6 +108,27 @@ public class File {
 
     }
     
+    public String openUser(String fileName, int record) {
+
+        try {
+
+            RandomAccessFile recordFile = new RandomAccessFile(fileName, "rw");
+            recordFile.seek(RECSIZE * record);
+            char user[] = new char[30];
+            for (int i = 0; i < user.length; i++) {
+                user[i] = recordFile.readChar();
+            }
+            usernameTemp = new String(user);
+
+           
+            recordFile.close();
+return usernameTemp.trim();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+    }
     
     
     

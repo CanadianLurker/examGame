@@ -158,6 +158,8 @@ public class FXMLCommonRoomController implements Initializable {
             if(!MainApp.invVis){
             MainApp.invVis=true;
             pnlInv.setVisible(true);
+                        MainApp.displayIcons();
+
             /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             home_page_scene.getRoot().requestFocus();*/
@@ -192,6 +194,9 @@ public class FXMLCommonRoomController implements Initializable {
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
+    @FXML
+      Label lblStats;
+    
     @FXML
     ImageView img1,
 
@@ -235,8 +240,7 @@ public class FXMLCommonRoomController implements Initializable {
    
    @FXML
     Pane pnlInv;
-    @FXML
-     TextField txtIn;
+   
     
      @FXML
     private void click(MouseEvent e) {
@@ -251,18 +255,9 @@ public class FXMLCommonRoomController implements Initializable {
                 MainApp.rec[i].setFill(Color.BLACK);
                 
                 
-                ////////////// make sure to change damage
-                
-                
-if(MainApp.inventory[i].getType().equals("Warrior")){
-                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage()/2); //////////damage!!!!!!!!!!
-}
-
-else if(MainApp.inventory[i].getType().equals("Rogue")){
-                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+(MainApp.inventory[i].getDamage()-2));      //////////damage!!!!!!!!!!
-}else{
+               lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
     System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-}
+
 
 
             } else {
@@ -298,10 +293,7 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
     }
 
     ////not needed{
-    @FXML
-    private void btnIn() {
-        MainApp.addToInventory(txtIn.getText());
-    }
+  
 
     @FXML
     private void save() {
@@ -349,7 +341,6 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
          MainApp.iSpaces[7] = img8;
          MainApp.iSpaces[8] = img9;
          
-         MainApp.txtIn=txtIn;
          MainApp.img1=img1;
          MainApp.img2=img2;
          MainApp.img3=img3;

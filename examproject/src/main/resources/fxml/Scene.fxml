@@ -8,7 +8,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="644.0" prefWidth="808.0" style="-fx-background-color: #1e90ff;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLController">
     <children>
-        <Button fx:id="load" layoutX="346.0" layoutY="332.0" onAction="#btnLoad" text="Load save file">
+        <Button fx:id="load" disable="true" layoutX="346.0" layoutY="330.0" onAction="#btnLoad" text="Load save file">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
@@ -17,12 +17,17 @@
             <Font name="System Bold" size="22.0" />
          </font></Label>
       <ListView fx:id="savesList" layoutX="219.0" layoutY="80.0" prefHeight="222.0" prefWidth="370.0" style="-fx-border-color: #000000;" />
-      <Button fx:id="options" layoutX="346.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnOptions" text="Help/Options">
+      <Button fx:id="options" layoutX="346.0" layoutY="430.0" mnemonicParsing="false" onAction="#btnOptions" text="Help/Options">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="exit" layoutX="380.0" layoutY="462.0" mnemonicParsing="false" onAction="#btnExit" text="Exit">
+      <Button fx:id="exit" layoutX="380.0" layoutY="480.0" mnemonicParsing="false" onAction="#btnExit" text="Exit">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="newGame" layoutX="356.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnNewGame" text="New game">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
