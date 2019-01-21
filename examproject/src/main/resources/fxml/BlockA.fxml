@@ -8,14 +8,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#move" onKeyReleased="#rmove" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: a6a6a6;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.BlockAController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#move" onKeyReleased="#rmove" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #848383;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.BlockAController">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="297.0" layoutY="130.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="103.0" layoutY="130.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="146.0" layoutY="-5.0" stroke="BLACK" strokeType="INSIDE" width="900.0">
          <fill>
             <LinearGradient endX="1.0" endY="1.0">
@@ -34,9 +55,39 @@
             <Image url="@../door_open.png" />
          </image>
       </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="695.0" layoutY="548.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="1.0" layoutY="548.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="136.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="329.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
       <Label layoutX="578.0" layoutY="14.0" style="-fx-background-color: #c6c5c4; -fx-border-color: #000000;" text="Common Room">
          <font>
-            <Font name="System Bold" size="19.0" />
+            <Font name="Baskerville Old Face" size="21.0" />
          </font>
       </Label>
       <Pane fx:id="panEnemy" layoutX="203.0" layoutY="341.0" prefHeight="139.0" prefWidth="63.0">
@@ -90,58 +141,54 @@
             <Image url="@../prisoner.png" />
          </image>
       </ImageView>
-      <Pane fx:id="panTourn" layoutX="164.0" layoutY="95.0" prefHeight="410.0" prefWidth="573.0" style="-fx-border-color: #000000; -fx-border-width: 5; -fx-background-color: #ffffff;" stylesheets="@../styles/Styles.css">
+      <Pane fx:id="panTourn" layoutX="164.0" layoutY="95.0" prefHeight="410.0" prefWidth="573.0" style="-fx-border-color: #000000; -fx-border-width: 5; -fx-background-color: #c9bdbb;" stylesheets="@../styles/Styles.css" visible="false">
          <children>
-            <Button fx:id="btnFight1" layoutX="11.0" layoutY="110.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0">
-               <graphic>
-                  <ImageView fitHeight="44.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../fight.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Button fx:id="btnFight1" layoutX="11.0" layoutY="110.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0" text="FIGHT">
+               <font>
+                  <Font name="Baskerville Old Face" size="27.0" />
+               </font>
             </Button>
-            <Line endX="286.0" layoutX="287.0" layoutY="100.0" startX="-287.0" strokeWidth="0.0" />
             <Line endX="286.0" layoutX="287.0" layoutY="173.0" startX="-287.0" />
             <Line endX="286.0" layoutX="287.0" layoutY="254.0" startX="-287.0" />
             <Line endX="286.0" layoutX="287.0" layoutY="334.0" startX="-287.0" />
             <Line endX="-287.0" endY="320.0" layoutX="566.0" layoutY="89.0" startX="-287.0" startY="11.5" />
-            <ImageView fitHeight="94.0" fitWidth="539.0" layoutX="17.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Tournament.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="btnFight2" layoutX="11.0" layoutY="186.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0">
-               <graphic>
-                  <ImageView fitHeight="44.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../fight.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Button fx:id="btnFight2" layoutX="11.0" layoutY="186.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0" text="FIGHT">
+               <font>
+                  <Font name="Baskerville Old Face" size="26.0" />
+               </font>
             </Button>
-            <Button fx:id="btnFight3" layoutX="11.0" layoutY="270.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0">
-               <graphic>
-                  <ImageView fitHeight="44.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../fight.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Button fx:id="btnFight3" layoutX="11.0" layoutY="270.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0" text="FIGHT">
+               <font>
+                  <Font name="Baskerville Old Face" size="27.0" />
+               </font>
             </Button>
-            <Button fx:id="btnFight4" layoutX="11.0" layoutY="344.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0">
-               <graphic>
-                  <ImageView fitHeight="44.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../fight.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Button fx:id="btnFight4" layoutX="11.0" layoutY="344.0" mnemonicParsing="false" onAction="#Fight" prefHeight="52.0" prefWidth="264.0" text="FIGHT">
+               <font>
+                  <Font name="Baskerville Old Face" size="27.0" />
+               </font>
             </Button>
-            <Label fx:id="lblFight1" layoutX="287.0" layoutY="102.0" prefHeight="68.0" prefWidth="277.0" />
-            <Label fx:id="lblFight2" layoutX="287.0" layoutY="178.0" prefHeight="68.0" prefWidth="277.0" />
-            <Label fx:id="lblFight3" layoutX="287.0" layoutY="262.0" prefHeight="68.0" prefWidth="277.0" />
-            <Label fx:id="lblFight4" layoutX="287.0" layoutY="336.0" prefHeight="68.0" prefWidth="277.0" />
+            <Label fx:id="lblFight1" layoutX="287.0" layoutY="102.0" prefHeight="68.0" prefWidth="277.0">
+               <font>
+                  <Font name="Baskerville Old Face" size="14.0" />
+               </font></Label>
+            <Label fx:id="lblFight2" layoutX="287.0" layoutY="178.0" prefHeight="68.0" prefWidth="277.0">
+               <font>
+                  <Font name="Baskerville Old Face" size="14.0" />
+               </font></Label>
+            <Label fx:id="lblFight3" layoutX="287.0" layoutY="262.0" prefHeight="68.0" prefWidth="277.0">
+               <font>
+                  <Font name="Baskerville Old Face" size="14.0" />
+               </font></Label>
+            <Label fx:id="lblFight4" layoutX="287.0" layoutY="336.0" prefHeight="68.0" prefWidth="277.0">
+               <font>
+                  <Font name="Baskerville Old Face" size="14.0" />
+               </font></Label>
+            <Line endX="286.0" layoutX="287.0" layoutY="101.0" startX="-287.0" />
+            <Label layoutX="54.0" layoutY="7.0" prefHeight="110.0" prefWidth="487.0" text="Tournament">
+               <font>
+                  <Font name="Baskerville Old Face" size="93.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane fx:id="pnlInv" layoutX="194.0" layoutY="143.0" prefHeight="405.0" prefWidth="506.0" visible="false">
@@ -172,5 +219,15 @@
             <Button layoutX="231.0" layoutY="355.0" mnemonicParsing="false" onAction="#btnIn" text="add" />
          </children>
       </Pane>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="36.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="727.0" layoutY="489.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

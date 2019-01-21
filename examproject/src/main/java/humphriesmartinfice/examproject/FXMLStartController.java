@@ -33,6 +33,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
 /**
@@ -54,6 +56,8 @@ public class FXMLStartController implements Initializable {
 
     Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
+    
+    MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
 
     private boolean key;
 
@@ -64,9 +68,11 @@ public class FXMLStartController implements Initializable {
         }
         if (col(imgPlayer, imgDoor) && key) {
             imgDoor.setImage(open);
+            opensound.play();
         }
         if (col(imgPlayer, imgDoor) == false) {
             imgDoor.setImage(closed);
+            opensound.stop();
         }
     }
 

@@ -84,7 +84,8 @@ public class BlockAController implements Initializable {
         if (e.getCode() == KeyCode.E && col(polPlayer, polDoor)) {
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); // now hosting the testing grounds for combat
             scene = new Scene(home_page_parent);
-            stage = new Stage();
+            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.close();
             stage.setScene(scene);
             stage.setTitle("Common Room");
             stage.setResizable(false);

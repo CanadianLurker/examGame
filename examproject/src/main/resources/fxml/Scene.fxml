@@ -3,26 +3,38 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="644.0" prefWidth="808.0" style="-fx-background-color: #1e90ff;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #3c4451;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLController">
     <children>
-        <Button fx:id="load" layoutX="346.0" layoutY="332.0" onAction="#btnLoad" text="Load save file">
+      <ImageView fitHeight="600.0" fitWidth="603.0" layoutX="-161.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../rain.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="655.0" fitWidth="600.0" layoutX="447.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../rain.gif" />
+         </image>
+      </ImageView>
+        <Button fx:id="load" layoutX="405.0" layoutY="331.0" onAction="#btnLoad" text="Load save file">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-        <Label fx:id="label" layoutX="320.0" layoutY="48.0" minHeight="16" minWidth="69" text="Player saves list:">
+        <Label layoutX="379.0" layoutY="48.0" minHeight="16" minWidth="69" text="Player saves list:">
          <font>
             <Font name="System Bold" size="22.0" />
          </font></Label>
-      <ListView fx:id="savesList" layoutX="219.0" layoutY="80.0" prefHeight="222.0" prefWidth="370.0" style="-fx-border-color: #000000;" />
-      <Button fx:id="options" layoutX="346.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnOptions" text="Help/Options">
+      <ListView fx:id="savesList" layoutX="278.0" layoutY="80.0" prefHeight="222.0" prefWidth="370.0" style="-fx-border-color: #000000;" />
+      <Button fx:id="options" layoutX="405.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnOptions" text="Help/Options">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="exit" layoutX="380.0" layoutY="462.0" mnemonicParsing="false" onAction="#btnExit" text="Exit">
+      <Button fx:id="exit" layoutX="439.0" layoutY="463.0" mnemonicParsing="false" onAction="#btnExit" text="Exit">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
