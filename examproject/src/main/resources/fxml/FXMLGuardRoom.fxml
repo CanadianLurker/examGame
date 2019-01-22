@@ -1,20 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#move" onKeyReleased="#rmove" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: a6a6a6;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLGuardRoomController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#move" onKeyReleased="#rmove" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #848383;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLGuardRoomController">
    <children>
-      <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="33.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../prisoner2.png" />
-         </image>
-      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="139.0" stroke="BLACK" strokeType="INSIDE" width="900.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#a6a6a6" />
+                  <Stop color="#a6a6a6" offset="0.007662835249042145" />
+                  <Stop color="#6b6b6b" offset="0.24137931034482754" />
+                  <Stop color="#a6a6a6" offset="0.7624521072796935" />
+                  <Stop color="#6b6b6b" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="124.0" layoutY="142.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="124.0" layoutY="562.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="733.0" layoutY="562.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="733.0" layoutY="142.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
       <ImageView fx:id="imgEnemy" fitHeight="136.0" fitWidth="135.0" layoutX="564.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../prisoner.png" />
@@ -30,7 +83,9 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
+
       <Pane fx:id="pnlInv" layoutX="194.0" layoutY="143.0" prefHeight="405.0" prefWidth="506.0" visible="false">
+
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b3f43" height="405.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="506.0" />
             <Label onMouseClicked="#paneClick" prefHeight="472.0" prefWidth="590.0" />
@@ -52,11 +107,40 @@
             <ImageView fx:id="img8" fitHeight="90.0" fitWidth="90.0" layoutX="205.0" layoutY="246.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="img6" fitHeight="90.0" fitWidth="90.0" layoutX="305.0" layoutY="146.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="img1" fitHeight="90.0" fitWidth="90.0" layoutX="105.0" layoutY="46.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#928496" height="25.0" layoutX="371.0" layoutY="357.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="126.0" />
-            <Label layoutX="380.0" layoutY="361.0" onMouseClicked="#btnDelete" text="Delete selected item" textFill="#fcfcfc" />
-            <Label fx:id="lblStats" layoutX="21.0" layoutY="85.0" text="Level:&#10;Rarity:&#10;Damage:" textFill="WHITE" />
+
+            <Button layoutX="424.0" layoutY="34.0" mnemonicParsing="false" onAction="#btnDelete" text="delete" />
+            <Button layoutX="25.0" layoutY="30.0" mnemonicParsing="false" onAction="#save" text="save" />
+            <TextField fx:id="txtIn" focusTraversable="false" layoutX="49.0" layoutY="355.0" />
+            <Button layoutX="231.0" layoutY="355.0" mnemonicParsing="false" onAction="#btnIn" text="add" />
          </children>
       </Pane>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="157.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="765.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="157.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="765.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgO" fitHeight="15.0" fitWidth="15.0" layoutX="392.0" layoutY="247.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="33.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../prisoner2.png" />
+         </image>
+      </ImageView>
+
 
    </children>
 </AnchorPane>

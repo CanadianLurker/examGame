@@ -8,6 +8,7 @@ package humphriesmartinfice.examproject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -18,11 +19,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -34,18 +38,21 @@ import javafx.util.Duration;
  * @author shayneh58
  */
 public class FXMLGuardRoomController implements Initializable {
-
+    
     @FXML
-    private ImageView imgPlayer, imgEnemy, imgCommonRoom;
-
+    private ImageView imgPlayer, imgEnemy, imgCommonRoom, imgO;
+    
     private double xvar = 0;
     private double yvar = 0;
-    private double evar = 1;
-
+    
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
-    Timeline enemymove = new Timeline(new KeyFrame(Duration.millis(4), ae -> enemy()));
-
+    
+    Image closed = new Image(getClass().getResource("/door closed.png").toString());
+    Image open = new Image(getClass().getResource("/door_open.png").toString());
+    
+    MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
+    
     @FXML
     private void move(KeyEvent e) {
         if (e.getCode() == KeyCode.D) {
@@ -61,8 +68,9 @@ public class FXMLGuardRoomController implements Initializable {
             yvar = -1;
         }
         if (e.getCode() == KeyCode.E) {
-
+            
         }
+
          if ((e.getCode() == KeyCode.I)) {
             if(!MainApp.invVis){
             MainApp.invVis=true;
@@ -71,16 +79,16 @@ public class FXMLGuardRoomController implements Initializable {
             /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             home_page_scene.getRoot().requestFocus();*/
-            }else{
-                 MainApp.invVis=false;
-           pnlInv.setVisible(false);
-           /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+            } else {
+                MainApp.invVis = false;
+                pnlInv.setVisible(false);
+                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
            Scene home_page_scene = new Scene(home_page_parent);
            home_page_scene.getRoot().requestFocus();*/
             }
         }
     }
-
+    
     @FXML
     private void rmove(KeyEvent e) {
         if (e.getCode() == KeyCode.D) {
@@ -96,168 +104,163 @@ public class FXMLGuardRoomController implements Initializable {
             yvar = 0;
         }
     }
-
+    
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
         if (imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
             imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
         }
     }
-
+    
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
         if (imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
         }
+        if (col(imgPlayer, imgCommonRoom)) {
+            imgCommonRoom.setImage(open);
+            opensound.play();
+        }
+        if (!col(imgPlayer, imgCommonRoom)) {
+            imgCommonRoom.setImage(closed);
+            opensound.stop();
+        }
     }
     
-    private void enemy(){
-    // this is meant to patrol this one spot until the player is spotted, it will then run at them at super fast speeds
-    // or something
-    imgEnemy.setLayoutY(imgEnemy.getLayoutY() + evar);
-    if(imgEnemy.getLayoutY() >= 470 || imgEnemy.getLayoutY() <= 30){
-    evar = evar * -1;
+    public boolean col(ImageView block1, ImageView block2) {
+        return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
-    }
+
+    
 
     @FXML
       Label lblStats;
      @FXML
+
     ImageView img1,
-
+            img2,
+            img3,
+            img4,
+            img5,
+            img6,
+            img7,
+            img8,
+            img9;
     
-     img2,
-    
-     img3,
-    
-     img4,
-    
-     img5,
-    
-     img6,
-    
-     img7,
-    
-     img8,
-    
-     img9;
-
-   @FXML
+    @FXML
     Rectangle rec1,
-
+            rec2,
+            rec3,
+            rec4,
+            rec5,
+            rec6,
+            rec7,
+            rec8,
+            rec9;
     
-     rec2,
-    
-     rec3,
-    
-     rec4,
-    
-     rec5,
-    
-     rec6,
-    
-     rec7,
-    
-     rec8,
-    
-     rec9;
-   
-   
-   @FXML
+    @FXML
     Pane pnlInv;
+
     
-    
-     @FXML
+    @FXML
     private void click(MouseEvent e) {
-
+        
         MainApp.selected = (ImageView) e.getSource();
-
+        
         for (int i = 0; i < 9; i++) {
-
+            
             if (MainApp.iSpaces[i] == MainApp.selected) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
-                
-                
+
                 ////////////// make sure to change damage
+                if (MainApp.inventory[i].getType().equals("Warrior")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage() / 2); //////////damage!!!!!!!!!!
+                } else if (MainApp.inventory[i].getType().equals("Rogue")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + (MainApp.inventory[i].getDamage() - 2));      //////////damage!!!!!!!!!!
+                } else {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+                }
                 
+
                 
  lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
     System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
 
 
-
             } else {
                 MainApp.rec[i].setFill(Color.GREY);
-
+                
             }
         }
-
+        
     }
-
+    
     @FXML
     private void paneClick(MouseEvent e) {
         for (int i = 0; i < 9; i++) {
             MainApp.rec[i].setFill(Color.GREY);
             MainApp.selected = null;
         }
-
+        
     }
-
+    
     @FXML
     private void btnDelete() {
         for (int i = 0; i < 9; i++) {
-
+            
             if (MainApp.iSpaces[i] == MainApp.selected) {
                 MainApp.inventory[i] = new Item();
                 MainApp.iSpaces[i].toFront();
-
+                
                 MainApp.iSpaces[i].setEffect(null);
                 MainApp.displayIcons();
-
+                
             }
         }
     }
 
     ////not needed{
+
    
+
 
     @FXML
     private void save() {
         System.out.println(MainApp.saveInventory());
     }
     
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         xmove.setCycleCount(Timeline.INDEFINITE);
         ymove.setCycleCount(Timeline.INDEFINITE);
-        enemymove.setCycleCount(Timeline.INDEFINITE);
-        enemymove.play();
         xmove.play();
         ymove.play();
-        
-        
+        int xplace = ThreadLocalRandom.current().nextInt(200, 700 + 1);
+        int yplace = ThreadLocalRandom.current().nextInt(50, 400 + 1);
+        System.out.print(xplace + " " + yplace);
+        imgO.setLayoutX(xplace);
+        imgO.setLayoutY(yplace);
         MainApp.rec[0] = rec1;
-         MainApp.rec[1] = rec2;
-         MainApp.rec[2] = rec3;
-         MainApp.rec[3] = rec4;
-         MainApp.rec[4] = rec5;
-         MainApp.rec[5] = rec6;
-         MainApp.rec[6] = rec7;
-         MainApp.rec[7] = rec8;
-         MainApp.rec[8] = rec9;
+        MainApp.rec[1] = rec2;
+        MainApp.rec[2] = rec3;
+        MainApp.rec[3] = rec4;
+        MainApp.rec[4] = rec5;
+        MainApp.rec[5] = rec6;
+        MainApp.rec[6] = rec7;
+        MainApp.rec[7] = rec8;
+        MainApp.rec[8] = rec9;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
-                 MainApp.inv[i][j] = 0;
-                 MainApp.IS[i] = new InnerShadow();
-
-                 MainApp.rec[i].setFill(Color.GREY);
+                MainApp.inv[i][j] = 0;
+                MainApp.IS[i] = new InnerShadow();
+                
+                MainApp.rec[i].setFill(Color.GREY);
             }
-
+            
         }
+
          MainApp.iSpaces[0] = img1;
          MainApp.iSpaces[1] = img2;
          MainApp.iSpaces[2] = img3;
@@ -278,5 +281,5 @@ public class FXMLGuardRoomController implements Initializable {
          MainApp.img8=img8;
          MainApp.img9=img9;
     }
-
+    
 }

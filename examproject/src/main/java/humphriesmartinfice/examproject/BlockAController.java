@@ -30,6 +30,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -48,19 +50,21 @@ public class BlockAController implements Initializable {
     private Polygon polPlayer, polEnemy, polDoor;
     @FXML
     private Button btnFight1, btnFight2, btnFight3, btnFight4;
-    @FXML
-    private Label lblFight1, lblFight2, lblFight3, lblFight4;
-    @FXML
-    private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3;
 
     private double xvar = 0;
     private double yvar = 0;
 
     private Stage stage;
     private Scene scene;
+    @FXML
+    private Label lblFight1, lblFight2, lblFight3, lblFight4;
+    @FXML
+    private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3;
 
     Image closed = new Image(getClass().getResource("/door closed.png").toString());
     Image open = new Image(getClass().getResource("/door_open.png").toString());
+    
+    MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
 
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
@@ -84,7 +88,8 @@ public class BlockAController implements Initializable {
         if (e.getCode() == KeyCode.E && col(polPlayer, polDoor)) {
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); // now hosting the testing grounds for combat
             scene = new Scene(home_page_parent);
-            stage = new Stage();
+            stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.close();
             stage.setScene(scene);
             stage.setTitle("Common Room");
             stage.setResizable(false);
@@ -160,10 +165,19 @@ public class BlockAController implements Initializable {
         }
         if (col(polDoor, polPlayer)) {
             imgCommonRoom.setImage(open);
+            opensound.play();
         }
         if (col(polDoor, polPlayer) == false) {
             imgCommonRoom.setImage(closed);
+            opensound.stop();
         }
+    }
+    
+    @FXML
+    private void NoFight(){
+    panTourn.setVisible(false);
+    panPlayer.setLayoutX(368);
+    panPlayer.setLayoutY(341);
     }
 
     private void y() {
