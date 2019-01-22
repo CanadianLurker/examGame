@@ -131,11 +131,7 @@
             <Image url="@../fire.gif" />
          </image>
       </ImageView>
-      <ImageView fx:id="imgO" fitHeight="154.0" fitWidth="170.0" layoutX="392.0" layoutY="247.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../axe.png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="imgO" fitHeight="15.0" fitWidth="15.0" layoutX="392.0" layoutY="247.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="33.0" layoutY="284.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../prisoner2.png" />

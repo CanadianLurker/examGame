@@ -61,7 +61,47 @@
             <Image url="@../door%20closed.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="5.0" layoutY="131.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="4.0" layoutY="131.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="-12.0" layoutY="432.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="569.0" layoutY="431.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop color="#bfb4a9" />
+                  <Stop color="#848383" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Rectangle>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="20.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="601.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../fire.gif" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="49.0" layoutX="569.0" layoutY="131.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="0.0" width="200.0">
          <fill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>
@@ -84,16 +124,6 @@
       <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="248.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../prisoner2.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="20.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../fire.gif" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="136.0" fitWidth="135.0" layoutX="601.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../fire.gif" />
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="145.0" layoutY="455.0" stroke="BLACK" strokeType="INSIDE" width="900.0">

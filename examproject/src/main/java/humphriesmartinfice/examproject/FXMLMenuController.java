@@ -113,6 +113,7 @@ public class FXMLMenuController implements Initializable {
         rain.setVolume(vol);
         if(rain.getVolume() <= 0){
         quiettime.stop();
+        rain.stop();
         }        
     }
 
