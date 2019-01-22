@@ -103,9 +103,11 @@ public class FXMLStartController implements Initializable {
         }
         if ((event.getCode() == KeyCode.W)) {
             yvar = -1;
+            imgPlayer.setImage(back);
         }
         if ((event.getCode() == KeyCode.S)) {
             yvar = 1;
+            imgPlayer.setImage(front);
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgDoor) && key) {
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
@@ -170,11 +172,10 @@ alert.showAndWait();
         }
         if (event.getCode() == KeyCode.W) {
             yvar = 0;
-            imgPlayer.setImage(back);
+            imgPlayer.setImage(front);
         }
         if (event.getCode() == KeyCode.S) {
             yvar = 0;
-            imgPlayer.setImage(front);
         }
     }
 

@@ -34,7 +34,7 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private ProgressBar prgMC, prgEnemy, prgMCMana, prgEnemyMana, prgEXP;
     @FXML
-    private ImageView imgMC, imgEnemy;
+    private ImageView imgMC, imgEnemy, imgPlayer;
     @FXML
     private Button btnAttack, btnItems, btnOther, btnChoice1, btnChoice2, btnChoice3, btnChoice4, btnSTR, btnDEX, btnINT, btnLog;
     @FXML
