@@ -1,11 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.BlockBController">
-    
+<AnchorPane id="AnchorPane" onKeyPressed="#keyPressed" onKeyReleased="#keyReleased" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.BlockBController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="366.0" layoutX="-4.0" layoutY="237.0" strokeType="INSIDE" width="900.0">
+         <fill>
+            <LinearGradient endX="0.7714285714285715" endY="0.13809523809523808" startX="0.7095238095238096" startY="1.0">
+               <stops>
+                  <Stop color="#6b6969" />
+                  <Stop color="#6b6969" offset="0.007662835249042145" />
+                  <Stop color="#c6c3c3" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="237.0" layoutX="-4.0" stroke="#8a8a8a" strokeType="INSIDE" width="900.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="0.7857142857142857" startX="1.0">
+               <stops>
+                  <Stop color="#c6c3c3" />
+                  <Stop color="#c6c3c3" offset="0.007662835249042145" />
+                  <Stop color="#6b6969" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <ImageView fx:id="imgDoor1" fitHeight="150.0" fitWidth="200.0" layoutX="90.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../door_open.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgDoor2" fitHeight="150.0" fitWidth="200.0" layoutX="364.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../door_open.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgDoor3" fitHeight="150.0" fitWidth="200.0" layoutX="628.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../door_open.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblDoor1" layoutX="132.0" layoutY="69.0" text="Door #1">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDoor2" layoutX="406.0" layoutY="69.0" text="Door #2">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDoor3" layoutX="670.0" layoutY="69.0" text="Door #3">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="imgExit" fitHeight="152.0" fitWidth="159.0" layoutX="13.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../door_open.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="183.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../prisoner2.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="panMessage" layoutX="204.0" layoutY="144.0" prefHeight="229.0" prefWidth="469.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="229.0" stroke="BLACK" strokeType="INSIDE" width="469.0" />
+            <Button fx:id="fight" layoutX="194.0" layoutY="93.0" mnemonicParsing="false" onAction="#btnFight" text="FIGHT" visible="false">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="yes" layoutX="127.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnYes" text="Yes">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="no" layoutX="284.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnNo" text="No">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Label fx:id="lblResult" alignment="CENTER" layoutX="3.0" layoutY="3.0" prefHeight="91.0" prefWidth="463.0" text="Would you like to play again?" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label fx:id="lblMessage" layoutX="138.0" layoutY="14.0" text="Choose a door, One will reward you and the others will punish you!">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCigs" layoutX="423.0" layoutY="42.0" text="Cigs:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCount" layoutX="526.0" layoutY="565.0" text="Fight 10 more enemies to obtain a guard key">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

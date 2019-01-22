@@ -1,3 +1,4 @@
+
 package humphriesmartinfice.examproject;
 
 import java.net.URL;
@@ -104,7 +105,7 @@ public class FXMLController implements Initializable {
                 Scene home_page_scene = new Scene(home_page_parent);
                 //get reference to the stage 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.hide(); //optional
+                stage.hide(); 
                 stage.setScene(home_page_scene); //puts the new scence in the stage
                 stage.setTitle("Spawn Room"); //changes the title
                 stage.setResizable(false);
@@ -119,6 +120,16 @@ public class FXMLController implements Initializable {
     @FXML
     private void btnOptions(ActionEvent event) throws IOException {
         if (btnOpt.getOpacity() > 0.8) {
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLHelp.fxml")); 
+        Scene home_page_scene = new Scene(home_page_parent);
+        //get reference to the stage 
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.hide();
+        stage.setScene(home_page_scene); 
+        stage.setTitle("Help Screen");
+        stage.setResizable(false);
+        stage.show();
+        home_page_scene.getRoot().requestFocus();
         }
     }
 

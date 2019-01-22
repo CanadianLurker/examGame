@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #8fafcd;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLHelpController">
+   <children>
+      <Button fx:id="howto" layoutX="82.0" layoutY="64.0" mnemonicParsing="false" onAction="#btnHowto" text="How to play">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Button fx:id="controls" layoutX="407.0" layoutY="64.0" mnemonicParsing="false" onAction="#btnControls" text="Controls">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Button fx:id="back" layoutX="424.0" layoutY="526.0" mnemonicParsing="false" onAction="#btnBack" text="Back">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Label fx:id="lblMessage" layoutX="46.0" layoutY="149.0" prefHeight="350.0" prefWidth="825.0">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Button fx:id="interact" layoutX="686.0" layoutY="64.0" mnemonicParsing="false" onAction="#btnInteract" prefHeight="44.0" prefWidth="134.0" text="Interaction">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+   </children>
+</AnchorPane>
