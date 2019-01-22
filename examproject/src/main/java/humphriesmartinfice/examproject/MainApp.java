@@ -43,7 +43,7 @@ public static String username;
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/FXMLMainMenu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         Scene scene = new Scene(root);
 //        scene.getStylesheets().add("/styles/Styles.css");
         stage.setTitle("Prison Escape");
