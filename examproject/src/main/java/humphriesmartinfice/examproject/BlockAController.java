@@ -30,6 +30,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -48,19 +50,21 @@ public class BlockAController implements Initializable {
     private Polygon polPlayer, polEnemy, polDoor;
     @FXML
     private Button btnFight1, btnFight2, btnFight3, btnFight4;
-    @FXML
-    private Label lblFight1, lblFight2, lblFight3, lblFight4;
-    @FXML
-    private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3;
 
     private double xvar = 0;
     private double yvar = 0;
 
     private Stage stage;
     private Scene scene;
+    @FXML
+    private Label lblFight1, lblFight2, lblFight3, lblFight4;
+    @FXML
+    private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3;
 
     Image closed = new Image(getClass().getResource("/door closed.png").toString());
     Image open = new Image(getClass().getResource("/door_open.png").toString());
+    
+    MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
 
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
@@ -85,7 +89,7 @@ public class BlockAController implements Initializable {
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); // now hosting the testing grounds for combat
             scene = new Scene(home_page_parent);
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            stage.hide();
+            stage.close();
             stage.setScene(scene);
             stage.setTitle("Common Room");
             stage.setResizable(false);
@@ -96,6 +100,8 @@ public class BlockAController implements Initializable {
             if(!MainApp.invVis){
             MainApp.invVis=true;
             pnlInv.setVisible(true);
+                        MainApp.displayIcons();
+
             /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             home_page_scene.getRoot().requestFocus();*/
@@ -159,10 +165,19 @@ public class BlockAController implements Initializable {
         }
         if (col(polDoor, polPlayer)) {
             imgCommonRoom.setImage(open);
+            opensound.play();
         }
         if (col(polDoor, polPlayer) == false) {
             imgCommonRoom.setImage(closed);
+            opensound.stop();
         }
+    }
+    
+    @FXML
+    private void NoFight(){
+    panTourn.setVisible(false);
+    panPlayer.setLayoutX(368);
+    panPlayer.setLayoutY(341);
     }
 
     private void y() {
@@ -252,6 +267,8 @@ public class BlockAController implements Initializable {
             stage.show();
         }
     }
+    @FXML
+      Label lblStats;
      @FXML
     ImageView img1,
 
@@ -295,8 +312,7 @@ public class BlockAController implements Initializable {
    
    @FXML
     Pane pnlInv;
-    @FXML
-     TextField txtIn;
+    
     
      @FXML
     private void click(MouseEvent e) {
@@ -314,15 +330,9 @@ public class BlockAController implements Initializable {
                 ////////////// make sure to change damage
                 
                 
-if(MainApp.inventory[i].getType().equals("Warrior")){
-                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage()/2); //////////damage!!!!!!!!!!
-}
-
-else if(MainApp.inventory[i].getType().equals("Rogue")){
-                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+(MainApp.inventory[i].getDamage()-2));      //////////damage!!!!!!!!!!
-}else{
+ lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
     System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-}
+
 
 
             } else {
@@ -358,10 +368,7 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
     }
 
     ////not needed{
-    @FXML
-    private void btnIn() {
-        MainApp.addToInventory(txtIn.getText());
-    }
+    
 
     @FXML
     private void save() {
@@ -394,7 +401,6 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
                  MainApp.inv[i][j] = 0;
-                 MainApp.inventory[i] = new Item();
                  MainApp.IS[i] = new InnerShadow();
 
                  MainApp.rec[i].setFill(Color.GREY);
@@ -411,7 +417,6 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
          MainApp.iSpaces[7] = img8;
          MainApp.iSpaces[8] = img9;
          
-         MainApp.txtIn=txtIn;
          MainApp.img1=img1;
          MainApp.img2=img2;
          MainApp.img3=img3;

@@ -34,7 +34,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * FXML Controller class
@@ -51,7 +52,8 @@ public class FXMLCommonRoomController implements Initializable {
     Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
     Image front = new Image(getClass().getResource("/prisoner2.png").toString());
 
-    int test = 0;
+    MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
+
     private int xvar, yvar;
 
     Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
@@ -59,7 +61,7 @@ public class FXMLCommonRoomController implements Initializable {
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
-        if (col(imgGuard, imgPlayer)|| imgPlayer.getLayoutY() >= 420 || imgPlayer.getLayoutY() <= 30) {
+        if (col(imgGuard, imgPlayer) || imgPlayer.getLayoutY() >= 420 || imgPlayer.getLayoutY() <= 30) {
             imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
         }
     }
@@ -71,27 +73,28 @@ public class FXMLCommonRoomController implements Initializable {
         }
         if (col(imgPlayer, imgCell)) {
             imgCell.setImage(open);
-        }
-        if (col(imgPlayer, imgBlockA)) {
+            opensound.play();
+        } else if (col(imgPlayer, imgBlockA)) {
             imgBlockA.setImage(open);
-        }
-        if (col(imgPlayer, imgBlockB)) {
+            opensound.play();
+        } else if (col(imgPlayer, imgBlockB)) {
             imgBlockB.setImage(open);
-        }
-        if (col(imgPlayer, imgGuardRoom)) {
+            opensound.play();
+        } else if (col(imgPlayer, imgGuardRoom)) {
             imgGuardRoom.setImage(open);
-        }
-        if (col(imgPlayer, imgCell) == false) {
+            opensound.play();
+        } else if (col(imgPlayer, imgCell) == false) {
             imgCell.setImage(closed);
-        }
-        if (col(imgPlayer, imgBlockA) == false) {
             imgBlockA.setImage(closed);
-        }
-        if (col(imgPlayer, imgBlockB) == false) {
             imgBlockB.setImage(closed);
-        }
-        if (col(imgPlayer, imgGuardRoom) == false) {
             imgGuardRoom.setImage(closed);
+            opensound.stop();
+        } else if (col(imgPlayer, imgBlockA) == false) {
+            opensound.stop();
+        } else if (col(imgPlayer, imgBlockB) == false) {
+            opensound.stop();
+        } else if (col(imgPlayer, imgGuardRoom) == false) {
+            opensound.stop();
         }
     }
 
@@ -128,7 +131,6 @@ public class FXMLCommonRoomController implements Initializable {
             stage.hide();
             stage.setScene(scene);
             stage.setWidth(900);
-            
             stage.setTitle("Guard Room");
             stage.setResizable(false);
             stage.show();
@@ -156,17 +158,20 @@ public class FXMLCommonRoomController implements Initializable {
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
+
          if ((event.getCode() == KeyCode.I)) {
             if(!MainApp.invVis){
             MainApp.invVis=true;
             pnlInv.setVisible(true);
+                        MainApp.displayIcons();
+
             /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             home_page_scene.getRoot().requestFocus();*/
-            }else{
-                 MainApp.invVis=false;
-           pnlInv.setVisible(false);
-           /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+            } else {
+                MainApp.invVis = false;
+                pnlInv.setVisible(false);
+                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
            Scene home_page_scene = new Scene(home_page_parent);
            home_page_scene.getRoot().requestFocus();*/
             }
@@ -194,51 +199,36 @@ public class FXMLCommonRoomController implements Initializable {
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
+
+    @FXML
+      Label lblStats;
+    
     @FXML
     ImageView img1,
+            img2,
+            img3,
+            img4,
+            img5,
+            img6,
+            img7,
+            img8,
+            img9;
 
-    
-     img2,
-    
-     img3,
-    
-     img4,
-    
-     img5,
-    
-     img6,
-    
-     img7,
-    
-     img8,
-    
-     img9;
-
-   @FXML
-    Rectangle rec1,
-
-    
-     rec2,
-    
-     rec3,
-    
-     rec4,
-    
-     rec5,
-    
-     rec6,
-    
-     rec7,
-    
-     rec8,
-    
-     rec9;
-   
-   
-   @FXML
-    Pane pnlInv;
     @FXML
-     TextField txtIn;
+    Rectangle rec1,
+            rec2,
+            rec3,
+            rec4,
+            rec5,
+            rec6,
+            rec7,
+            rec8,
+            rec9;
+
+    @FXML
+    Pane pnlInv;
+
+   
     
      @FXML
     private void click(MouseEvent e) {
@@ -251,21 +241,22 @@ public class FXMLCommonRoomController implements Initializable {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
-                
-                
-                ////////////// make sure to change damage
-                
-                
-if(MainApp.inventory[i].getType().equals("Warrior")){
-                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage()/2); //////////damage!!!!!!!!!!
-}
 
-else if(MainApp.inventory[i].getType().equals("Rogue")){
-                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+(MainApp.inventory[i].getDamage()-2));      //////////damage!!!!!!!!!!
-}else{
+                
+                
+               lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
     System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-}
 
+
+
+                ////////////// make sure to change damage
+                if (MainApp.inventory[i].getType().equals("Warrior")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage() / 2); //////////damage!!!!!!!!!!
+                } else if (MainApp.inventory[i].getType().equals("Rogue")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + (MainApp.inventory[i].getDamage() - 2));      //////////damage!!!!!!!!!!
+                } else {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+                }
 
             } else {
                 MainApp.rec[i].setFill(Color.GREY);
@@ -300,16 +291,14 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
     }
 
     ////not needed{
-    @FXML
-    private void btnIn() {
-        MainApp.addToInventory(txtIn.getText());
-    }
+  
 
     @FXML
     private void save() {
         System.out.println(MainApp.saveInventory());
     }
 ////}
+
     /**
      * Initializes the controller class.
      */
@@ -319,28 +308,27 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
         Vertical.setCycleCount(Timeline.INDEFINITE);
         Horizontal.play();
         Vertical.play();
-        
-        
-        
-         MainApp.rec[0] = rec1;
-         MainApp.rec[1] = rec2;
-         MainApp.rec[2] = rec3;
-         MainApp.rec[3] = rec4;
-         MainApp.rec[4] = rec5;
-         MainApp.rec[5] = rec6;
-         MainApp.rec[6] = rec7;
-         MainApp.rec[7] = rec8;
-         MainApp.rec[8] = rec9;
+
+        MainApp.rec[0] = rec1;
+        MainApp.rec[1] = rec2;
+        MainApp.rec[2] = rec3;
+        MainApp.rec[3] = rec4;
+        MainApp.rec[4] = rec5;
+        MainApp.rec[5] = rec6;
+        MainApp.rec[6] = rec7;
+        MainApp.rec[7] = rec8;
+        MainApp.rec[8] = rec9;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
-                 MainApp.inv[i][j] = 0;
-                 MainApp.inventory[i] = new Item();
-                 MainApp.IS[i] = new InnerShadow();
+                MainApp.inv[i][j] = 0;
 
-                 MainApp.rec[i].setFill(Color.GREY);
+                MainApp.IS[i] = new InnerShadow();
+
+                MainApp.rec[i].setFill(Color.GREY);
             }
 
         }
+
          MainApp.iSpaces[0] = img1;
          MainApp.iSpaces[1] = img2;
          MainApp.iSpaces[2] = img3;
@@ -351,7 +339,6 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
          MainApp.iSpaces[7] = img8;
          MainApp.iSpaces[8] = img9;
          
-         MainApp.txtIn=txtIn;
          MainApp.img1=img1;
          MainApp.img2=img2;
          MainApp.img3=img3;

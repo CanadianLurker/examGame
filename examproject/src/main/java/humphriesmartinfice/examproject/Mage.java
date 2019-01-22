@@ -14,5 +14,10 @@ public class Mage extends Weapon {
 this.setType("Mage");
 this.setIcon(new Image(getClass().getResource("/staff.png").toString()));
     }
-
+ public Mage(int level, int rarity, int damage, String type){
+         super(level,rarity,damage,type);
+        this.setType("Mage");
+         this.setIcon(new Image(getClass().getResource("/staff.png").toString()));
+        
+    }
 }
