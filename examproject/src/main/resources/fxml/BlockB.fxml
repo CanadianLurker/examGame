@@ -83,19 +83,19 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button fx:id="yes" layoutX="143.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnYes" text="Yes">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Button fx:id="no" layoutX="285.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnNo" text="No">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Label alignment="CENTER" layoutX="3.0" layoutY="49.0" prefHeight="30.0" prefWidth="463.0" text="Would you like to play again?" textAlignment="CENTER">
+            <Button fx:id="yes" layoutX="127.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnYes" text="Yes">
                <font>
                   <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="no" layoutX="284.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnNo" text="No">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Label fx:id="lblResult" alignment="CENTER" layoutX="3.0" layoutY="3.0" prefHeight="91.0" prefWidth="463.0" text="Would you like to play again?" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
                </font>
             </Label>
          </children>
@@ -108,6 +108,11 @@
       <Label fx:id="lblCigs" layoutX="423.0" layoutY="42.0" text="Cigs:">
          <font>
             <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblCount" layoutX="526.0" layoutY="565.0" text="Fight 10 more enemies to obtain a guard key">
+         <font>
+            <Font name="System Bold" size="17.0" />
          </font>
       </Label>
    </children>

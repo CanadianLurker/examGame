@@ -5,9 +5,13 @@
  */
 package humphriesmartinfice.examproject;
 
+import static humphriesmartinfice.examproject.MainApp.enemies;
 import static humphriesmartinfice.examproject.MainApp.getCigs;
 import static humphriesmartinfice.examproject.MainApp.getLevel;
 import static humphriesmartinfice.examproject.MainApp.setCigs;
+import static humphriesmartinfice.examproject.MainApp.saveLoc;
+import static humphriesmartinfice.examproject.MainApp.keyB;
+import static humphriesmartinfice.examproject.MainApp.bcount;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,12 +46,12 @@ public class BlockBController implements Initializable {
     @FXML
     private Pane panMessage;
     @FXML
-    private Label lblDoor1, lblDoor2, lblDoor3, lblResult, lblCigs, lblExit;
+    private Label lblDoor1, lblDoor2, lblDoor3, lblResult, lblCigs, lblExit, lblCount;
     @FXML
     private Button fight, yes, no;
     @FXML
     private ImageView imgDoor1, imgDoor2, imgDoor3, imgPlayer, imgExit;
-    
+
     Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
     Image front = new Image(getClass().getResource("/prisoner2.png").toString());
 
@@ -89,12 +93,27 @@ public class BlockBController implements Initializable {
         }
         if (e.getCode() == KeyCode.E && col(imgPlayer, imgDoor1)) {
             check();
+            if (rand == 1) {
+                cigs = cigs + 25;
+                setCigs(getCigs() + cigs);
+                lblCigs.setText("Cigs: " + getCigs());
+            }
         }
         if (e.getCode() == KeyCode.E && col(imgPlayer, imgDoor2)) {
             check();
+            if (rand == 1) {
+                cigs = cigs + 25;
+                setCigs(getCigs() + cigs);
+                lblCigs.setText("Cigs: " + getCigs());
+            }
         }
         if (e.getCode() == KeyCode.E && col(imgPlayer, imgDoor3)) {
             check();
+            if (rand == 1) {
+                cigs = cigs + 25;
+                setCigs(getCigs() + cigs);
+                lblCigs.setText("Cigs: " + getCigs());
+            }
         }
     }
 
@@ -132,20 +151,15 @@ public class BlockBController implements Initializable {
 
     private void check() {
         if (rand == 1) {
-            xmove.stop();
-            ymove.stop();
-            imgPlayer.setTranslateY(imgPlayer.getTranslateY() + 5);
-            lblResult.setText("Congratulations, you chose the correct door and have recieved 25 cigs!");
-            cigs = cigs + 25;
-            setCigs(getCigs() + cigs);
-            lblCigs.setText("Cigs: " + getCigs());
+            imgPlayer.setLayoutX(183);
+            imgPlayer.setLayoutY(429);
+            lblResult.setText("Congratulations \n You chose the correct door and have recieved 25 cigs! \n Would you like to play again?");
             panMessage.setVisible(true);
             yes.setVisible(true);
             no.setVisible(true);
         } else if (rand == 2 || rand == 3) {
-            xmove.stop();
-            ymove.stop();
-            imgPlayer.setTranslateY(imgPlayer.getTranslateY() + 5);
+            imgPlayer.setLayoutX(183);
+            imgPlayer.setLayoutY(429);
             panMessage.setVisible(true);
             yes.setVisible(false);
             no.setVisible(false);
@@ -160,7 +174,12 @@ public class BlockBController implements Initializable {
 
     @FXML
     private void btnFight(ActionEvent event) throws IOException {
+        bcount = bcount - 1;
+        lblCount.setText("Fight " + bcount + " more enemies to face obtain a key");
         panMessage.setVisible(false);
+        rand = ThreadLocalRandom.current().nextInt(1, 4);
+        enemies.add(new Enemy(getLevel()));
+        saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml")), 12, 34);
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -168,26 +187,28 @@ public class BlockBController implements Initializable {
         stage.setScene(home_page_scene);
         stage.setTitle("FIGHT!!!");
         stage.show();
-        home_page_scene.getRoot().requestFocus();
     }
 
     @FXML
     private void btnYes(ActionEvent event) throws IOException {
-        xmove.setCycleCount(Timeline.INDEFINITE);
-        ymove.setCycleCount(Timeline.INDEFINITE);
-        xmove.play();
-        ymove.play();
+        imgPlayer.setLayoutX(183);
+        imgPlayer.setLayoutY(429);
         rand = ThreadLocalRandom.current().nextInt(1, 4);
         panMessage.setVisible(false);
+
     }
 
     @FXML
-    private void btnNo(ActionEvent event) throws IOException {
+    private void btnNo(ActionEvent e) throws IOException {
         panMessage.setVisible(false);
-        xmove.setCycleCount(Timeline.INDEFINITE);
-        ymove.setCycleCount(Timeline.INDEFINITE);
-        xmove.play();
-        ymove.play();
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
+        Scene home_page_scene = new Scene(home_page_parent);
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.hide();
+        stage.setScene(home_page_scene);
+        stage.setTitle("Common Room");
+        stage.show();
+        home_page_scene.getRoot().requestFocus();
     }
 
     /**
@@ -201,5 +222,10 @@ public class BlockBController implements Initializable {
         xmove.play();
         ymove.play();
         rand = ThreadLocalRandom.current().nextInt(1, 4);
+        lblCount.setText("Fight " + bcount + " more enemies to face obtain a key");
+        if (bcount == 0) {
+            lblCount.setText("You recieved a guard key!");
+            keyB = true;
+        }
     }
 }
