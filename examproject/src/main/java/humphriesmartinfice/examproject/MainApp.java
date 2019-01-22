@@ -26,14 +26,14 @@ public static String username;
     
     public static int level, STR, DEX, INT,  cigs;
 
-
     public static int ecount = 0;
 
     public static boolean dot = false;
+    public static boolean key;
+    
+    public static String area;
 
-    public static double health, healthMAX, mana, manaMAX, EXP, EXPNeeded, layX, layY, edot;
-
-    public static Parent area;
+    public static double health, healthMAX, mana, manaMAX, EXP, EXPNeeded, edot;
 
     public static ArrayList<Enemy> enemies = new ArrayList();
 
@@ -55,21 +55,11 @@ public static String username;
         root.requestFocus();
     }
 
-    public static void saveLoc(Parent a, double x, double y) {
+    public static void saveLoc(String a) {
         area = a;
-        layX = x;
-        layY = y;
     }
 
-    public static double getLocX() {
-        return layX;
-    }
-
-    public static double getLocY() {
-        return layY;
-    }
-
-    public static Parent getArea() {
+    public static String getArea() {
         return area;
     }
 

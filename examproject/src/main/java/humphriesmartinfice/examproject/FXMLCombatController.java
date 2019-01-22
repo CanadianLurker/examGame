@@ -25,6 +25,7 @@ import static humphriesmartinfice.examproject.MainApp.*;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
@@ -224,8 +225,8 @@ public class FXMLCombatController implements Initializable {
     private void enemyTurn() {
         if (DOT) { //checks to see if enemy has a dot on them
             double dotd = weapon.Attack3(enemies.get(0).getDefence());
-            if(dotd < 0){
-            dotd = 0;
+            if (dotd < 0) {
+                dotd = 0;
             }
             enemies.get(0).setHealth(enemies.get(0).getHealth() - dotd);
             listLog.getItems().add(dotd + " damage dealt to enemy by dot!");
@@ -351,7 +352,13 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private void OK(ActionEvent event) throws IOException {
         if (points == 0 && exp == 0) {
-            Scene scene = new Scene(getArea());
+            Parent parent = FXMLLoader.load(getClass().getResource(getArea()));
+         //   if (getArea().equals("BlockA")) {
+         //       parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml"));
+          //  } else if (getArea().equals("BlockB")) {
+         //       parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml"));
+         //   }
+            Scene scene = new Scene(parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.hide();
             stage.setScene(scene);

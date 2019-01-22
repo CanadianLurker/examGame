@@ -86,7 +86,8 @@ public class BlockAController implements Initializable {
             yvar = -1;
         }
         if (e.getCode() == KeyCode.E && col(polPlayer, polDoor)) {
-            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); // now hosting the testing grounds for combat
+            saveLoc("BlockA");
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); 
             scene = new Scene(home_page_parent);
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             stage.close();
@@ -217,8 +218,8 @@ public class BlockAController implements Initializable {
         xmove.stop();
         ymove.stop();
         EnemyEmerge(enemies.size());
-        saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 300, 340);
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml")); // now hosting the testing grounds for combat
+        saveLoc("/fxml/BlockA.fxml");
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml")); 
         scene = new Scene(home_page_parent);
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setResizable(false);
@@ -239,6 +240,7 @@ public class BlockAController implements Initializable {
         }
         enemymove.setCycleCount(Timeline.INDEFINITE);
         enemymove.play();
+        opensound.play();
     }
 
     private void yes() {
@@ -382,8 +384,6 @@ public class BlockAController implements Initializable {
         ymove.setCycleCount(Timeline.INDEFINITE);
         xmove.play();
         ymove.play();
-        panPlayer.setLayoutX(getLocX());
-        panPlayer.setLayoutY(getLocY());
         
         
         

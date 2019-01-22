@@ -5,6 +5,7 @@
  */
 package humphriesmartinfice.examproject;
 
+import static humphriesmartinfice.examproject.MainApp.saveLoc;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -45,9 +46,9 @@ import javafx.scene.paint.Color;
  * @author n00bi
  */
 public class FXMLStartController implements Initializable {
-    
+
     @FXML
-    private ImageView imgKey, imgTable, imgBed, imgToilet, imgDoor, imgPoster, imgPlayer, imgSTable, imgSBed;
+    private ImageView imgKey, imgTable, imgBed, imgToilet, imgDoor, imgPoster, imgPlayer, imgSTable, imgSBed, imgPaper;
 
     private int xvar, yvar;
 
@@ -58,17 +59,16 @@ public class FXMLStartController implements Initializable {
 
     Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
-    
-    MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
 
-    private boolean key;
+    MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
+    MediaPlayer page = new MediaPlayer((new Media(getClass().getResource("/TurnThePage.mp3").toString())));
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
         if (col(imgTable, imgPlayer) || col(imgPlayer, imgBed) || col(imgPlayer, imgToilet) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
         }
-        if (col(imgPlayer, imgDoor) && key) {
+        if (col(imgPlayer, imgDoor) && MainApp.key) {
             imgDoor.setImage(open);
             opensound.play();
         }
@@ -85,14 +85,6 @@ public class FXMLStartController implements Initializable {
         }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
     @FXML
     public void keyPressed(KeyEvent event) throws IOException {
         if ((event.getCode() == KeyCode.D)) {
@@ -107,7 +99,8 @@ public class FXMLStartController implements Initializable {
         if ((event.getCode() == KeyCode.S)) {
             yvar = 1;
         }
-        if (event.getCode() == KeyCode.E && col(imgPlayer, imgDoor) && key) {
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgDoor) && MainApp.key) {
+            saveLoc("FXMLStart");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -118,39 +111,49 @@ public class FXMLStartController implements Initializable {
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
-        if (event.getCode() == KeyCode.E && col(imgPlayer, imgSTable)) {
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgSTable)&& !imgPaper.isVisible()) {
+            imgPaper.setVisible(true);
+            Vertical.stop();
+            Horizontal.stop();
+            page.play();
+        } else if (imgPaper.isVisible() && event.getCode() == KeyCode.E) {
+            Vertical.play();
+            Horizontal.play();
+            imgPaper.setVisible(false);
+            page.stop();
             imgKey.setVisible(false);
-            key = true;
-        }
-         if (event.getCode() == KeyCode.E && col(imgPlayer, imgSBed)) {
-             MainApp.user.save(MainApp.fileName, MainApp.usernameList.indexOf(MainApp.username));
-             
-             System.out.println(MainApp.username);
-             System.out.println(MainApp.DEX);
-             System.out.println(MainApp.STR);
-             System.out.println(MainApp.INT);
-             System.out.println(MainApp.cigs);
-             
-            Alert alert = new Alert(AlertType.INFORMATION); 
-alert.setTitle("Saved");
-alert.setHeaderText(null); 
-alert.setContentText(MainApp.username+", Your progress has been saved");
-alert.showAndWait();
-        }
-        
-        if ((event.getCode() == KeyCode.I)) {
-            if(!MainApp.invVis){
-            MainApp.invVis=true;
-            pnlInv.setVisible(true);
-                        MainApp.displayIcons();
+            MainApp.key = true;
 
-            /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+        }
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgSBed)) {
+            MainApp.user.save(MainApp.fileName, MainApp.usernameList.indexOf(MainApp.username));
+
+            System.out.println(MainApp.username);
+            System.out.println(MainApp.DEX);
+            System.out.println(MainApp.STR);
+            System.out.println(MainApp.INT);
+            System.out.println(MainApp.cigs);
+
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Saved");
+            alert.setHeaderText(null);
+            alert.setContentText(MainApp.username + ", Your progress has been saved");
+            alert.showAndWait();
+        }
+
+        if ((event.getCode() == KeyCode.I)) {
+            if (!MainApp.invVis) {
+                MainApp.invVis = true;
+                pnlInv.setVisible(true);
+                MainApp.displayIcons();
+
+                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             home_page_scene.getRoot().requestFocus();*/
-            }else{
-                 MainApp.invVis=false;
-           pnlInv.setVisible(false);
-           /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+            } else {
+                MainApp.invVis = false;
+                pnlInv.setVisible(false);
+                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
            Scene home_page_scene = new Scene(home_page_parent);
            home_page_scene.getRoot().requestFocus();*/
             }
@@ -182,63 +185,37 @@ alert.showAndWait();
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
 
-    
-    
-    
-    
-    
-    
-    
     @FXML
-      Label lblStats; 
+    Label lblStats;
 
     @FXML
     ImageView img1,
+            img2,
+            img3,
+            img4,
+            img5,
+            img6,
+            img7,
+            img8,
+            img9;
 
-    
-     img2,
-    
-     img3,
-    
-     img4,
-    
-     img5,
-    
-     img6,
-    
-     img7,
-    
-     img8,
-    
-     img9;
-
-   @FXML
+    @FXML
     Rectangle rec1,
+            rec2,
+            rec3,
+            rec4,
+            rec5,
+            rec6,
+            rec7,
+            rec8,
+            rec9;
 
-    
-     rec2,
-    
-     rec3,
-    
-     rec4,
-    
-     rec5,
-    
-     rec6,
-    
-     rec7,
-    
-     rec8,
-    
-     rec9;
-   
-   
-   @FXML
+    @FXML
     Pane pnlInv;
     @FXML
-     TextField txtIn;
-    
-     @FXML
+    TextField txtIn;
+
+    @FXML
     private void click(MouseEvent e) {
 
         MainApp.selected = (ImageView) e.getSource();
@@ -249,15 +226,10 @@ alert.showAndWait();
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
-                
-                
+
                 ////////////// make sure to change damage
-                
-                
- lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
-    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-
-
+                lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
+                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
 
             } else {
                 MainApp.rec[i].setFill(Color.GREY);
@@ -292,75 +264,62 @@ alert.showAndWait();
     }
 
     ////not needed{
-   
-
     @FXML
     private void save() {
         System.out.println(MainApp.saveInventory());
     }
 ////}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Horizontal.setCycleCount(Timeline.INDEFINITE);
         Vertical.setCycleCount(Timeline.INDEFINITE);
         Horizontal.play();
         Vertical.play();
-        if (key) {
+        if (MainApp.key) {
             imgKey.setVisible(false);
+            imgPlayer.setLayoutX(392);
+            imgPlayer.setLayoutY(65);
         }
-        
+
         MainApp.rec[0] = rec1;
-         MainApp.rec[1] = rec2;
-         MainApp.rec[2] = rec3;
-         MainApp.rec[3] = rec4;
-         MainApp.rec[4] = rec5;
-         MainApp.rec[5] = rec6;
-         MainApp.rec[6] = rec7;
-         MainApp.rec[7] = rec8;
-         MainApp.rec[8] = rec9;
+        MainApp.rec[1] = rec2;
+        MainApp.rec[2] = rec3;
+        MainApp.rec[3] = rec4;
+        MainApp.rec[4] = rec5;
+        MainApp.rec[5] = rec6;
+        MainApp.rec[6] = rec7;
+        MainApp.rec[7] = rec8;
+        MainApp.rec[8] = rec9;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
-                 MainApp.inv[i][j] = 0;
-                 MainApp.IS[i] = new InnerShadow();
+                MainApp.inv[i][j] = 0;
+                MainApp.IS[i] = new InnerShadow();
 
-                 MainApp.rec[i].setFill(Color.GREY);
+                MainApp.rec[i].setFill(Color.GREY);
             }
 
         }
-         MainApp.iSpaces[0] = img1;
-         MainApp.iSpaces[1] = img2;
-         MainApp.iSpaces[2] = img3;
-         MainApp.iSpaces[3] = img4;
-         MainApp.iSpaces[4] = img5;
-         MainApp.iSpaces[5] = img6;
-         MainApp.iSpaces[6] = img7;
-         MainApp.iSpaces[7] = img8;
-         MainApp.iSpaces[8] = img9;
-         
-         MainApp.img1=img1;
-         MainApp.img2=img2;
-         MainApp.img3=img3;
-         MainApp.img4=img4;
-         MainApp.img5=img5;
-         MainApp.img6=img6;
-         MainApp.img7=img7;
-         MainApp.img8=img8;
-         MainApp.img9=img9;
-         
+        MainApp.iSpaces[0] = img1;
+        MainApp.iSpaces[1] = img2;
+        MainApp.iSpaces[2] = img3;
+        MainApp.iSpaces[3] = img4;
+        MainApp.iSpaces[4] = img5;
+        MainApp.iSpaces[5] = img6;
+        MainApp.iSpaces[6] = img7;
+        MainApp.iSpaces[7] = img8;
+        MainApp.iSpaces[8] = img9;
+
+        MainApp.img1 = img1;
+        MainApp.img2 = img2;
+        MainApp.img3 = img3;
+        MainApp.img4 = img4;
+        MainApp.img5 = img5;
+        MainApp.img6 = img6;
+        MainApp.img7 = img7;
+        MainApp.img8 = img8;
+        MainApp.img9 = img9;
+
     }
 
 }
