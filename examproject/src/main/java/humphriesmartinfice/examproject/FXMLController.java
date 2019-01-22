@@ -61,6 +61,7 @@ private TextField txtSearch;
 
     @FXML
     private void btnLoad(ActionEvent event) throws IOException {
+        if (btnLoad.getOpacity() > 0.8) {
         int record = listSaves.getSelectionModel().getSelectedIndex();
         MainApp.user.open(MainApp.fileName, record);
 
@@ -69,7 +70,7 @@ private TextField txtSearch;
         System.out.println(MainApp.STR);
         System.out.println(MainApp.INT);
         System.out.println(MainApp.cigs);
-        if (btnLoad.getOpacity() > 0.8) {
+        
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
             Scene home_page_scene = new Scene(home_page_parent);
             //get reference to the stage 
@@ -86,6 +87,7 @@ private TextField txtSearch;
 boolean dif=false;
     @FXML
     private void btnNewGame(ActionEvent event) throws IOException {
+       if (btnLoad.getOpacity() > 0.8) {
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Game");
         if (!dif){
@@ -126,8 +128,7 @@ boolean dif=false;
             }
             }
         } catch (Exception e) {
-
-        }
+        }}
     }
     /* private void find(){
     

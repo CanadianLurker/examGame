@@ -113,7 +113,6 @@ public class FXMLCommonRoomController implements Initializable {
             yvar = 1;
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgBlockA)) {
-            saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml")), 750, 88);
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -159,13 +158,13 @@ public class FXMLCommonRoomController implements Initializable {
             home_page_scene.getRoot().requestFocus();
         }
 
-         if ((event.getCode() == KeyCode.I)) {
-            if(!MainApp.invVis){
-            MainApp.invVis=true;
-            pnlInv.setVisible(true);
-                        MainApp.displayIcons();
+        if ((event.getCode() == KeyCode.I)) {
+            if (!MainApp.invVis) {
+                MainApp.invVis = true;
+                pnlInv.setVisible(true);
+                MainApp.displayIcons();
 
-            /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             home_page_scene.getRoot().requestFocus();*/
             } else {
@@ -201,8 +200,8 @@ public class FXMLCommonRoomController implements Initializable {
     }
 
     @FXML
-      Label lblStats;
-    
+    Label lblStats;
+
     @FXML
     ImageView img1,
             img2,
@@ -228,9 +227,7 @@ public class FXMLCommonRoomController implements Initializable {
     @FXML
     Pane pnlInv;
 
-   
-    
-     @FXML
+    @FXML
     private void click(MouseEvent e) {
 
         MainApp.selected = (ImageView) e.getSource();
@@ -242,12 +239,8 @@ public class FXMLCommonRoomController implements Initializable {
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
 
-                
-                
-               lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
-    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-
-
+                lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
+                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
 
                 ////////////// make sure to change damage
                 if (MainApp.inventory[i].getType().equals("Warrior")) {
@@ -291,8 +284,6 @@ public class FXMLCommonRoomController implements Initializable {
     }
 
     ////not needed{
-  
-
     @FXML
     private void save() {
         System.out.println(MainApp.saveInventory());
@@ -308,6 +299,18 @@ public class FXMLCommonRoomController implements Initializable {
         Vertical.setCycleCount(Timeline.INDEFINITE);
         Horizontal.play();
         Vertical.play();
+        if (getArea().equals("BlockA")) {
+            imgPlayer.setLayoutX(160);
+            imgPlayer.setLayoutY(390);
+        }
+        if (getArea().equals("BlockB")) {
+            imgPlayer.setLayoutX(756);
+            imgPlayer.setLayoutY(56);
+        }
+        if (getArea().equals("GuardRoom")) {
+            imgPlayer.setLayoutX(769);
+            imgPlayer.setLayoutY(390);
+        } 
 
         MainApp.rec[0] = rec1;
         MainApp.rec[1] = rec2;
@@ -329,25 +332,25 @@ public class FXMLCommonRoomController implements Initializable {
 
         }
 
-         MainApp.iSpaces[0] = img1;
-         MainApp.iSpaces[1] = img2;
-         MainApp.iSpaces[2] = img3;
-         MainApp.iSpaces[3] = img4;
-         MainApp.iSpaces[4] = img5;
-         MainApp.iSpaces[5] = img6;
-         MainApp.iSpaces[6] = img7;
-         MainApp.iSpaces[7] = img8;
-         MainApp.iSpaces[8] = img9;
-         
-         MainApp.img1=img1;
-         MainApp.img2=img2;
-         MainApp.img3=img3;
-         MainApp.img4=img4;
-         MainApp.img5=img5;
-         MainApp.img6=img6;
-         MainApp.img7=img7;
-         MainApp.img8=img8;
-         MainApp.img9=img9;
+        MainApp.iSpaces[0] = img1;
+        MainApp.iSpaces[1] = img2;
+        MainApp.iSpaces[2] = img3;
+        MainApp.iSpaces[3] = img4;
+        MainApp.iSpaces[4] = img5;
+        MainApp.iSpaces[5] = img6;
+        MainApp.iSpaces[6] = img7;
+        MainApp.iSpaces[7] = img8;
+        MainApp.iSpaces[8] = img9;
+
+        MainApp.img1 = img1;
+        MainApp.img2 = img2;
+        MainApp.img3 = img3;
+        MainApp.img4 = img4;
+        MainApp.img5 = img5;
+        MainApp.img6 = img6;
+        MainApp.img7 = img7;
+        MainApp.img8 = img8;
+        MainApp.img9 = img9;
     }
 
 }
