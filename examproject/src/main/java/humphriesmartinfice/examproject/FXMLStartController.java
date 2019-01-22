@@ -29,6 +29,8 @@ import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
@@ -45,7 +47,7 @@ import javafx.scene.paint.Color;
 public class FXMLStartController implements Initializable {
     
     @FXML
-    private ImageView imgKey, imgTable, imgBed, imgToilet, imgDoor, imgPoster, imgPlayer, imgSTable;
+    private ImageView imgKey, imgTable, imgBed, imgToilet, imgDoor, imgPoster, imgPlayer, imgSTable, imgSBed;
 
     private int xvar, yvar;
 
@@ -120,10 +122,28 @@ public class FXMLStartController implements Initializable {
             imgKey.setVisible(false);
             key = true;
         }
+         if (event.getCode() == KeyCode.E && col(imgPlayer, imgSBed)) {
+             MainApp.user.save(MainApp.fileName, MainApp.usernameList.indexOf(MainApp.username));
+             
+             System.out.println(MainApp.username);
+             System.out.println(MainApp.DEX);
+             System.out.println(MainApp.STR);
+             System.out.println(MainApp.INT);
+             System.out.println(MainApp.cigs);
+             
+            Alert alert = new Alert(AlertType.INFORMATION); 
+alert.setTitle("Saved");
+alert.setHeaderText(null); 
+alert.setContentText(MainApp.username+", Your progress has been saved");
+alert.showAndWait();
+        }
+        
         if ((event.getCode() == KeyCode.I)) {
             if(!MainApp.invVis){
             MainApp.invVis=true;
             pnlInv.setVisible(true);
+                        MainApp.displayIcons();
+
             /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             home_page_scene.getRoot().requestFocus();*/
@@ -136,7 +156,7 @@ public class FXMLStartController implements Initializable {
             }
         }
         if ((event.getCode() == KeyCode.P)) {
-            MainApp.addToInventory("WWA005009WRD005009WWD005009OIZ000000WRB110090WMA999709OIZ000000WMA900080OIZ000000");
+            MainApp.addToInventory("WWA011011WRD022022WWD033033OIZ000000WRB044044WMA998709OIZ000000WMA088880OIZ000000");
         }
     }
 
@@ -169,8 +189,9 @@ public class FXMLStartController implements Initializable {
     
     
     
-    
-    
+    @FXML
+      Label lblStats; 
+
     @FXML
     ImageView img1,
 
@@ -233,15 +254,9 @@ public class FXMLStartController implements Initializable {
                 ////////////// make sure to change damage
                 
                 
-if(MainApp.inventory[i].getType().equals("Warrior")){
-                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage()/2); //////////damage!!!!!!!!!!
-}
-
-else if(MainApp.inventory[i].getType().equals("Rogue")){
-                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+(MainApp.inventory[i].getDamage()-2));      //////////damage!!!!!!!!!!
-}else{
+ lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
     System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-}
+
 
 
             } else {
@@ -277,10 +292,7 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
     }
 
     ////not needed{
-    @FXML
-    private void btnIn() {
-        MainApp.addToInventory(txtIn.getText());
-    }
+   
 
     @FXML
     private void save() {
@@ -339,7 +351,6 @@ else if(MainApp.inventory[i].getType().equals("Rogue")){
          MainApp.iSpaces[7] = img8;
          MainApp.iSpaces[8] = img9;
          
-         MainApp.txtIn=txtIn;
          MainApp.img1=img1;
          MainApp.img2=img2;
          MainApp.img3=img3;

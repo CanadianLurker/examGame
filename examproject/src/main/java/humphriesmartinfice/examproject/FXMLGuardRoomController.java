@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
@@ -69,11 +70,13 @@ public class FXMLGuardRoomController implements Initializable {
         if (e.getCode() == KeyCode.E) {
             
         }
-        if ((e.getCode() == KeyCode.I)) {
-            if (!MainApp.invVis) {
-                MainApp.invVis = true;
-                pnlInv.setVisible(true);
-                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+
+         if ((e.getCode() == KeyCode.I)) {
+            if(!MainApp.invVis){
+            MainApp.invVis=true;
+            pnlInv.setVisible(true);
+            MainApp.displayIcons();
+            /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             home_page_scene.getRoot().requestFocus();*/
             } else {
@@ -127,8 +130,13 @@ public class FXMLGuardRoomController implements Initializable {
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
+
     
+
     @FXML
+      Label lblStats;
+     @FXML
+
     ImageView img1,
             img2,
             img3,
@@ -152,8 +160,7 @@ public class FXMLGuardRoomController implements Initializable {
     
     @FXML
     Pane pnlInv;
-    @FXML
-    TextField txtIn;
+
     
     @FXML
     private void click(MouseEvent e) {
@@ -176,6 +183,12 @@ public class FXMLGuardRoomController implements Initializable {
                     System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
                 }
                 
+
+                
+ lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
+    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+
+
             } else {
                 MainApp.rec[i].setFill(Color.GREY);
                 
@@ -209,11 +222,10 @@ public class FXMLGuardRoomController implements Initializable {
     }
 
     ////not needed{
-    @FXML
-    private void btnIn() {
-        MainApp.addToInventory(txtIn.getText());
-    }
-    
+
+   
+
+
     @FXML
     private void save() {
         System.out.println(MainApp.saveInventory());
@@ -248,26 +260,26 @@ public class FXMLGuardRoomController implements Initializable {
             }
             
         }
-        MainApp.iSpaces[0] = img1;
-        MainApp.iSpaces[1] = img2;
-        MainApp.iSpaces[2] = img3;
-        MainApp.iSpaces[3] = img4;
-        MainApp.iSpaces[4] = img5;
-        MainApp.iSpaces[5] = img6;
-        MainApp.iSpaces[6] = img7;
-        MainApp.iSpaces[7] = img8;
-        MainApp.iSpaces[8] = img9;
-        
-        MainApp.txtIn = txtIn;
-        MainApp.img1 = img1;
-        MainApp.img2 = img2;
-        MainApp.img3 = img3;
-        MainApp.img4 = img4;
-        MainApp.img5 = img5;
-        MainApp.img6 = img6;
-        MainApp.img7 = img7;
-        MainApp.img8 = img8;
-        MainApp.img9 = img9;
+
+         MainApp.iSpaces[0] = img1;
+         MainApp.iSpaces[1] = img2;
+         MainApp.iSpaces[2] = img3;
+         MainApp.iSpaces[3] = img4;
+         MainApp.iSpaces[4] = img5;
+         MainApp.iSpaces[5] = img6;
+         MainApp.iSpaces[6] = img7;
+         MainApp.iSpaces[7] = img8;
+         MainApp.iSpaces[8] = img9;
+         
+         MainApp.img1=img1;
+         MainApp.img2=img2;
+         MainApp.img3=img3;
+         MainApp.img4=img4;
+         MainApp.img5=img5;
+         MainApp.img6=img6;
+         MainApp.img7=img7;
+         MainApp.img8=img8;
+         MainApp.img9=img9;
     }
     
 }

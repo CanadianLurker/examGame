@@ -10,7 +10,9 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#pressed" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #3c4451;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLController">
     <children>
+
       <Label fx:id="lblEnter" layoutX="336.0" layoutY="273.0" style="-fx-opacity: .8;" text="Press Enter to Continue" textFill="#d3d1d1">
+        <Button fx:id="load" disable="true" layoutX="346.0" layoutY="330.0" onAction="#btnLoad" text="Load save file">
          <font>
             <Font name="Baskerville Old Face" size="24.0" />
          </font>
@@ -39,13 +41,20 @@
          <font>
             <Font name="Baskerville Old Face" size="28.0" />
          </font></Label>
+
       <ListView fx:id="listSaves" layoutX="270.0" layoutY="229.0" opacity="0.0" prefHeight="145.0" prefWidth="361.0" style="-fx-border-color: #000000; -fx-background-color: #bbbbbb;" />
       <Button fx:id="btnOpt" layoutX="389.0" layoutY="471.0" mnemonicParsing="false" onAction="#btnOptions" opacity="0.0" style="-fx-background-color: #bbbbbb;" text="Help/Options">
+
          <font>
             <Font name="Baskerville Old Face" size="18.0" />
          </font>
       </Button>
+
       <Button fx:id="btnExit" layoutX="426.0" layoutY="534.0" mnemonicParsing="false" onAction="#btnExit" opacity="0.0" style="-fx-background-color: #bbbbbb;" text="Exit">
+
+      </Button>
+      <Button fx:id="newGame" layoutX="356.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnNewGame" text="New game">
+
          <font>
             <Font name="Baskerville Old Face" size="18.0" />
          </font>

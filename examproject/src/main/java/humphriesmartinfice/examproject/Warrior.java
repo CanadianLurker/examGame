@@ -15,7 +15,14 @@ public class Warrior extends Weapon {
 
     public Warrior(int Level, String Attack1, String Attack2, String Attack3, String Attack4, double manaCost, int rarity, int damage, int sdamage, String Name, String Type) {
         super(Level, "Smash", "Great Strike", "Slash", "Rage\nRaises Attack Briefly", (1 + Level), rarity, (2 * damage), Level, "Big Stick", "Warrior");
-this.setIcon(new Image(getClass().getResource("/axe.png").toString()));
+ this.setType("Warrior");
+        this.setIcon(new Image(getClass().getResource("/axe.png").toString()));
+    }
+     public Warrior(int level, int rarity, int damage, String type){
+         super(level,rarity,damage,type);
+        this.setType("Warrior");
+         this.setIcon(new Image(getClass().getResource("/axe.png").toString()));
+        
     }
 
 }

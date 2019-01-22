@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
@@ -21,7 +22,10 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    public static int level, STR, DEX, INT, cigs;
+public static String username;
+    
+    public static int level, STR, DEX, INT,  cigs;
+
 
     public static int ecount = 0;
 
@@ -172,34 +176,55 @@ public class MainApp extends Application {
     public static void setEXPNeeded() {
         MainApp.EXPNeeded = 25 + (MainApp.level * 18);
     }
+    public static ArrayList<String> usernameList = new ArrayList();
+public static File user;
 
-    @FXML
+
+public static Label lblStats; 
     public static ImageView img1,
-            img2,
-            img3,
-            img4,
-            img5,
-            img6,
-            img7,
-            img8,
-            img9;
-
-    @FXML
+    
+    
+    img2,
+    
+    img3,
+    
+    img4,
+    
+    img5,
+    
+    img6,
+    
+    img7,
+    
+    img8,
+    
+    img9;
+    
+    
     public static Rectangle rec1,
-            rec2,
-            rec3,
-            rec4,
-            rec5,
-            rec6,
-            rec7,
-            rec8,
-            rec9;
-
-    @FXML
+    
+    
+    rec2,
+    
+    rec3,
+    
+    rec4,
+    
+    rec5,
+    
+    rec6,
+    
+    rec7,
+    
+    rec8,
+    
+    rec9;
+    
+    
     public static Pane pnlInv;
+    public static String fileName="savefile.raf";
+   
 
-    @FXML
-    public static TextField txtIn;
     public static Item inventory[] = new Item[9]; //array of items
     public static char inv[][] = new char[9][5];
     //type
@@ -238,17 +263,25 @@ public class MainApp extends Application {
             } else if (rare == 4) {
                 inv[i][2] = 'D';
             }
-            if (inventory[i].getType().equals("Warrior")) {
-                damage = inventory[i].getDamage() / 2;
-            } else if (inventory[i].getType().equals("Rogue")) {
-                damage = inventory[i].getDamage() - 2;
-            } else {
-                //includes mage
-                damage = inventory[i].getDamage();
-            }
 
-            intInv[i][0] = damage;
+            /*if(inventory[i].getType().equals("Warrior")){
+            damage = inventory[i].getDamage()/2;
+            }else if(inventory[i].getType().equals("Rogue")){
+            damage = inventory[i].getDamage()-2;
+            }else{
+            //includes mage*/
+            damage = inventory[i].getDamage();
+        //     }
+        if(damage>999){
+            damage=999;
+        }
+            
+            intInv[i][0] = damage; 
+
             levelI = inventory[i].getLevel();
+            if (level>999){
+                level=999;
+            }
             intInv[i][1] = levelI;
 
             sInv[i][0] = "" + intInv[i][0];
@@ -269,8 +302,7 @@ public class MainApp extends Application {
 
             // sInv[i][0] = "" + intInv[i][0];
 ////
-            //  inv[i][0] = inventory[i].getClass().getSuperclass().getSimpleName().charAt(0); //not usable
-            // inv[i][1] = inventory[i].getClass().getSimpleName().charAt(0);                 //not usable
+
             //new
             inv[i][0] = inventory[i].getClass().getSuperclass().getSimpleName().charAt(0);
             System.out.println("type " + inventory[i].getType());
@@ -281,7 +313,6 @@ public class MainApp extends Application {
             System.out.println(s);
 
         }
-        //// will need to be edited to 36 after [3] is added
         /////sike, [4] with 3 spaces for each last two(levelI, damage)
 
         if (s.length() != 81) {
@@ -343,7 +374,6 @@ public class MainApp extends Application {
     public static void addToInventory(Item i) {
         //adds to the inventory by passing an item
         inventory[nextSpot()] = i;
-        displayIcons();
 
     }
 
@@ -440,22 +470,24 @@ public class MainApp extends Application {
             else if (inv[i][0] == 'W') {
 //warrior
                 if (inv[i][1] == 'W') {
-                    System.out.println(intInv[i][0] + "-------------" + intInv[i][1]);
-                    inventory[nextSpot()] = new Warrior(intInv[i][1], "", "", "", "", 0, rare, intInv[i][0], 0, "", "Warrior"); //1, "", "", "", "", 0, 0, 0, 0, "", ""
-                    System.out.println(inventory[nextSpot() - 1].getDamage() / 2 + "-------------" + inventory[nextSpot() - 1].getLevel());
+
+                 System.out.println(intInv[i][0]+"-------------"+intInv[i][1]);
+                    inventory[nextSpot()] = new Warrior(intInv[i][1],rare,intInv[i][0],"Warrior"); 
+                    System.out.println(inventory[nextSpot()-1].getDamage()+"-------------"+inventory[nextSpot()-1].getLevel());
                 }
                 //mage
                 if (inv[i][1] == 'M') {
-                    System.out.println(intInv[i][0] + "-------------" + intInv[i][1]);
-                    inventory[nextSpot()] = new Mage(intInv[i][1], "", "", "", "", 0, rare, intInv[i][0], 0, "", "Mage");
-                    System.out.println(inventory[nextSpot()].getDamage() + "-------------" + inventory[nextSpot()].getLevel());
-
+                      System.out.println(intInv[i][0]+"-------------"+intInv[i][1]);
+                    inventory[nextSpot()] = new Mage(intInv[i][1],rare,intInv[i][0],"Mage");
+                    System.out.println(inventory[nextSpot()].getDamage()+"-------------"+inventory[nextSpot()].getLevel());
+                   
                 }
                 //rogue
                 if (inv[i][1] == 'R') {
-                    System.out.println(intInv[i][0] + "-------------" + intInv[i][1]);
-                    inventory[nextSpot()] = new Rogue(intInv[i][1], "", "", "", "", 0, rare, intInv[i][0], 0, "", "Rogue"); //1, "", "", "", "", 0, 0, 0, 0, "", ""
-                    System.out.println(inventory[nextSpot() - 1].getDamage() - 2 + "-------------" + inventory[nextSpot() - 1].getLevel());
+                 System.out.println(intInv[i][0]+"-------------"+intInv[i][1]);
+                    inventory[nextSpot()] = new Rogue(intInv[i][1],rare,intInv[i][0],"Rogue"); 
+                    System.out.println(inventory[nextSpot()-1].getDamage()+"-------------"+inventory[nextSpot()-1].getLevel());
+
                 }
 
             } else if (inv[i][0] == 'P') { //     potions/other items
@@ -472,7 +504,6 @@ public class MainApp extends Application {
 
         }
 
-        displayIcons();
 
     }
 
