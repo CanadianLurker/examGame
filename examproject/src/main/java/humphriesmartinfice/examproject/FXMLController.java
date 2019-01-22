@@ -25,7 +25,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class FXMLMenuController implements Initializable {
+public class FXMLController implements Initializable {
 
     @FXML
     private Label lblSaves, lblEnter, lblTitle;
