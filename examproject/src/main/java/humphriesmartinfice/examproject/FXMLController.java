@@ -14,6 +14,7 @@ import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -29,6 +30,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.ListView.EditEvent;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -44,7 +46,7 @@ public class FXMLController implements Initializable {
     private ListView listSaves;
     @FXML
     private ImageView imgL;
-
+private TextField txtSearch;
     private double op = 0.8;
     private double vol = 1;
 
@@ -59,6 +61,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void btnLoad(ActionEvent event) throws IOException {
+        if (btnLoad.getOpacity() > 0.8) {
         int record = listSaves.getSelectionModel().getSelectedIndex();
         MainApp.user.open(MainApp.fileName, record);
 
@@ -67,7 +70,7 @@ public class FXMLController implements Initializable {
         System.out.println(MainApp.STR);
         System.out.println(MainApp.INT);
         System.out.println(MainApp.cigs);
-        if (btnLoad.getOpacity() > 0.8) {
+        
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
             Scene home_page_scene = new Scene(home_page_parent);
             //get reference to the stage 
@@ -81,16 +84,27 @@ public class FXMLController implements Initializable {
             quiettime.play();
         }
     }
-
+boolean dif=false;
     @FXML
     private void btnNewGame(ActionEvent event) throws IOException {
+       if (btnLoad.getOpacity() > 0.8) {
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Game");
+        if (!dif){
         dialog.setHeaderText(null);
+        }else{
+                    dialog.setHeaderText("Please choose a different username");
+                    dif=false;
+
+        }
         dialog.setContentText("Enter a username");
         Optional<String> result = dialog.showAndWait();
         try {
-            if (dialog.getResult().trim().equals("")) {
+            for(String i: MainApp.usernameList){
+            if (dialog.getResult().trim().equals("")||dialog.getResult().trim().equals(i))    {
+                dif=true;
+                btnNewGame(event);
+                return;
             } else {
                 MainApp.username = dialog.getResult();
                 MainApp.usernameList.add(username);
@@ -112,10 +126,28 @@ public class FXMLController implements Initializable {
                 stage.show(); //shows the new page
                 home_page_scene.getRoot().requestFocus();
             }
+            }
         } catch (Exception e) {
-
-        }
+        }}
     }
+    /* private void find(){
+    
+    ArrayList<String> usernameList2 = MainApp.usernameList;
+    
+    Collections.sort(usernameList2);
+    if(binarySearch(usernameList2,0, usernameList2.size()-1, txtSearch.getText().toString())){
+    //for(Object i: listSaves.getItems()){
+    for(int i = 0; i < listSaves.getItems().size()-1; i++){
+    if(listSaves.getItems().){
+    listSaves.setFocusModel(listSaves.getFocusModel());
+    }
+    }
+    
+    }
+    
+    
+    }*/
+    
 
     @FXML
     private void btnOptions(ActionEvent event) throws IOException {
@@ -187,9 +219,26 @@ public class FXMLController implements Initializable {
             btnLoad.setDisable(false);
         }
     }
-
+    /*public Boolean binarySearch(ArrayList<String> A, int left, int right, String V){
+    int middle;
+    if (left > right) {
+    return false;
+    }
+    
+    middle = (left + right)/2;
+    int compare = V.compareTo(A.get(middle));
+    if (compare == 0) {
+    return true;
+    }
+    if (compare < 0) {
+    return binarySearch(A, left, middle-1, V);
+    } else {
+    return binarySearch(A, middle + 1, right, V);
+    }
+    }*/
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        dif=false;
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         MainApp.user = new File();
