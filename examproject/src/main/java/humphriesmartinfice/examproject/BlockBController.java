@@ -33,6 +33,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
@@ -54,6 +56,9 @@ public class BlockBController implements Initializable {
 
     Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
     Image front = new Image(getClass().getResource("/prisoner2.png").toString());
+    Image closed = new Image(getClass().getResource("/door closed.png").toString());
+    Image open = new Image(getClass().getResource("/door_open.png").toString());
+    MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
 
     private double xvar = 0;
     private double yvar = 0;
@@ -136,8 +141,29 @@ public class BlockBController implements Initializable {
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
-        if (col(imgPlayer, imgDoor1) || col(imgPlayer, imgDoor2) || col(imgPlayer, imgDoor3) || col(imgPlayer, imgExit)) {
-            imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
+        if (col(imgPlayer, imgDoor1)) {
+            imgDoor1.setImage(open);
+            opensound.play();
+        }
+        if (col(imgPlayer, imgDoor1) == false) {
+            imgDoor1.setImage(closed);
+            opensound.stop();
+        }
+        if (col(imgPlayer, imgDoor2)) {
+            imgDoor2.setImage(open);
+            opensound.play();
+        }
+        if (col(imgPlayer, imgDoor2) == false) {
+            imgDoor2.setImage(closed);
+            opensound.stop();
+        }
+        if (col(imgPlayer, imgDoor3)) {
+            imgDoor3.setImage(open);
+            opensound.play();
+        }
+        if (col(imgPlayer, imgDoor3) == false) {
+            imgDoor3.setImage(closed);
+            opensound.stop();
         }
     }
 
@@ -175,7 +201,7 @@ public class BlockBController implements Initializable {
     @FXML
     private void btnFight(ActionEvent event) throws IOException {
         bcount = bcount - 1;
-        lblCount.setText("Fight " + bcount + " more enemies to face obtain a key");
+        lblCount.setText("Fight " + bcount + " more enemies to obtain a guard key");
         panMessage.setVisible(false);
         rand = ThreadLocalRandom.current().nextInt(1, 4);
         enemies.add(new Enemy(getLevel()));
@@ -222,7 +248,7 @@ public class BlockBController implements Initializable {
         xmove.play();
         ymove.play();
         rand = ThreadLocalRandom.current().nextInt(1, 4);
-        lblCount.setText("Fight " + bcount + " more enemies to face obtain a key");
+        lblCount.setText("Fight " + bcount + " more enemies to obtain a guard key");
         if (bcount == 0) {
             lblCount.setText("You recieved a guard key!");
             keyB = true;

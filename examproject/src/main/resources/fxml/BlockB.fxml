@@ -37,17 +37,17 @@
       </Rectangle>
       <ImageView fx:id="imgDoor1" fitHeight="150.0" fitWidth="200.0" layoutX="90.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../door_open.png" />
+            <Image url="@../door%20closed.png" />
          </image>
       </ImageView>
       <ImageView fx:id="imgDoor2" fitHeight="150.0" fitWidth="200.0" layoutX="364.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../door_open.png" />
+            <Image url="@../door%20closed.png" />
          </image>
       </ImageView>
       <ImageView fx:id="imgDoor3" fitHeight="150.0" fitWidth="200.0" layoutX="628.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../door_open.png" />
+            <Image url="@../door%20closed.png" />
          </image>
       </ImageView>
       <Label fx:id="lblDoor1" layoutX="132.0" layoutY="69.0" text="Door #1">

@@ -38,12 +38,12 @@ public class FXMLHelpController implements Initializable {
 
     @FXML
     private void btnControls(ActionEvent event) throws IOException {
-        lblMessage.setText(" W - move up \n A - move left \n S - move down \n D - move right \n E - interact \n I - inventory");
+        lblMessage.setText(" W - move up \n A - move left \n S - move down \n D - move right \n E - interact with objects and people \n I - Open and close inventory");
     }
 
     @FXML
     private void btnInteract(ActionEvent event) throws IOException {
-        lblMessage.setText("To interact with things like doors or enemies press 'E' while at whatever your trying to interact with");
+        lblMessage.setText("To interact with things like doors or enemies press 'E' while at whatever your trying to interact with. \nYou can press 'E' while at your bed to save the game. \nWhile at a door you can press 'E' to enter said door. \nWhile standing with an enemy press 'E' to initiate combat.");
     }
 
     @FXML
