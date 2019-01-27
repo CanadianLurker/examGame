@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -90,7 +91,7 @@
          <font>
             <Font name="Bookman Old Style" size="18.0" />
          </font></Label>
-      <Pane fx:id="panEXP" layoutX="136.0" layoutY="87.0" prefHeight="426.0" prefWidth="629.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff; -fx-border-width: 3;">
+      <Pane fx:id="panEXP" layoutX="136.0" layoutY="87.0" prefHeight="426.0" prefWidth="629.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff; -fx-border-width: 3;" visible="false">
          <children>
             <ProgressBar fx:id="prgEXP" layoutX="88.0" layoutY="99.0" prefHeight="33.0" prefWidth="453.0" progress="0.0">
                <effect>
@@ -131,5 +132,15 @@
                   <Font name="Baskerville Old Face" size="24.0" />
                </font></Label>
          </children></Pane>
+      <ImageView fx:id="imgEnemy1" fitHeight="136.0" fitWidth="135.0" layoutX="670.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../prisoner.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="119.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../prisoner2.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

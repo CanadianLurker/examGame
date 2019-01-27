@@ -41,6 +41,10 @@ public static String username;
 
     public static Weapon weapon = new Rogue(30, "", "", "", "", 0, 0, 0, 0, "", "");
 
+    public static boolean keyB = false;
+    
+    public static int bcount = 10;
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
