@@ -87,6 +87,7 @@ public class BlockBController implements Initializable {
             imgPlayer.setImage(back);
         }
         if (e.getCode() == KeyCode.E && col(imgPlayer, imgExit)) {
+            saveLoc("BlockB");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -234,6 +235,7 @@ public class BlockBController implements Initializable {
     @FXML
     private void btnNo(ActionEvent e) throws IOException {
         panMessage.setVisible(false);
+        saveLoc("BlockB");
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
