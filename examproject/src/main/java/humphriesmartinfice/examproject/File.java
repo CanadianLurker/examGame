@@ -20,6 +20,7 @@ public class File {
     //key boolean + 2
     //exp + 8
     //270
+    // need a int for weapon in inventory that is equipped + 4
 
     public final int RECSIZE = 270; //Good for now 
     String username;
