@@ -91,10 +91,27 @@ public class FXMLCombatController implements Initializable {
             btnItems.setDisable(false); //disables the button that was pressed
             btnOther.setDisable(false);
         } else if (btnItems.isArmed()) {
+            
+           
+            
+            
+            
+            
+            
             Choice1 = "Item that Doesn't exist yet"; // ArrayList.get(i).getName() or something, items should be an arraylist of objects
             Choice2 = "Item that also doesn't exist yet";
             Choice3 = "Another item that doesn't exist yet";  //gets items directly from the inventory
             Choice4 = "I can't believe this item doesn't exist yet";
+            
+            try {
+                Choice1 = MainApp.itemsEquipped.get(0).getType() + " " + MainApp.itemsEquipped.get(0).getDamage();
+                Choice2 = MainApp.itemsEquipped.get(1).getType() + " " + MainApp.itemsEquipped.get(1).getDamage();
+                Choice3 = MainApp.itemsEquipped.get(2).getType() + " " + MainApp.itemsEquipped.get(2).getDamage();
+                Choice4 = MainApp.itemsEquipped.get(3).getType() + " " + MainApp.itemsEquipped.get(3).getDamage();
+                
+            } catch (Exception e) {
+            }
+            
             //gets items from inventory
             Primary = "Items";
             btnItems.setDisable(true);
@@ -137,7 +154,9 @@ public class FXMLCombatController implements Initializable {
             if (Primary.equals("Attack")) { //checks to see if the choice buttons show attacks
                 damage = weapon.Attack1(enemies.get(0).getDefence()); // basic attack, no mana cost
             }
-            if (btnChoice1.getText().equals("")) {
+            //added
+            if (btnChoice1.getText().contains("Mage")||btnChoice1.getText().contains("Warrior")||btnChoice1.getText().contains("Rogue")) {
+            damage=MainApp.itemsEquipped.get(0).getDamage();
             }
             if (btnChoice1.getText().equals("Flee")) { //Allows the player a chance to flee like a coward, no rewards gained
                 if (ThreadLocalRandom.current().nextInt(1, 5 + 1) == 1) {
@@ -151,7 +170,9 @@ public class FXMLCombatController implements Initializable {
                 damage = weapon.Attack2(enemies.get(0).getDefence()); //higher damage attack, costs mana
                 setMana(getMana() - weapon.getCost());
             }
-            if (btnChoice1.getText().equals("")) {
+           //added
+            if (btnChoice2.getText().contains("Mage")||btnChoice2.getText().contains("Warrior")||btnChoice2.getText().contains("Rogue")) {
+            damage=MainApp.itemsEquipped.get(1).getDamage();
             }
             if (btnChoice2.getText().equals("Bribe")) { // Allows the player to buy their way out of a fight, 
                 exp = exp / 2;
@@ -170,7 +191,9 @@ public class FXMLCombatController implements Initializable {
                 //mulitply their damage by like 1.2
                 //reduce defence by 1.3 or whatever
             }
-            if (btnChoice3.getText().equals("")) {
+           //added
+            if (btnChoice3.getText().contains("Mage")||btnChoice3.getText().contains("Warrior")||btnChoice3.getText().contains("Rogue")) {
+            damage=MainApp.itemsEquipped.get(2).getDamage();
             }
         } else if (btnChoice4.isArmed()) {
             if (Primary.equals("Attack")) {
@@ -188,7 +211,9 @@ public class FXMLCombatController implements Initializable {
                 }
 
             }
-            if (btnChoice4.getText().equals("")) {
+            //added
+            if (btnChoice4.getText().contains("Mage")||btnChoice4.getText().contains("Warrior")||btnChoice4.getText().contains("Rogue")) {
+            damage=MainApp.itemsEquipped.get(3).getDamage();
             }
             if (btnChoice4.getText().equals("Talk")) { //Talk about the weather, maybe be used for story
 

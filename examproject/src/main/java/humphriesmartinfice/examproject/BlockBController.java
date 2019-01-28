@@ -213,7 +213,10 @@ public class BlockBController implements Initializable {
         panMessage.setVisible(false);
         rand = ThreadLocalRandom.current().nextInt(1, 4);
         enemies.add(new Enemy(getLevel()));
+
+
         saveLoc("/fxml/BlockB.fxml");
+
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -229,6 +232,7 @@ public class BlockBController implements Initializable {
         imgPlayer.setLayoutY(429);
         rand = ThreadLocalRandom.current().nextInt(1, 4);
         panMessage.setVisible(false);
+        imgPlayer.getParent().requestFocus();
 
     }
 

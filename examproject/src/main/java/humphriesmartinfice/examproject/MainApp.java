@@ -44,7 +44,7 @@ public static String username;
     public static boolean keyB = false;
     
     public static int bcount = 10;
-    
+    public static ArrayList<Item> itemsEquipped=new ArrayList();
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
