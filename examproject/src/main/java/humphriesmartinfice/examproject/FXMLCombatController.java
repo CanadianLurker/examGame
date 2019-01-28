@@ -39,7 +39,7 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private Button btnAttack, btnItems, btnOther, btnChoice1, btnChoice2, btnChoice3, btnChoice4, btnSTR, btnDEX, btnINT, btnLog;
     @FXML
-    private Pane panEXP;
+    private Pane panEXP, panEnd;
     @FXML
     private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel, lblMana, lblPoints, lblSTR, lblDEX, lblINT, lblCigs;
     @FXML
@@ -333,9 +333,46 @@ public class FXMLCombatController implements Initializable {
             progress();
             exp = 0;
             cigs = 0;
-            endCombat();
+            dead();
             //end game screen here
         }
+    }
+
+    private void dead() {
+        cleanLog();
+        combat = false; // makes it so that the next turn does not start 
+        count = 0; //makes it so the next enemy fought doesn't have a dot for a random reason
+        buffcount = 0;
+        weapon.ResetWar(); //resets buff
+        DOT = false;
+        panEnd.setVisible(true);
+    }
+    
+    @FXML
+    private void retry(ActionEvent e) throws IOException{
+    MainApp.user.open(MainApp.fileName, user.numRecord(fileName));
+                System.out.println(MainApp.username);
+                System.out.println(MainApp.level);
+                System.out.println(MainApp.DEX);
+                System.out.println(MainApp.STR);
+                System.out.println(MainApp.INT);
+                System.out.println(MainApp.cigs);
+                saveLoc("MainMenu");
+                Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
+                Scene home_page_scene = new Scene(home_page_parent);
+                //get reference to the stage 
+                Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+                stage.hide(); //optional
+                stage.setScene(home_page_scene); //puts the new scence in the stage
+                stage.setTitle("Spawn Room"); //changes the title
+                stage.setResizable(false);
+                stage.show(); //shows the new page
+                home_page_scene.getRoot().requestFocus();
+    }
+    
+        @FXML
+    private void leave(ActionEvent e){
+    System.exit(0);
     }
 
     private void progress() {
@@ -353,11 +390,11 @@ public class FXMLCombatController implements Initializable {
     private void OK(ActionEvent event) throws IOException {
         if (points == 0 && exp == 0) {
             Parent parent = FXMLLoader.load(getClass().getResource(getArea()));
-         //   if (getArea().equals("BlockA")) {
-         //       parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml"));
-          //  } else if (getArea().equals("BlockB")) {
-         //       parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml"));
-         //   }
+            //   if (getArea().equals("BlockA")) {
+            //       parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml"));
+            //  } else if (getArea().equals("BlockB")) {
+            //       parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml"));
+            //   }
             Scene scene = new Scene(parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.hide();

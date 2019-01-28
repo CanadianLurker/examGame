@@ -65,12 +65,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <ImageView fx:id="imgExit" fitHeight="152.0" fitWidth="159.0" layoutX="13.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgExit" fitHeight="152.0" fitWidth="159.0" layoutX="13.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../door_open.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="183.0" layoutY="429.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgPlayer" fitHeight="136.0" fitWidth="135.0" layoutX="182.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../prisoner2.png" />
          </image>
@@ -78,17 +78,17 @@
       <Pane fx:id="panMessage" layoutX="204.0" layoutY="144.0" prefHeight="229.0" prefWidth="469.0" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="229.0" stroke="BLACK" strokeType="INSIDE" width="469.0" />
-            <Button fx:id="fight" layoutX="194.0" layoutY="93.0" mnemonicParsing="false" onAction="#btnFight" text="FIGHT" visible="false">
+            <Button fx:id="fight" focusTraversable="false" layoutX="194.0" layoutY="93.0" mnemonicParsing="false" onAction="#btnFight" text="FIGHT" visible="false">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button fx:id="yes" layoutX="127.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnYes" text="Yes">
+            <Button fx:id="yes" focusTraversable="false" layoutX="127.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnYes" text="Yes">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button fx:id="no" layoutX="284.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnNo" text="No">
+            <Button fx:id="no" focusTraversable="false" layoutX="284.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnNo" text="No">
                <font>
                   <Font size="20.0" />
                </font>

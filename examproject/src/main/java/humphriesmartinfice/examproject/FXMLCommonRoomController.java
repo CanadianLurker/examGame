@@ -81,7 +81,7 @@ public class FXMLCommonRoomController implements Initializable {
         } else if (col(imgPlayer, imgBlockB)) {
             imgBlockB.setImage(open);
             opensound.play();
-        } else if (col(imgPlayer, imgGuardRoom)) {
+        } else if (col(imgPlayer, imgGuardRoom)&& MainApp.keyB) {
             imgGuardRoom.setImage(open);
             opensound.play();
         } else if (col(imgPlayer, imgCell) == false) {
@@ -124,7 +124,7 @@ public class FXMLCommonRoomController implements Initializable {
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
-        if (event.getCode() == KeyCode.E && col(imgPlayer, imgGuardRoom)) {
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgGuardRoom)&& MainApp.keyB) {
             Parent parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLGuardRoom.fxml"));
             Scene scene = new Scene(parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

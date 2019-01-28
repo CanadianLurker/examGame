@@ -86,7 +86,7 @@ public class BlockAController implements Initializable {
             yvar = -1;
         }
         if (e.getCode() == KeyCode.E && col(polPlayer, polDoor)) {
-            saveLoc("BlockA");
+            saveLoc("/fxml/BlockA");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); 
             scene = new Scene(home_page_parent);
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();

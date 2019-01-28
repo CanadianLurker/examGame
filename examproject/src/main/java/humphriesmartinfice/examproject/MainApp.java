@@ -39,7 +39,7 @@ public static String username;
 
     public static DecimalFormat F = new DecimalFormat("0"); //format so decimals don't go on for ever
 
-    public static Weapon weapon = new Rogue(30, "", "", "", "", 0, 0, 0, 0, "", "");
+    public static Weapon weapon;
 
     public static boolean keyB = false;
     
@@ -171,7 +171,7 @@ public static String username;
         MainApp.EXPNeeded = 25 + (MainApp.level * 18);
     }
     public static ArrayList<String> usernameList = new ArrayList();
-public static File user;
+public static File user = new File();
 
 
 public static Label lblStats; 
@@ -216,8 +216,7 @@ public static Label lblStats;
     
     
     public static Pane pnlInv;
-    public static String fileName="savefile.raf";
-   
+    public final static String fileName="savefile.raf";
 
     public static Item inventory[] = new Item[9]; //array of items
     public static char inv[][] = new char[9][5];
