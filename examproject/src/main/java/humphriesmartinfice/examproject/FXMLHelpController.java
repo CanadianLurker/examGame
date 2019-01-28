@@ -48,13 +48,15 @@ public class FXMLHelpController implements Initializable {
 
     @FXML
     private void btnBack(ActionEvent event) throws IOException {
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        Scene home_page_scene = new Scene(home_page_parent);
+        Parent parent = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+        Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.hide();
-        stage.setScene(home_page_scene);
+        stage.setScene(scene);
+        stage.setResizable(false);
         stage.setTitle("Prison Escape");
         stage.show();
+        parent.requestFocus();
     }
 
     /**
