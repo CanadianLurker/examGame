@@ -140,7 +140,7 @@ public class FXMLController implements Initializable {
                 stage.setResizable(false);
                 stage.show(); //shows the new page
                 home_page_scene.getRoot().requestFocus();
-
+                quiettime.play();
         } catch (Exception e) {
         
     }
@@ -215,19 +215,13 @@ public class FXMLController implements Initializable {
 
 
 
-      
-    
-   
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dif = false;
         for (int i = 0; i < 9; i++) {
             MainApp.inventory[i] = new Item();
         }
-        System.out.println(user.numRecord(fileName));
-
-        for (int j = 0; j <= user.numRecord(fileName); j++) {
+        for (int j = 0; j < user.numRecord(fileName); j++) {
             MainApp.usernameList.add(user.openUser(fileName, j));
         }
 
