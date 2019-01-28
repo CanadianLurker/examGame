@@ -87,6 +87,7 @@ public class BlockBController implements Initializable {
             imgPlayer.setImage(back);
         }
         if (e.getCode() == KeyCode.E && col(imgPlayer, imgExit)) {
+            saveLoc("BlockB");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -141,36 +142,43 @@ public class BlockBController implements Initializable {
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
+        if (imgPlayer.getLayoutX() >= 800 || imgPlayer.getLayoutX() <= 0) {
+            imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
+        }
         if (col(imgPlayer, imgDoor1)) {
             imgDoor1.setImage(open);
             opensound.play();
-        }
-        if (col(imgPlayer, imgDoor1) == false) {
-            imgDoor1.setImage(closed);
-            opensound.stop();
-        }
-        if (col(imgPlayer, imgDoor2)) {
+        } else if (col(imgPlayer, imgDoor2)) {
             imgDoor2.setImage(open);
             opensound.play();
-        }
-        if (col(imgPlayer, imgDoor2) == false) {
-            imgDoor2.setImage(closed);
-            opensound.stop();
-        }
-        if (col(imgPlayer, imgDoor3)) {
+        } else if (col(imgPlayer, imgDoor3)) {
             imgDoor3.setImage(open);
             opensound.play();
-        }
-        if (col(imgPlayer, imgDoor3) == false) {
+        } else if (col(imgPlayer, imgExit)) {
+            imgExit.setImage(open);
+            opensound.play();
+        } else if (col(imgPlayer, imgExit) == false) {
+            imgDoor1.setImage(closed);
+            imgDoor2.setImage(closed);
             imgDoor3.setImage(closed);
+            imgExit.setImage(closed);
             opensound.stop();
+        } else if (col(imgPlayer, imgDoor1) == false) {
+            opensound.stop();
+        } else if (col(imgPlayer, imgDoor2) == false) {
+            opensound.stop();
+        } else if (col(imgPlayer, imgDoor3) == false) {
+            opensound.stop();
+        }
+        if (col(imgPlayer, imgDoor1)) {
+            imgDoor1.setImage(open);
+            opensound.play();
         }
     }
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
-        if (imgPlayer.getLayoutX() >= 800 || imgPlayer.getLayoutX() <= 0 || imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
-            imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
+        if (imgPlayer.getLayoutY() >= 470 || imgPlayer.getLayoutY() <= 30) {
             imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
         }
     }
@@ -205,8 +213,10 @@ public class BlockBController implements Initializable {
         panMessage.setVisible(false);
         rand = ThreadLocalRandom.current().nextInt(1, 4);
         enemies.add(new Enemy(getLevel()));
-       // saveLoc(FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml")), 12, 34);
-       saveLoc("/fxml/BlockB.fxml");
+
+
+        saveLoc("/fxml/BlockB.fxml");
+
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -229,6 +239,7 @@ public class BlockBController implements Initializable {
     @FXML
     private void btnNo(ActionEvent e) throws IOException {
         panMessage.setVisible(false);
+        saveLoc("BlockB");
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();

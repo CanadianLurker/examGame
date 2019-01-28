@@ -1,4 +1,3 @@
-
 package humphriesmartinfice.examproject;
 
 import java.net.URL;
@@ -19,6 +18,7 @@ import java.util.Optional;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -46,7 +46,7 @@ public class FXMLController implements Initializable {
     private ListView listSaves;
     @FXML
     private ImageView imgL;
-private TextField txtSearch;
+    private TextField txtSearch;
     private double op = 0.8;
     private double vol = 1;
 
@@ -54,7 +54,6 @@ private TextField txtSearch;
 
     Timeline lightning = new Timeline(new KeyFrame(Duration.millis(50), ae -> enter()));
     Timeline quiettime = new Timeline(new KeyFrame(Duration.millis(150), ae -> shush()));
-    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(50), ae -> check()));
 
     MediaPlayer kaboom = new MediaPlayer((new Media(getClass().getResource("/thunder.mp3").toString())));
     MediaPlayer rain = new MediaPlayer((new Media(getClass().getResource("/rainsound.mp3").toString())));
@@ -62,88 +61,104 @@ private TextField txtSearch;
     @FXML
     private void btnLoad(ActionEvent event) throws IOException {
         if (btnLoad.getOpacity() > 0.8) {
-        int record = listSaves.getSelectionModel().getSelectedIndex();
-        MainApp.user.open(MainApp.fileName, record);
-
-        System.out.println(MainApp.username);
-        System.out.println(MainApp.DEX);
-        System.out.println(MainApp.STR);
-        System.out.println(MainApp.INT);
-        System.out.println(MainApp.cigs);
-        
-            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
-            Scene home_page_scene = new Scene(home_page_parent);
-            //get reference to the stage 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.hide(); //optional
-            stage.setScene(home_page_scene); //puts the new scence in the stage
-            stage.setTitle("Spawn Room"); //changes the title
-            stage.setResizable(false);
-            stage.show(); //shows the new page
-            home_page_scene.getRoot().requestFocus();
-            quiettime.play();
+            int record = listSaves.getSelectionModel().getSelectedIndex();
+            if (record != -1) {
+                MainApp.user.open(MainApp.fileName, record);
+                System.out.println(MainApp.username);
+                System.out.println(MainApp.level);
+                System.out.println(MainApp.DEX);
+                System.out.println(MainApp.STR);
+                System.out.println(MainApp.INT);
+                System.out.println(MainApp.cigs);
+                saveLoc("MainMenu");
+                Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
+                Scene home_page_scene = new Scene(home_page_parent);
+                //get reference to the stage 
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.hide(); //optional
+                stage.setScene(home_page_scene); //puts the new scence in the stage
+                stage.setTitle("Spawn Room"); //changes the title
+                stage.setResizable(false);
+                stage.show(); //shows the new page
+                home_page_scene.getRoot().requestFocus();
+                quiettime.play();
+            }
         }
     }
-boolean dif=false;
+    boolean dif = false;
+
     @FXML
     private void btnNewGame(ActionEvent event) throws IOException {
-       if (btnLoad.getOpacity() > 0.8) {
-        TextInputDialog dialog = new TextInputDialog("");
-        dialog.setTitle("New Game");
-        if (!dif){
-        dialog.setHeaderText(null);
-        }else{
-                    dialog.setHeaderText("Please choose a different username");
-                    dif=false;
+        if (btnLoad.getOpacity() > 0.8) {
+            TextInputDialog dialog = new TextInputDialog("");
+            dialog.setTitle("New Game");
+            if (!dif) {
+                dialog.setHeaderText(null);
+            } else {
+                dialog.setHeaderText("Please choose a different username");
+                dif = false;
 
-        }
-        dialog.setContentText("Enter a username");
-        Optional<String> result = dialog.showAndWait();
-        try {
-            for(String i: MainApp.usernameList){
-            if (dialog.getResult().trim().equals("")||dialog.getResult().trim().equals(i))    {
-                dif=true;
+            }
+            dialog.setContentText("Enter a username");
+            Optional<String> result = dialog.showAndWait();
+            //   for (int i =0; i < MainApp.usernameList.size(); i++) {
+            if (dialog.getResult().trim().equals("") /*|| dialog.getResult().trim().equals(MainApp.usernameList.get(i))*/) {
+                dif = true;
                 btnNewGame(event);
                 return;
             }
             }
              MainApp.username = dialog.getResult();
                 MainApp.usernameList.add(username);
-
+                setINT(1);
+                setSTR(1);
+                setDEX(1);
+                setLevel(1);
+                setHealthMAX();
+                setHealth(getHealthMAX());
+                setManaMAX();
+                setMana(getManaMAX());
+                setEXP(0);
+                setEXPNeeded();
+                weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "", "");
+                MainApp.addToInventory(weapon);
                 System.out.println(MainApp.username);
                 System.out.println(MainApp.DEX);
                 System.out.println(MainApp.STR);
                 System.out.println(MainApp.INT);
                 System.out.println(MainApp.cigs);
-
+                MainApp.user.save(MainApp.fileName, MainApp.usernameList.indexOf(MainApp.username));
+                saveLoc("MainMenu");
                 Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
                 Scene home_page_scene = new Scene(home_page_parent);
                 //get reference to the stage 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.hide(); 
+                stage.hide();
                 stage.setScene(home_page_scene); //puts the new scence in the stage
-                stage.setTitle("Spawn Room"); //changes the title
+                stage.setTitle("Your Cell"); //changes the title
                 stage.setResizable(false);
                 stage.show(); //shows the new page
                 home_page_scene.getRoot().requestFocus();
+
         } catch (Exception e) {
         }}
     }
    
 
+
     @FXML
     private void btnOptions(ActionEvent event) throws IOException {
         if (btnOpt.getOpacity() > 0.8) {
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLHelp.fxml")); 
-        Scene home_page_scene = new Scene(home_page_parent);
-        //get reference to the stage 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.hide();
-        stage.setScene(home_page_scene); 
-        stage.setTitle("Help Screen");
-        stage.setResizable(false);
-        stage.show();
-        home_page_scene.getRoot().requestFocus();
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLHelp.fxml"));
+            Scene home_page_scene = new Scene(home_page_parent);
+            //get reference to the stage 
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.hide();
+            stage.setScene(home_page_scene);
+            stage.setTitle("Help Screen");
+            stage.setResizable(false);
+            stage.show();
+            home_page_scene.getRoot().requestFocus();
         }
     }
 
@@ -195,43 +210,27 @@ boolean dif=false;
         }
     }
 
-    private void check() {
+
 
         if (listSaves.getSelectionModel().getSelectedIndex() != -1) {
             btnLoad.setDisable(false);
         }
     }
    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        dif=false;
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-        MainApp.user = new File();
+        dif = false;
         for (int i = 0; i < 9; i++) {
             MainApp.inventory[i] = new Item();
-
         }
+        System.out.println(user.numRecord(fileName));
 
-        for (int j = 0; j < user.numRecord(fileName); j++) {
-
+        for (int j = 0; j <= user.numRecord(fileName); j++) {
             MainApp.usernameList.add(user.openUser(fileName, j));
-
         }
 
         listSaves.getItems().addAll(MainApp.usernameList);
-        //Only used for testing purposes//
-        setINT(1);
-        setSTR(1);
-        setDEX(1);
-        setLevel(30);
-        setHealthMAX();
-        setHealth(getHealthMAX());
-        setManaMAX();
-        setMana(getManaMAX());
-        setEXP(0);
-        setEXPNeeded();
-        //Only used for testing purposes//
         rain.setCycleCount(Timeline.INDEFINITE);
         rain.play();
         quiettime.setCycleCount(Timeline.INDEFINITE);

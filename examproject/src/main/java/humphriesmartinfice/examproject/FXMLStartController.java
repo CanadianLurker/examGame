@@ -113,7 +113,7 @@ public class FXMLStartController implements Initializable {
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
-        if (event.getCode() == KeyCode.E && col(imgPlayer, imgSTable)&& !imgPaper.isVisible()) {
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgSTable) && !imgPaper.isVisible()) {
             imgPaper.setVisible(true);
             Vertical.stop();
             Horizontal.stop();
@@ -312,6 +312,10 @@ private void equip(){
             imgKey.setVisible(false);
             imgPlayer.setLayoutX(392);
             imgPlayer.setLayoutY(65);
+        }
+        if (MainApp.getArea().equals("MainMenu")) {
+            imgPlayer.setLayoutX(159);
+            imgPlayer.setLayoutY(439);
         }
 
         MainApp.rec[0] = rec1;
