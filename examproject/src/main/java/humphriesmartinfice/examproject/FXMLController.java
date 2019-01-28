@@ -105,8 +105,9 @@ boolean dif=false;
                 dif=true;
                 btnNewGame(event);
                 return;
-            } else {
-                MainApp.username = dialog.getResult();
+            }
+            }
+             MainApp.username = dialog.getResult();
                 MainApp.usernameList.add(username);
 
                 System.out.println(MainApp.username);
@@ -125,29 +126,10 @@ boolean dif=false;
                 stage.setResizable(false);
                 stage.show(); //shows the new page
                 home_page_scene.getRoot().requestFocus();
-            }
-            }
         } catch (Exception e) {
         }}
     }
-    /* private void find(){
-    
-    ArrayList<String> usernameList2 = MainApp.usernameList;
-    
-    Collections.sort(usernameList2);
-    if(binarySearch(usernameList2,0, usernameList2.size()-1, txtSearch.getText().toString())){
-    //for(Object i: listSaves.getItems()){
-    for(int i = 0; i < listSaves.getItems().size()-1; i++){
-    if(listSaves.getItems().){
-    listSaves.setFocusModel(listSaves.getFocusModel());
-    }
-    }
-    
-    }
-    
-    
-    }*/
-    
+   
 
     @FXML
     private void btnOptions(ActionEvent event) throws IOException {
@@ -219,23 +201,7 @@ boolean dif=false;
             btnLoad.setDisable(false);
         }
     }
-    /*public Boolean binarySearch(ArrayList<String> A, int left, int right, String V){
-    int middle;
-    if (left > right) {
-    return false;
-    }
-    
-    middle = (left + right)/2;
-    int compare = V.compareTo(A.get(middle));
-    if (compare == 0) {
-    return true;
-    }
-    if (compare < 0) {
-    return binarySearch(A, left, middle-1, V);
-    } else {
-    return binarySearch(A, middle + 1, right, V);
-    }
-    }*/
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dif=false;
