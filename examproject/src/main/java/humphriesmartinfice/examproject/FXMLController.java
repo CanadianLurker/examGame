@@ -99,10 +99,11 @@ public class FXMLController implements Initializable {
                 dif = false;
 
             }
+            try{
             dialog.setContentText("Enter a username");
             Optional<String> result = dialog.showAndWait();
-            //   for (int i =0; i < MainApp.usernameList.size(); i++) {
-            if (dialog.getResult().trim().equals("") /*|| dialog.getResult().trim().equals(MainApp.usernameList.get(i))*/) {
+               for (int i =0; i < MainApp.usernameList.size(); i++) {
+            if (dialog.getResult().trim().equals("") || dialog.getResult().trim().equals(MainApp.usernameList.get(i))) {
                 dif = true;
                 btnNewGame(event);
                 return;
@@ -141,7 +142,9 @@ public class FXMLController implements Initializable {
                 home_page_scene.getRoot().requestFocus();
 
         } catch (Exception e) {
-        }}
+        
+    }
+    }
     }
    
 
@@ -212,10 +215,8 @@ public class FXMLController implements Initializable {
 
 
 
-        if (listSaves.getSelectionModel().getSelectedIndex() != -1) {
-            btnLoad.setDisable(false);
-        }
-    }
+      
+    
    
 
     @Override
