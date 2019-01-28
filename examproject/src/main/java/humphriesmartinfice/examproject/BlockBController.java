@@ -31,10 +31,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
@@ -46,9 +50,9 @@ import javafx.stage.Stage;
 public class BlockBController implements Initializable {
 
     @FXML
-    private Pane panMessage;
+    private Pane panMessage, pnlInv;
     @FXML
-    private Label lblDoor1, lblDoor2, lblDoor3, lblResult, lblCigs, lblExit, lblCount;
+    private Label lblDoor1, lblDoor2, lblDoor3, lblResult, lblCigs, lblExit, lblCount, lblEquip;
     @FXML
     private Button fight, yes, no;
     @FXML
@@ -119,6 +123,16 @@ public class BlockBController implements Initializable {
                 cigs = cigs + 25;
                 setCigs(getCigs() + cigs);
                 lblCigs.setText("Cigs: " + getCigs());
+            }
+        }
+                if ((e.getCode() == KeyCode.I)) {
+            if (!MainApp.invVis) {
+                MainApp.invVis = true;
+                pnlInv.setVisible(true);
+                MainApp.displayIcons();
+            } else {
+                MainApp.invVis = false;
+                pnlInv.setVisible(false);
             }
         }
     }
@@ -205,6 +219,105 @@ public class BlockBController implements Initializable {
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
+    
+    @FXML
+    Label lblStats;
+
+    @FXML
+    ImageView img1,
+            img2,
+            img3,
+            img4,
+            img5,
+            img6,
+            img7,
+            img8,
+            img9;
+
+    @FXML
+    Rectangle rec1,
+            rec2,
+            rec3,
+            rec4,
+            rec5,
+            rec6,
+            rec7,
+            rec8,
+            rec9;
+
+
+    @FXML
+    private void click(MouseEvent e) {
+
+        MainApp.selected = (ImageView) e.getSource();
+
+        for (int i = 0; i < 9; i++) {
+
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                MainApp.rec[i].toFront();
+                MainApp.iSpaces[i].toFront();
+                MainApp.rec[i].setFill(Color.BLACK);
+
+                lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
+                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+
+                ////////////// make sure to change damage
+                if (MainApp.inventory[i].getType().equals("Warrior")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage() / 2); //////////damage!!!!!!!!!!
+                } else if (MainApp.inventory[i].getType().equals("Rogue")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + (MainApp.inventory[i].getDamage() - 2));      //////////damage!!!!!!!!!!
+                } else {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+                }
+
+            } else {
+                MainApp.rec[i].setFill(Color.GREY);
+
+            }
+        }
+
+    }
+
+    @FXML
+    private void paneClick(MouseEvent e) {
+        for (int i = 0; i < 9; i++) {
+            MainApp.rec[i].setFill(Color.GREY);
+            MainApp.selected = null;
+        }
+
+    }
+
+    @FXML
+    private void btnDelete() {
+        for (int i = 0; i < 9; i++) {
+
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                MainApp.inventory[i] = new Item();
+                MainApp.iSpaces[i].toFront();
+
+                MainApp.iSpaces[i].setEffect(null);
+                MainApp.displayIcons();
+
+            }
+        }
+    }
+    
+        @FXML
+private void equip(){
+        for (int i=0; i<9;i++){
+            if(MainApp.iSpaces[i] == MainApp.selected){
+           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
+               lblEquip.setText("equip");
+               
+  
+    }else{
+               MainApp.itemsEquipped.add(MainApp.inventory[i]);
+               lblEquip.setText("unequip");
+           }
+    }
+}
+}
 
     @FXML
     private void btnFight(ActionEvent event) throws IOException {
@@ -266,5 +379,44 @@ public class BlockBController implements Initializable {
             lblCount.setText("You recieved a guard key!");
             keyB = true;
         }
+                MainApp.rec[0] = rec1;
+        MainApp.rec[1] = rec2;
+        MainApp.rec[2] = rec3;
+        MainApp.rec[3] = rec4;
+        MainApp.rec[4] = rec5;
+        MainApp.rec[5] = rec6;
+        MainApp.rec[6] = rec7;
+        MainApp.rec[7] = rec8;
+        MainApp.rec[8] = rec9;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 3; j++) {
+                MainApp.inv[i][j] = 0;
+
+                MainApp.IS[i] = new InnerShadow();
+
+                MainApp.rec[i].setFill(Color.GREY);
+            }
+
+        }
+
+        MainApp.iSpaces[0] = img1;
+        MainApp.iSpaces[1] = img2;
+        MainApp.iSpaces[2] = img3;
+        MainApp.iSpaces[3] = img4;
+        MainApp.iSpaces[4] = img5;
+        MainApp.iSpaces[5] = img6;
+        MainApp.iSpaces[6] = img7;
+        MainApp.iSpaces[7] = img8;
+        MainApp.iSpaces[8] = img9;
+
+        MainApp.img1 = img1;
+        MainApp.img2 = img2;
+        MainApp.img3 = img3;
+        MainApp.img4 = img4;
+        MainApp.img5 = img5;
+        MainApp.img6 = img6;
+        MainApp.img7 = img7;
+        MainApp.img8 = img8;
+        MainApp.img9 = img9;
     }
 }

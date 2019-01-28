@@ -59,6 +59,9 @@ public class FXMLCommonRoomController implements Initializable {
 
     Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
+    
+    @FXML
+    private Label lblEquip;
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
@@ -164,16 +167,9 @@ public class FXMLCommonRoomController implements Initializable {
                 MainApp.invVis = true;
                 pnlInv.setVisible(true);
                 MainApp.displayIcons();
-
-                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
-            Scene home_page_scene = new Scene(home_page_parent);
-            home_page_scene.getRoot().requestFocus();*/
             } else {
                 MainApp.invVis = false;
                 pnlInv.setVisible(false);
-                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
-           Scene home_page_scene = new Scene(home_page_parent);
-           home_page_scene.getRoot().requestFocus();*/
             }
         }
     }
@@ -283,13 +279,26 @@ public class FXMLCommonRoomController implements Initializable {
             }
         }
     }
-
-    ////not needed{
+    
+    
     @FXML
-    private void save() {
-        System.out.println(MainApp.saveInventory());
+private void equip(){
+        for (int i=0; i<9;i++){
+            if(MainApp.iSpaces[i] == MainApp.selected){
+           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
+               lblEquip.setText("equip");
+               
+  
+    }else{
+               MainApp.itemsEquipped.add(MainApp.inventory[i]);
+               lblEquip.setText("unequip");
+           }
     }
-////}
+}
+}
+
+
 
     /**
      * Initializes the controller class.
