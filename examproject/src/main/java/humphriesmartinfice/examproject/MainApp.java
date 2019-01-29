@@ -1,11 +1,9 @@
 package humphriesmartinfice.examproject;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,8 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -216,7 +213,7 @@ public static Label lblStats;
     public final static String fileName="savefile.raf";
 
     public static Weapon inventory[] = new Weapon[9]; //array of items
-    public static char inv[][] = new char[9][5];
+    public static char inv[][] = new char[9][3];
     //type
     //specific
     //rarity
@@ -238,6 +235,7 @@ public static Label lblStats;
     public static boolean invVis;
 
     public static String saveInventory() {
+        //gets a string that represents the inventory
         String s = "";
         for (int i = 0; i < 9; i++) {
 //changes rarity to char
@@ -254,14 +252,8 @@ public static Label lblStats;
                 inv[i][2] = 'D';
             }
 
-            /*if(inventory[i].getType().equals("Warrior")){
-            damage = inventory[i].getDamage()/2;
-            }else if(inventory[i].getType().equals("Rogue")){
-            damage = inventory[i].getDamage()-2;
-            }else{
-            //includes mage*/
+            
             damage = inventory[i].getDamage();
-        //     }
         if(damage>999){
             damage=999;
         }
@@ -281,12 +273,10 @@ public static Label lblStats;
 
                 if (sInv[i][0].length() != 3) {
                     sInv[i][0] = "0" + sInv[i][0];
-                    System.out.println(intInv[i][0]);
 
                 }
                 if (sInv[i][1].length() != 3) {
                     sInv[i][1] = "0" + sInv[i][1];
-                    System.out.println(intInv[i][1]);
                 }
             }
 
@@ -295,25 +285,20 @@ public static Label lblStats;
 
             //new
             inv[i][0] = inventory[i].getClass().getSuperclass().getSimpleName().charAt(0);
-            System.out.println("type " + inventory[i].getType());
             inv[i][1] = inventory[i].getType().charAt(0);
 
             s = s + inv[i][0] + inv[i][1] + inv[i][2] + sInv[i][0] + sInv[i][1]; //[4] added 
 
-            System.out.println(s);
 
         }
         /////sike, [4] with 3 spaces for each last two(levelI, damage)
 
-        if (s.length() != 81) {
-            System.out.println("yikes. this is bad");
-
-        }
+        
         return s;
     }
 
     public static void displayIcons() {
-//sows the pictures
+//shows the pictures
 
         img1.setImage(inventory[0].getIcon());
         img2.setImage(inventory[1].getIcon());
@@ -354,7 +339,9 @@ public static Label lblStats;
     public static int nextSpot() {
 //gets the next open spot
         for (int i = 0; i < 9; i++) {
-            if (inventory[i].getClass().getSimpleName().equals("Item")) {
+        //    if (inventory[i].getClass().getSimpleName().equals("Item")) {
+                            if (inventory[i].getType().equals("Item")) {
+
                 return i;
             }
         }
@@ -377,7 +364,6 @@ public static Label lblStats;
             sInv[j][1] = "";
             inv[j][0] = s.charAt(i);
             inv[j][1] = s.charAt(i + 1);
-            System.out.println("!!!!!!!!!!!!!!!!!!!!" + inv[j][1]);
             inv[j][2] = s.charAt(i + 2);
             sInv[j][0] = sInv[j][0] + s.charAt(i + 3);
             sInv[j][0] = sInv[j][0] + s.charAt(i + 4);
@@ -386,7 +372,6 @@ public static Label lblStats;
             sInv[j][1] = sInv[j][1] + s.charAt(i + 7);
             sInv[j][1] = sInv[j][1] + s.charAt(i + 8);
 
-            System.out.println(inv[j][2]);
             j++;
         }
         ///////////////////////////////////////////////////////////////////////
@@ -405,8 +390,7 @@ public static Label lblStats;
             } else {
                 rare = 0;
             }
-            System.out.println("--------------------------" + sInv[i][0]);
-            System.out.println("--------------------------" + sInv[i][1]);
+           
 
             //take away 0s to get integer for damage
             try {
@@ -414,7 +398,7 @@ public static Label lblStats;
 
             } catch (NumberFormatException numberFormatException) {
                 for (int q = 0; q < 3; q++) {
-                    System.out.println("welp.");
+                   
                     if (sInv[i][0].startsWith("0")) {
                         sInv[i][0].replaceFirst("0", "");
                     }
@@ -448,8 +432,7 @@ public static Label lblStats;
                     }
                 }
             }
-            ////
-            System.out.println("inv " + inv[i][1]);
+         
             // blank, delete item
             if (inv[i][0] == 'O') {
 
@@ -461,27 +444,21 @@ public static Label lblStats;
 //warrior
                 if (inv[i][1] == 'W') {
 
-                 System.out.println(intInv[i][0]+"-------------"+intInv[i][1]);
+                
                     inventory[nextSpot()] = new Warrior(intInv[i][1],rare,intInv[i][0],"Warrior");
-                    System.out.println(inventory[nextSpot()-1].getDamage()+"-------------"+inventory[nextSpot()-1].getLevel());
                 }
                 //mage
                 if (inv[i][1] == 'M') {
-                      System.out.println(intInv[i][0]+"-------------"+intInv[i][1]);
                     inventory[nextSpot()] = new Mage(intInv[i][1],rare,intInv[i][0],"Mage");
-                    System.out.println(inventory[nextSpot()].getDamage()+"-------------"+inventory[nextSpot()].getLevel());
                    
                 }
                 //rogue
                 if (inv[i][1] == 'R') {
-                 System.out.println(intInv[i][0]+"-------------"+intInv[i][1]);
                     inventory[nextSpot()] = new Rogue(intInv[i][1],rare,intInv[i][0],"Rogue"); 
-                    System.out.println(inventory[nextSpot()-1].getDamage()+"-------------"+inventory[nextSpot()-1].getLevel());
 
                 }
 
             } else if (inv[i][0] == 'P') { //     potions/other items
-//make sure to add the here
 //
 //
 //

@@ -62,7 +62,7 @@ public class FXMLController implements Initializable {
                 System.out.println(MainApp.INT);
                 System.out.println(MainApp.cigs);
                 saveLoc("MainMenu");
-                                weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "", "");
+                                weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "");
 
                 Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
                 Scene home_page_scene = new Scene(home_page_parent);
@@ -242,8 +242,8 @@ public class FXMLController implements Initializable {
         for (int j = 0; j < user.numRecord(fileName); j++) {
             MainApp.usernameList.add(user.openUser(fileName, j));
         }
-
-        listSaves.getItems().addAll(MainApp.usernameList);
+    listSaves.getItems().addAll(MainApp.usernameList);
+        
         rain.setCycleCount(Timeline.INDEFINITE);
         rain.play();
         quiettime.setCycleCount(Timeline.INDEFINITE);
