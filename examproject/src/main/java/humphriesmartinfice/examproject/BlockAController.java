@@ -318,6 +318,7 @@ public class BlockAController implements Initializable {
 
         for (int i = 0; i < 9; i++) {
 
+
             if (MainApp.iSpaces[i] == MainApp.selected && !MainApp.inventory[i].getType().equals("Item")) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
@@ -328,6 +329,7 @@ public class BlockAController implements Initializable {
                     lblEquip.setText("equip");
 
                 }
+
                 ////////////// make sure to change damage
                 lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
                 System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
@@ -339,6 +341,22 @@ public class BlockAController implements Initializable {
         }
 
     }
+@FXML
+private void equip(){
+        for (int i=0; i<9;i++){
+            if(MainApp.iSpaces[i] == MainApp.selected){
+           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
+               lblEquip.setText("equip");
+               
+  
+    }else{
+               MainApp.itemsEquipped.add(MainApp.inventory[i]);
+               lblEquip.setText("unequip");
+           }
+    }
+}
+}
 
     @FXML
     private void paneClick(MouseEvent e) {
@@ -385,6 +403,7 @@ public class BlockAController implements Initializable {
             }
         }
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -169,9 +169,11 @@ public class FXMLStartController implements Initializable {
                 MainApp.invVis = true;
                 pnlInv.setVisible(true);
                 MainApp.displayIcons();
+
             } else {
                 MainApp.invVis = false;
                 pnlInv.setVisible(false);
+
             }
         }
         if ((event.getCode() == KeyCode.P)) {
@@ -203,6 +205,7 @@ public class FXMLStartController implements Initializable {
     @FXML
     Label lblStats, lblEquip;
 
+
     @FXML
     ImageView img1,
             img2,
@@ -229,7 +232,7 @@ public class FXMLStartController implements Initializable {
     Pane pnlInv;
     @FXML
     TextField txtIn;
-
+@FXML Label lblEquip;
     @FXML
     private void click(MouseEvent e) {
 
