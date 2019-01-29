@@ -242,23 +242,28 @@ public class FXMLGuardRoomController implements Initializable {
 
     }
 
-@FXML
-private void equip(){
-        for (int i=0; i<9;i++){
-            if(MainApp.iSpaces[i] == MainApp.selected){
-           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
-               lblEquip.setText("equip");
-               
-  
+    
+    /*
+    @FXML
+    private void equip(){
+    for (int i=0; i<9;i++){
+    if(MainApp.iSpaces[i] == MainApp.selected){
+    if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+    MainApp.itemsEquipped.remove(MainApp.inventory[i]);
+    lblEquip.setText("equip");
+    
+    
     }else{
-              
-               MainApp.itemsEquipped.add(MainApp.inventory[i]);
-               lblEquip.setText("unequip");
-           }
+    
+    MainApp.itemsEquipped.add(MainApp.inventory[i]);
+    lblEquip.setText("unequip");
     }
-}
-}
+    }
+    }
+    }
+    */
+    
+    
 
 
     @FXML

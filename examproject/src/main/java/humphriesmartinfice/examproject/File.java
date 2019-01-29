@@ -130,7 +130,6 @@ public class File {
     }
 
     public String openUser(String fileName, int record) {
-
         try {
 
             RandomAccessFile recordFile = new RandomAccessFile(fileName, "rw");
@@ -144,7 +143,7 @@ public class File {
             recordFile.close();
             return usernameTemp.trim();
         } catch (IOException ex) {
-            ex.printStackTrace();
+           
             return null;
         }
 
