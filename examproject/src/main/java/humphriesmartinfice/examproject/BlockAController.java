@@ -316,26 +316,31 @@ public class BlockAController implements Initializable {
     Pane pnlInv;
     
     
-     @FXML
+    @FXML Label lblEquip;
+    @FXML
     private void click(MouseEvent e) {
 
         MainApp.selected = (ImageView) e.getSource();
 
         for (int i = 0; i < 9; i++) {
 
-            if (MainApp.iSpaces[i] == MainApp.selected) {
+            if (MainApp.iSpaces[i] == MainApp.selected&&!MainApp.inventory[i].getType().equals("Item")) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
-                
-                
+if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+    lblEquip.setText("unequip");
+}else{
+    if (MainApp.itemsEquipped.size()==4){
+        
+        lblEquip.setDisable(true);
+    }
+        lblEquip.setText("equip");
+
+}
                 ////////////// make sure to change damage
-                
-                
- lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
-    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-
-
+                lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
+                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
 
             } else {
                 MainApp.rec[i].setFill(Color.GREY);
@@ -344,6 +349,22 @@ public class BlockAController implements Initializable {
         }
 
     }
+@FXML
+private void equip(){
+        for (int i=0; i<9;i++){
+            if(MainApp.iSpaces[i] == MainApp.selected){
+           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
+               lblEquip.setText("equip");
+               
+  
+    }else{
+               MainApp.itemsEquipped.add(MainApp.inventory[i]);
+               lblEquip.setText("unequip");
+           }
+    }
+}
+}
 
     @FXML
     private void paneClick(MouseEvent e) {

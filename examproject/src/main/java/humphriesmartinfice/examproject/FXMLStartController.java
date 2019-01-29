@@ -149,15 +149,11 @@ public class FXMLStartController implements Initializable {
                 pnlInv.setVisible(true);
                 MainApp.displayIcons();
 
-                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
-            Scene home_page_scene = new Scene(home_page_parent);
-            home_page_scene.getRoot().requestFocus();*/
+               
             } else {
                 MainApp.invVis = false;
                 pnlInv.setVisible(false);
-                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
-           Scene home_page_scene = new Scene(home_page_parent);
-           home_page_scene.getRoot().requestFocus();*/
+                
             }
         }
         if ((event.getCode() == KeyCode.P)) {
@@ -187,7 +183,7 @@ public class FXMLStartController implements Initializable {
     }
 
     @FXML
-    Label lblStats,lblEquip;
+    Label lblStats;
 
     @FXML
     ImageView img1,
@@ -215,7 +211,7 @@ public class FXMLStartController implements Initializable {
     Pane pnlInv;
     @FXML
     TextField txtIn;
-
+@FXML Label lblEquip;
     @FXML
     private void click(MouseEvent e) {
 
