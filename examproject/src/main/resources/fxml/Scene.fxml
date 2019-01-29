@@ -11,55 +11,59 @@
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#pressed" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #3c4451;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="humphriesmartinfice.examproject.FXMLController">
     <children>
 
-      <Label fx:id="lblEnter" layoutX="359.0" layoutY="273.0" style="-fx-opacity: .8;" text="Press Enter to Continue" textFill="#d3d1d1">
-         <font>
-            <Font name="Baskerville Old Face" size="20.0" />
-         </font> 
-        <Button fx:id="load" disable="true" layoutX="346.0" layoutY="330.0" onAction="#btnLoad" text="Load save file">
-         <font>
-            <Font name="Baskerville Old Face" size="24.0" />
-         </font>
+        <Label fx:id="lblEnter" layoutX="359.0" layoutY="273.0" style="-fx-opacity: .8;" text="Press Enter to Continue" textFill="#d3d1d1">
+            <font>
+                <Font name="Baskerville Old Face" size="20.0" />
+            </font> 
+        </Label>
+
+        <Label fx:id="lblTitle" layoutX="274.0" layoutY="31.0" style="-fx-opacity: 0;" text="Prison Escape" textFill="#bcbaba">
+            <font>
+                <Font name="Baskerville Old Face" size="64.0" />
+            </font>
+        </Label>
+        <ImageView fx:id="imgL" fitHeight="618.0" fitWidth="870.0" layoutX="15.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fitHeight="655.0" fitWidth="600.0" layoutX="450.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../rain.gif" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="600.0" fitWidth="603.0" layoutX="-148.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../rain.gif" />
+            </image>
+        </ImageView>
+        <Button fx:id="btnLoad" layoutX="391.0" layoutY="429.0" onAction="#btnLoad" opacity="0.0" style="-fx-background-color: #bbbbbb;" text="Load save file">
+            <font>
+                <Font name="Baskerville Old Face" size="18.0" />
+            </font>
         </Button>
-      </Label>
-      <Label fx:id="lblTitle" layoutX="274.0" layoutY="31.0" style="-fx-opacity: 0;" text="Prison Escape" textFill="#bcbaba">
-         <font>
-            <Font name="Baskerville Old Face" size="64.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="imgL" fitHeight="618.0" fitWidth="870.0" layoutX="15.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="655.0" fitWidth="600.0" layoutX="450.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../rain.gif" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="600.0" fitWidth="603.0" layoutX="-148.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../rain.gif" />
-         </image>
-      </ImageView>
-        <Button fx:id="btnLoad" layoutX="391.0" layoutY="451.0" onAction="#btnLoad" opacity="0.0" style="-fx-background-color: #bbbbbb;" text="Load save file">
-         <font>
-            <Font name="Baskerville Old Face" size="18.0" />
-         </font></Button>
         <Label fx:id="lblSaves" layoutX="363.0" layoutY="196.0" minHeight="16" minWidth="69" opacity="0.0" text="Player saves list:" textFill="#c9c8c8">
-         <font>
-            <Font name="Baskerville Old Face" size="28.0" />
-         </font></Label>
+            <font>
+                <Font name="Baskerville Old Face" size="28.0" />
+            </font>
+        </Label>
 
-      <ListView fx:id="listSaves" layoutX="274.0" layoutY="240.0" opacity="0.0" prefHeight="145.0" prefWidth="361.0" style="-fx-border-color: #000000; -fx-background-color: #bbbbbb;" />
-      <Button fx:id="btnOpt" layoutX="388.0" layoutY="496.0" mnemonicParsing="false" onAction="#btnOptions" opacity="0.0" style="-fx-background-color: #bbbbbb;" text="Help/Options">
+        <ListView fx:id="listSaves" layoutX="274.0" layoutY="240.0" opacity="0.0" prefHeight="145.0" prefWidth="361.0" style="-fx-border-color: #000000; -fx-background-color: #bbbbbb;" />
+        <Button fx:id="btnOpt" layoutX="391.0" layoutY="509.0" mnemonicParsing="false" onAction="#btnOptions" opacity="0.0" style="-fx-background-color: #bbbbbb;" text="Help/Options">
 
-         <font>
-            <Font name="Baskerville Old Face" size="18.0" />
-         </font>
-      </Button>
+            <font>
+                <Font name="Baskerville Old Face" size="18.0" />
+            </font>
+        </Button>
 
-      <Button fx:id="btnExit" layoutX="388.0" layoutY="544.0" mnemonicParsing="false" onAction="#btnExit" opacity="0.0" prefHeight="25.0" prefWidth="124.0" style="-fx-background-color: #bbbbbb;" text="Exit">
-         <font>
-            <Font name="Baskerville Old Face" size="18.0" />
-         </font></Button>
-      <Button fx:id="btnNew" layoutX="391.0" layoutY="405.0" mnemonicParsing="false" onAction="#btnNewGame" opacity="0.0" prefHeight="34.0" prefWidth="122.0" style="-fx-background-color: #bbbbbb;" text="New Game">
+        <Button fx:id="btnExit" layoutX="392.0" layoutY="550.0" mnemonicParsing="false" onAction="#btnExit" opacity="0.0" prefHeight="25.0" prefWidth="124.0" style="-fx-background-color: #bbbbbb;" text="Exit">
+            <font>
+                <Font name="Baskerville Old Face" size="18.0" />
+            </font>
+        </Button>
+        <Button fx:id="btnNew" layoutX="391.0" layoutY="390.0" mnemonicParsing="false" onAction="#btnNewGame" opacity="0.0" prefHeight="34.0" prefWidth="122.0" style="-fx-background-color: #bbbbbb;" text="New Game">
 
+            <font>
+                <Font name="Baskerville Old Face" size="18.0" />
+            </font>
+        </Button>
+      <Button fx:id="btnDelete" layoutX="391.0" layoutY="468.0" mnemonicParsing="false" onAction="#delete" opacity="0.0" prefHeight="34.0" prefWidth="122.0" style="-fx-background-color: #bbbbbb;" text="Delete Save">
          <font>
             <Font name="Baskerville Old Face" size="18.0" />
          </font>

@@ -231,20 +231,18 @@ public class FXMLCommonRoomController implements Initializable {
 
         for (int i = 0; i < 9; i++) {
 
-            if (MainApp.iSpaces[i] == MainApp.selected&&!MainApp.inventory[i].getType().equals("Item")) {
+
+            if (MainApp.iSpaces[i] == MainApp.selected && !MainApp.inventory[i].getType().equals("Item")) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
-if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-    lblEquip.setText("unequip");
-}else{
-    if (MainApp.itemsEquipped.size()==4){
-        
-        lblEquip.setDisable(true);
-    }
-        lblEquip.setText("equip");
+                if (MainApp.weapon == MainApp.inventory[i]) {
+                    lblEquip.setText("unequip");
+                } else {
+                    lblEquip.setText("equip");
 
-}
+                }
+
                 ////////////// make sure to change damage
                 lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
                 System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
@@ -287,7 +285,7 @@ private void equip(){
         for (int i = 0; i < 9; i++) {
 
             if (MainApp.iSpaces[i] == MainApp.selected) {
-                MainApp.inventory[i] = new Item();
+                MainApp.inventory[i] = new Weapon();
                 MainApp.iSpaces[i].toFront();
 
                 MainApp.iSpaces[i].setEffect(null);
@@ -298,7 +296,23 @@ private void equip(){
     }
     
     
- 
+
+       @FXML
+    private void equip() {
+        for (int i = 0; i < 9; i++) {
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                if (MainApp.weapon == MainApp.inventory[i]) {                  
+                    lblEquip.setText("equip");
+                    MainApp.weapon = null;
+                    
+                } else {
+                    MainApp.weapon = MainApp.inventory[i];
+                    lblEquip.setText("unequip");
+                }
+            }
+        }
+    }
+
 
 
 
