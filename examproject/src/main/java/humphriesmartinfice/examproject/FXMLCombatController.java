@@ -31,7 +31,7 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 public class FXMLCombatController implements Initializable {
-
+    
     @FXML
     private ProgressBar prgMC, prgEnemy, prgMCMana, prgEnemyMana, prgEXP;
     @FXML
@@ -44,22 +44,23 @@ public class FXMLCombatController implements Initializable {
     private Label lblMC, lblEnemy, lblMCMana, lblEnemyMana, lblHP, lblLevel, lblMana, lblPoints, lblSTR, lblDEX, lblINT, lblCigs;
     @FXML
     private ListView listLog;
-
+    
     private String Choice1, Choice2, Choice3, Choice4, Primary;
-
+    
     private int count, points, buffcount, cigs;
-
+    
     private double exp;
-
+    
     private boolean combat = true;//combat will always be active when coming into this scene
     private boolean DOT = false;
     public boolean EDOT = false;
-
+    
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
     Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
-
+    
     MediaPlayer combatmusic = new MediaPlayer((new Media(getClass().getResource("/FFXIV Music.mp3").toString())));
+
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
     @FXML
     private void Primary(ActionEvent event) {
@@ -118,7 +119,7 @@ public class FXMLCombatController implements Initializable {
             btnChoice4.setDisable(false);
         }
     }
-
+    
     @FXML
     private void Secondary(ActionEvent event) {
         double damage = 0;
@@ -138,6 +139,7 @@ public class FXMLCombatController implements Initializable {
                 setMana(getMana() - weapon.getCost());
             }
             if (btnChoice2.getText().equals("Bribe") && MainApp.cigs > enemies.get(0).getECigs() * 2) { // Allows the player to buy their way out of a fight, 
+                MainApp.setCigs((int) (MainApp.cigs - (enemies.get(0).getECigs() * 2)));
                 exp = exp / 2;
                 endCombat();
             }
@@ -150,6 +152,7 @@ public class FXMLCombatController implements Initializable {
                 setMana(getMana() - weapon.getCost());
             }
             if (btnChoice3.getText().equals("Taunt")) { // a humourous quip that raises the damage of the enemy but reduces defence
+                listLog.getItems().add("You insult their Mother!");
             }
         } else if (btnChoice4.isArmed()) {
             if (Primary.equals("Attack")) {
@@ -165,10 +168,10 @@ public class FXMLCombatController implements Initializable {
                     weapon.WarriorAttack(); //raises damage
                     buffcount += 4;
                 }
-
+                
             }
             if (btnChoice4.getText().equals("Talk")) { //Talk about the weather, maybe be used for story
-
+                listLog.getItems().add("You attempt to talk about the weather, even though you forgot what the sun looks like and the enemy ignores you");
             }
         }
         if (getHealth() > getHealthMAX()) { //makes it so that the player can not overheal
@@ -197,7 +200,7 @@ public class FXMLCombatController implements Initializable {
             endturn.play(); // a timer puts a delay, slowing down combat.
         }
     }
-
+    
     private void enemyTurn() {
         if (DOT) { //checks to see if enemy has a dot on them
             double dotd = weapon.Attack3(enemies.get(0).getDefence());
@@ -238,14 +241,14 @@ public class FXMLCombatController implements Initializable {
                 start(); //the start of the players turn, if it is still ongoing
             }
         }
-
+        
     }
-
+    
     private void start() {
         btnAttack.setDisable(false);
         btnOther.setDisable(false); // Just sets the buttons up for the start of a turn
     }
-
+    
     private void endCombat() {
         // starts loot/exp, then dialogue, which will be in main scene, maybe?. 
         combat = false; // makes it so that the next turn does not start
@@ -268,7 +271,7 @@ public class FXMLCombatController implements Initializable {
         lblINT.setText("INT: " + getINT());
         lblPoints.setText("" + points); // this should always be zero in any practical sense
     }
-
+    
     private void checkHP(ProgressBar prgT) { //checks enemy health
         if (enemies.get(0).getHealth() <= 0) {
             listLog.getItems().add("Enemy defeated! " + enemies.get(0).getEXP() + " EXP gained!");
@@ -294,13 +297,13 @@ public class FXMLCombatController implements Initializable {
             }
         }
     }
-
+    
     private void cleanLog() {
         if (listLog.getItems().size() == 4) {
             listLog.getItems().clear();
         }
     }
-
+    
     private void check(ProgressBar prgT) {
         if (prgT.getProgress() <= 0) {
             prgT.setProgress(0); //makes it so that the progress bar does not enter "INDETERMINATE" mode, looks awful
@@ -312,7 +315,7 @@ public class FXMLCombatController implements Initializable {
             //end game screen here
         }
     }
-
+    
     private void dead() {
         cleanLog();
         combat = false; // makes it so that the next turn does not start 
@@ -323,9 +326,10 @@ public class FXMLCombatController implements Initializable {
         panEnd.setVisible(true);
         combatmusic.stop();
     }
-
+    
     @FXML
     private void retry(ActionEvent e) throws IOException {
+        enemies.removeAll(enemies);
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml")); //where FXMLPage2 is the name of the scene
         Scene home_page_scene = new Scene(home_page_parent);
         //get reference to the stage 
@@ -337,12 +341,12 @@ public class FXMLCombatController implements Initializable {
         stage.show(); //shows the new page
         home_page_scene.getRoot().requestFocus();
     }
-
+    
     @FXML
     private void leave(ActionEvent e) {
         System.exit(0);
     }
-
+    
     private void progress() {
         prgMC.setProgress(getHealth() / getHealthMAX()); //sets the health of the whatever is being inputted with the method
         prgMCMana.setProgress(getMana() / getManaMAX()); //sets the mana of whatever is being inputted
@@ -353,7 +357,7 @@ public class FXMLCombatController implements Initializable {
         lblEnemy.setText(Double.parseDouble(F.format(enemies.get(0).getHealth())) + " / " + enemies.get(0).getHealthMAX()); //types into a label to for more visual sight as to what health is
         lblEnemyMana.setText(Double.parseDouble(F.format(enemies.get(0).getMana())) + " / " + enemies.get(0).getManaMAX());
     }
-
+    
     @FXML
     private void OK(ActionEvent event) throws IOException {
         if (points == 0 && exp == 0) {
@@ -384,9 +388,9 @@ public class FXMLCombatController implements Initializable {
             }
             prgEXP.setProgress(getEXP() / getEXPNeeded());
         }
-
+        
     }
-
+    
     @FXML
     private void PointUp(ActionEvent event) {
         if (points > 0) {
@@ -415,7 +419,7 @@ public class FXMLCombatController implements Initializable {
         lblDEX.setText("DEX: " + getDEX());
         lblINT.setText("INT: " + getINT());
     }
-
+    
     private void LevelUp() { //what happens when the big blue bar at the end of combat fills up
         setLevel(getLevel() + 1);
         lblLevel.setText("LEVEL: " + getLevel());
@@ -432,7 +436,7 @@ public class FXMLCombatController implements Initializable {
         points++;
         lblPoints.setText("" + points);
     }
-
+    
     private void exp() { //the method in the exp gathering timer
         exp--;
         setEXP(getEXP() + 1);
@@ -445,11 +449,11 @@ public class FXMLCombatController implements Initializable {
             endscreen.stop();
         }
     }
-
+    
     private void buffer() { //quite literally a buffer, so that the enemy seems to have a "thinking phase"
         progress();
     }
-
+    
     @FXML
     private void Log(ActionEvent E) {
         if (listLog.isVisible() == false) {
@@ -458,7 +462,7 @@ public class FXMLCombatController implements Initializable {
             listLog.setVisible(false);
         }
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         combatmusic.setCycleCount(Timeline.INDEFINITE);
@@ -491,5 +495,5 @@ public class FXMLCombatController implements Initializable {
         //imgMC.setImage(); //set image from whatever the image is
 
     }
-
+    
 }
