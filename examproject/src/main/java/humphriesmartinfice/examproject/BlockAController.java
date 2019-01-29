@@ -316,7 +316,6 @@ public class BlockAController implements Initializable {
     Pane pnlInv;
     
     
-    @FXML Label lblEquip;
     @FXML
     private void click(MouseEvent e) {
 
@@ -398,22 +397,6 @@ private void equip(){
         System.out.println(MainApp.saveInventory());
     }
     
-        @FXML
-private void equip(){
-        for (int i=0; i<9;i++){
-            if(MainApp.iSpaces[i] == MainApp.selected){
-           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
-               lblEquip.setText("equip");
-               
-  
-    }else{
-               MainApp.itemsEquipped.add(MainApp.inventory[i]);
-               lblEquip.setText("unequip");
-           }
-    }
-}
-}
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
