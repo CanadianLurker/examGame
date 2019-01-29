@@ -8,6 +8,7 @@ package humphriesmartinfice.examproject;
 import static humphriesmartinfice.examproject.MainApp.enemies;
 import static humphriesmartinfice.examproject.MainApp.getLevel;
 import static humphriesmartinfice.examproject.MainApp.saveLoc;
+import static humphriesmartinfice.examproject.MainApp.stoptime;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -67,6 +68,7 @@ public class FXMLStartController implements Initializable {
 
     MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
     MediaPlayer page = new MediaPlayer((new Media(getClass().getResource("/TurnThePage.mp3").toString())));
+    MediaPlayer ambient = new MediaPlayer((new Media(getClass().getResource("/FFXIV OST The Burn ( A Land Long Dead ).mp3").toString())));
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
@@ -108,6 +110,8 @@ public class FXMLStartController implements Initializable {
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgDoor) && MainApp.key) {
             saveLoc("FXMLStart");
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -123,22 +127,20 @@ public class FXMLStartController implements Initializable {
             Vertical.stop();
             Horizontal.stop();
             page.play();
-        }
-        else if (imgPaper.isVisible() && event.getCode() == KeyCode.E && !MainApp.WItem) {
+        } else if (imgPaper.isVisible() && event.getCode() == KeyCode.E && !MainApp.WItem) {
             Vertical.play();
             Horizontal.play();
             imgPaper.setVisible(false);
             page.stop();
             imgKey.setVisible(false);
             MainApp.key = true;
-        }
-        else if (imgPaper.isVisible() && event.getCode() == KeyCode.E && MainApp.WItem) {
+        } else if (imgPaper.isVisible() && event.getCode() == KeyCode.E && MainApp.WItem) {
             Vertical.play();
             Horizontal.play();
             imgPaper.setVisible(true);
             page.stop();
             imgKey.setVisible(false);
-            enemies.add(new Enemy(getLevel()+ 10));
+            enemies.add(new Enemy(getLevel() + 10));
             saveLoc("/fxml/FXMLStart.fxml");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
@@ -205,7 +207,6 @@ public class FXMLStartController implements Initializable {
     @FXML
     Label lblStats, lblEquip;
 
-
     @FXML
     ImageView img1,
             img2,
@@ -232,7 +233,7 @@ public class FXMLStartController implements Initializable {
     Pane pnlInv;
     @FXML
     TextField txtIn;
-@FXML Label lblEquip;
+
     @FXML
     private void click(MouseEvent e) {
 
@@ -262,14 +263,14 @@ public class FXMLStartController implements Initializable {
 
     }
 
-       @FXML
+    @FXML
     private void equip() {
         for (int i = 0; i < 9; i++) {
             if (MainApp.iSpaces[i] == MainApp.selected) {
-                if (MainApp.weapon == MainApp.inventory[i]) {                  
+                if (MainApp.weapon == MainApp.inventory[i]) {
                     lblEquip.setText("equip");
                     MainApp.weapon = null;
-                    
+
                 } else {
                     MainApp.weapon = MainApp.inventory[i];
                     System.out.println(MainApp.weapon.getSDamage());
@@ -312,6 +313,10 @@ public class FXMLStartController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ambient.setCycleCount(Timeline.INDEFINITE);
+        ambient.setVolume(0.3);
+        ambient.setStartTime(stoptime);
+        ambient.play();
         Horizontal.setCycleCount(Timeline.INDEFINITE);
         Vertical.setCycleCount(Timeline.INDEFINITE);
         Horizontal.play();

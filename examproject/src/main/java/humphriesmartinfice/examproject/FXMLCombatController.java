@@ -59,6 +59,7 @@ public class FXMLCombatController implements Initializable {
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
     Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
 
+    MediaPlayer combatmusic = new MediaPlayer((new Media(getClass().getResource("/FFXIV Music.mp3").toString())));
     // MediaPlayer music = new MediaPlayer((new Media(getClass().getResource("/Background.mp3").toString())));
     @FXML
     private void Primary(ActionEvent event) {
@@ -320,6 +321,7 @@ public class FXMLCombatController implements Initializable {
         weapon.ResetWar(); //resets buff
         DOT = false;
         panEnd.setVisible(true);
+        combatmusic.stop();
     }
 
     @FXML
@@ -365,6 +367,7 @@ public class FXMLCombatController implements Initializable {
             stage.setResizable(false);
             stage.show();
             scene.getRoot().requestFocus();
+            combatmusic.stop();
 //link back to where the fight started in the "explore" state
         }
         if (exp != 0) { //if any exp is still being gathered, the exp bar will be filled up to whatever it should go to.
@@ -458,8 +461,9 @@ public class FXMLCombatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //   music.setCycleCount(Timeline.INDEFINITE);
-        //   music.play();
+        combatmusic.setCycleCount(Timeline.INDEFINITE);
+        combatmusic.setVolume(0.3);
+        combatmusic.play();
         progress();
         btnChoice1.setText("---");
         btnChoice2.setText("---");
