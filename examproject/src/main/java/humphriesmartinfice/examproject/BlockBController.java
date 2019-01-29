@@ -70,9 +70,11 @@ public class BlockBController implements Initializable {
     private double yvar = 0;
 
     int rand;
-
+//changed
+    /* 
     int cigs = getCigs();
-
+    */
+    int cigs=0;
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(15), ae -> x()));
     Timeline ymove = new Timeline(new KeyFrame(Duration.millis(15), ae -> y()));
 

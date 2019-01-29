@@ -71,6 +71,8 @@ public class FXMLController implements Initializable {
                 System.out.println(MainApp.INT);
                 System.out.println(MainApp.cigs);
                 saveLoc("MainMenu");
+                                weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "", "");
+
                 Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
                 Scene home_page_scene = new Scene(home_page_parent);
                 //get reference to the stage 
@@ -106,6 +108,7 @@ public class FXMLController implements Initializable {
             if (dialog.getResult().trim().equals("") || dialog.getResult().trim().equals(MainApp.usernameList.get(i))) {
                 dif = true;
                 btnNewGame(event);
+              
                 return;
             }
             }
@@ -152,6 +155,8 @@ public class FXMLController implements Initializable {
     @FXML
     private void btnOptions(ActionEvent event) throws IOException {
         if (btnOpt.getOpacity() > 0.8) {
+            listSaves.getItems().clear();
+            MainApp.usernameList.clear();
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLHelp.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             //get reference to the stage 

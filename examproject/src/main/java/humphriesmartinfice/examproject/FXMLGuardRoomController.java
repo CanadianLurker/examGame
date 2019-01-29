@@ -143,7 +143,7 @@ public class FXMLGuardRoomController implements Initializable {
     @FXML
     private void buyWeapon(){
         if (MainApp.cigs>=1000){
-            if(MainApp.nextSpot()==8){
+            if(MainApp.nextSpot()!=8){
         int rand = ThreadLocalRandom.current().nextInt(1,3+1);
          Item i;
         if (rand==1){
@@ -240,6 +240,7 @@ private void equip(){
                
   
     }else{
+              
                MainApp.itemsEquipped.add(MainApp.inventory[i]);
                lblEquip.setText("unequip");
            }

@@ -63,7 +63,9 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private void Primary(ActionEvent event) {
         if (btnAttack.isArmed()) { //checks to see which primary button is pressed
-            double reglow = (weapon.getDamage() - (2) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+          System.out.println(weapon); 
+          double reglow = (weapon.getDamage() - (2) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+            
             double reghigh = ((weapon.getDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
             double spec = (weapon.getSDamage() - 2 + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
             double spechigh = ((weapon.getSDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
@@ -375,7 +377,7 @@ public class FXMLCombatController implements Initializable {
     
     @FXML
     private void retry(ActionEvent e) throws IOException{
-    MainApp.user.open(MainApp.fileName, user.numRecord(fileName));
+    MainApp.user.open(MainApp.fileName, MainApp.usernameList.indexOf(MainApp.username));
                 System.out.println(MainApp.username);
                 System.out.println(MainApp.level);
                 System.out.println(MainApp.DEX);
