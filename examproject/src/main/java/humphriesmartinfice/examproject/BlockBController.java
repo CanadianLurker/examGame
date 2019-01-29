@@ -1,3 +1,6 @@
+
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,7 +15,6 @@ import static humphriesmartinfice.examproject.MainApp.setCigs;
 import static humphriesmartinfice.examproject.MainApp.saveLoc;
 import static humphriesmartinfice.examproject.MainApp.keyB;
 import static humphriesmartinfice.examproject.MainApp.bcount;
-import static humphriesmartinfice.examproject.MainApp.stoptime;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -57,26 +59,23 @@ public class BlockBController implements Initializable {
     @FXML
     private Button fight, yes, no;
     @FXML
-    private ImageView imgDoor1, imgDoor2, imgDoor3, imgPlayer, imgExit, imgPaper;
+    private ImageView imgDoor1, imgDoor2, imgDoor3, imgPlayer, imgExit;
 
     Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
     Image front = new Image(getClass().getResource("/prisoner2.png").toString());
     Image closed = new Image(getClass().getResource("/door closed.png").toString());
     Image open = new Image(getClass().getResource("/door_open.png").toString());
-    Image FirstBlock = new Image(getClass().getResource("/SecPaper.png").toString());
-    Image SecondBlock = new Image(getClass().getResource("/ThirdPaper.png").toString());
-
     MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
-    MediaPlayer page = new MediaPlayer((new Media(getClass().getResource("/TurnThePage.mp3").toString())));
-    MediaPlayer ambient = new MediaPlayer((new Media(getClass().getResource("/FFXIV OST The Burn ( A Land Long Dead ).mp3").toString())));
 
     private double xvar = 0;
     private double yvar = 0;
 
     int rand;
-
+//changed
+    /* 
     int cigs = getCigs();
-
+    */
+    int cigs=0;
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(15), ae -> x()));
     Timeline ymove = new Timeline(new KeyFrame(Duration.millis(15), ae -> y()));
 
@@ -97,8 +96,6 @@ public class BlockBController implements Initializable {
             imgPlayer.setImage(back);
         }
         if (e.getCode() == KeyCode.E && col(imgPlayer, imgExit)) {
-            MainApp.stoptime = ambient.getCurrentTime();
-            ambient.stop();
             saveLoc("BlockB");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
@@ -133,11 +130,7 @@ public class BlockBController implements Initializable {
                 lblCigs.setText("Cigs: " + getCigs());
             }
         }
-        if (e.getCode() == KeyCode.E && imgPaper.isVisible()) {
-            imgPaper.setVisible(false);
-            page.stop();
-        }
-        if ((e.getCode() == KeyCode.I)) {
+                if ((e.getCode() == KeyCode.I)) {
             if (!MainApp.invVis) {
                 MainApp.invVis = true;
                 pnlInv.setVisible(true);
@@ -231,7 +224,7 @@ public class BlockBController implements Initializable {
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
-
+    
     @FXML
     Label lblStats;
 
@@ -257,6 +250,7 @@ public class BlockBController implements Initializable {
             rec8,
             rec9;
 
+
     @FXML
     private void click(MouseEvent e) {
 
@@ -264,19 +258,22 @@ public class BlockBController implements Initializable {
 
         for (int i = 0; i < 9; i++) {
 
-            if (MainApp.iSpaces[i] == MainApp.selected && !MainApp.inventory[i].getType().equals("Item")) {
+            if (MainApp.iSpaces[i] == MainApp.selected) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
-                if (MainApp.weapon == MainApp.inventory[i]) {
-                    lblEquip.setText("unequip");
-                } else {
-                    lblEquip.setText("equip");
 
-                }
-                ////////////// make sure to change damage
                 lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
                 System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+
+                ////////////// make sure to change damage
+                if (MainApp.inventory[i].getType().equals("Warrior")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage() / 2); //////////damage!!!!!!!!!!
+                } else if (MainApp.inventory[i].getType().equals("Rogue")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + (MainApp.inventory[i].getDamage() - 2));      //////////damage!!!!!!!!!!
+                } else {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+                }
 
             } else {
                 MainApp.rec[i].setFill(Color.GREY);
@@ -300,7 +297,7 @@ public class BlockBController implements Initializable {
         for (int i = 0; i < 9; i++) {
 
             if (MainApp.iSpaces[i] == MainApp.selected) {
-                MainApp.inventory[i] = new Weapon();
+                MainApp.inventory[i] = new Item();
                 MainApp.iSpaces[i].toFront();
 
                 MainApp.iSpaces[i].setEffect(null);
@@ -309,22 +306,23 @@ public class BlockBController implements Initializable {
             }
         }
     }
-
-    @FXML
-    private void equip() {
-        for (int i = 0; i < 9; i++) {
-            if (MainApp.iSpaces[i] == MainApp.selected) {
-                if (MainApp.weapon == MainApp.inventory[i]) {
-                    lblEquip.setText("equip");
-                    MainApp.weapon = null;
-
-                } else {
-                    MainApp.weapon = MainApp.inventory[i];
-                    lblEquip.setText("unequip");
-                }
-            }
-        }
+    
+        @FXML
+private void equip(){
+        for (int i=0; i<9;i++){
+            if(MainApp.iSpaces[i] == MainApp.selected){
+           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
+               lblEquip.setText("equip");
+               
+  
+    }else{
+               MainApp.itemsEquipped.add(MainApp.inventory[i]);
+               lblEquip.setText("unequip");
+           }
     }
+}
+}
 
     @FXML
     private void btnFight(ActionEvent event) throws IOException {
@@ -332,15 +330,11 @@ public class BlockBController implements Initializable {
         lblCount.setText("Fight " + bcount + " more enemies to obtain a guard key");
         panMessage.setVisible(false);
         rand = ThreadLocalRandom.current().nextInt(1, 4);
-        if (bcount == 0) {
-            enemies.add(new Enemy(getLevel() + 10));
-        } else {
-            enemies.add(new Enemy(getLevel()));
-        }
+        enemies.add(new Enemy(getLevel()));
+
 
         saveLoc("/fxml/BlockB.fxml");
-        MainApp.stoptime = ambient.getCurrentTime();
-        ambient.stop();
+
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -379,10 +373,6 @@ public class BlockBController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ambient.setCycleCount(Timeline.INDEFINITE);
-        ambient.setVolume(0.3);
-        ambient.setStartTime(stoptime);
-        ambient.play();
         lblCigs.setText("Cigs: " + getCigs());
         xmove.setCycleCount(Timeline.INDEFINITE);
         ymove.setCycleCount(Timeline.INDEFINITE);
@@ -393,16 +383,8 @@ public class BlockBController implements Initializable {
         if (bcount == 0) {
             lblCount.setText("You recieved a guard key!");
             keyB = true;
-            imgPaper.setVisible(true);
-            page.play();
-            if (MainApp.ABoss) {
-                imgPaper.setImage(SecondBlock);
-            } else {
-                imgPaper.setImage(FirstBlock);
-            }
-
         }
-        MainApp.rec[0] = rec1;
+                MainApp.rec[0] = rec1;
         MainApp.rec[1] = rec2;
         MainApp.rec[2] = rec3;
         MainApp.rec[3] = rec4;
@@ -443,3 +425,5 @@ public class BlockBController implements Initializable {
         MainApp.img9 = img9;
     }
 }
+
+
