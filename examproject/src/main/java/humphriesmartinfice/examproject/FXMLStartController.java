@@ -5,7 +5,10 @@
  */
 package humphriesmartinfice.examproject;
 
+import static humphriesmartinfice.examproject.MainApp.enemies;
+import static humphriesmartinfice.examproject.MainApp.getLevel;
 import static humphriesmartinfice.examproject.MainApp.saveLoc;
+import static humphriesmartinfice.examproject.MainApp.stoptime;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -56,12 +59,16 @@ public class FXMLStartController implements Initializable {
     Image open = new Image(getClass().getResource("/door_open.png").toString());
     Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
     Image front = new Image(getClass().getResource("/prisoner2.png").toString());
+    Image paper = new Image(getClass().getResource("/Paper.jpg").toString());
+    Image warden = new Image(getClass().getResource("/WardenPaper.png").toString());
+    Image Fpaper = new Image(getClass().getResource("/FinalPaper.png").toString());
 
     Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
 
     MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
     MediaPlayer page = new MediaPlayer((new Media(getClass().getResource("/TurnThePage.mp3").toString())));
+    MediaPlayer ambient = new MediaPlayer((new Media(getClass().getResource("/FFXIV OST The Burn ( A Land Long Dead ).mp3").toString())));
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
@@ -103,6 +110,8 @@ public class FXMLStartController implements Initializable {
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgDoor) && MainApp.key) {
             saveLoc("FXMLStart");
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -118,14 +127,29 @@ public class FXMLStartController implements Initializable {
             Vertical.stop();
             Horizontal.stop();
             page.play();
-        } else if (imgPaper.isVisible() && event.getCode() == KeyCode.E) {
+        } else if (imgPaper.isVisible() && event.getCode() == KeyCode.E && !MainApp.WItem) {
             Vertical.play();
             Horizontal.play();
             imgPaper.setVisible(false);
             page.stop();
             imgKey.setVisible(false);
             MainApp.key = true;
-
+        } else if (imgPaper.isVisible() && event.getCode() == KeyCode.E && MainApp.WItem) {
+            Vertical.play();
+            Horizontal.play();
+            imgPaper.setVisible(true);
+            page.stop();
+            imgKey.setVisible(false);
+            enemies.add(new Enemy(getLevel() + 10));
+            saveLoc("/fxml/FXMLStart.fxml");
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
+            Scene home_page_scene = new Scene(home_page_parent);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.hide();
+            stage.setScene(home_page_scene);
+            stage.setTitle("FIGHT!!!");
+            stage.setResizable(false);
+            stage.show();
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgSBed)) {
             MainApp.user.save(MainApp.fileName, MainApp.usernameList.indexOf(MainApp.username));
@@ -142,18 +166,16 @@ public class FXMLStartController implements Initializable {
             alert.setContentText(MainApp.username + ", Your progress has been saved");
             alert.showAndWait();
         }
-
         if ((event.getCode() == KeyCode.I)) {
             if (!MainApp.invVis) {
                 MainApp.invVis = true;
                 pnlInv.setVisible(true);
                 MainApp.displayIcons();
 
-               
             } else {
                 MainApp.invVis = false;
                 pnlInv.setVisible(false);
-                
+
             }
         }
         if ((event.getCode() == KeyCode.P)) {
@@ -183,7 +205,7 @@ public class FXMLStartController implements Initializable {
     }
 
     @FXML
-    Label lblStats;
+    Label lblStats, lblEquip;
 
     @FXML
     ImageView img1,
@@ -211,7 +233,7 @@ public class FXMLStartController implements Initializable {
     Pane pnlInv;
     @FXML
     TextField txtIn;
-@FXML Label lblEquip;
+
     @FXML
     private void click(MouseEvent e) {
 
@@ -219,20 +241,16 @@ public class FXMLStartController implements Initializable {
 
         for (int i = 0; i < 9; i++) {
 
-            if (MainApp.iSpaces[i] == MainApp.selected&&!MainApp.inventory[i].getType().equals("Item")) {
+            if (MainApp.iSpaces[i] == MainApp.selected && !MainApp.inventory[i].getType().equals("Item")) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
-if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-    lblEquip.setText("unequip");
-}else{
-    if (MainApp.itemsEquipped.size()==4){
-        
-        lblEquip.setDisable(true);
-    }
-        lblEquip.setText("equip");
+                if (MainApp.weapon == MainApp.inventory[i]) {
+                    lblEquip.setText("unequip");
+                } else {
+                    lblEquip.setText("equip");
 
-}
+                }
                 ////////////// make sure to change damage
                 lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
                 System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
@@ -244,28 +262,24 @@ if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
         }
 
     }
-@FXML
-private void equip(){
-        for (int i=0; i<9;i++){
-            if(MainApp.iSpaces[i] == MainApp.selected){
-           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
-               lblEquip.setText("equip");
-               
-  
-    }else{
-               MainApp.itemsEquipped.add(MainApp.inventory[i]);
-               lblEquip.setText("unequip");
-           }
-    }
-}
-}
 
-    
-    
-    
-    
-    
+    @FXML
+    private void equip() {
+        for (int i = 0; i < 9; i++) {
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                if (MainApp.weapon == MainApp.inventory[i]) {
+                    lblEquip.setText("equip");
+                    MainApp.weapon = null;
+
+                } else {
+                    MainApp.weapon = MainApp.inventory[i];
+                    System.out.println(MainApp.weapon.getSDamage());
+                    lblEquip.setText("unequip");
+                }
+            }
+        }
+    }
+
     @FXML
     private void paneClick(MouseEvent e) {
         for (int i = 0; i < 9; i++) {
@@ -280,7 +294,7 @@ private void equip(){
         for (int i = 0; i < 9; i++) {
 
             if (MainApp.iSpaces[i] == MainApp.selected) {
-                MainApp.inventory[i] = new Item();
+                MainApp.inventory[i] = new Weapon();
                 MainApp.iSpaces[i].toFront();
 
                 MainApp.iSpaces[i].setEffect(null);
@@ -289,7 +303,6 @@ private void equip(){
             }
         }
     }
-    
 
     ////not needed{
     @FXML
@@ -300,6 +313,10 @@ private void equip(){
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ambient.setCycleCount(Timeline.INDEFINITE);
+        ambient.setVolume(0.3);
+        ambient.setStartTime(stoptime);
+        ambient.play();
         Horizontal.setCycleCount(Timeline.INDEFINITE);
         Vertical.setCycleCount(Timeline.INDEFINITE);
         Horizontal.play();
@@ -312,6 +329,11 @@ private void equip(){
         if (MainApp.getArea().equals("MainMenu")) {
             imgPlayer.setLayoutX(159);
             imgPlayer.setLayoutY(439);
+        }
+        if (MainApp.WItem) {
+            imgKey.setImage(paper);
+            imgKey.setVisible(true);
+            imgPaper.setImage(warden);
         }
 
         MainApp.rec[0] = rec1;

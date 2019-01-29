@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -19,17 +18,19 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainApp extends Application {
 
 public static String username;
     
     public static int level, STR, DEX, INT,  cigs;
+    
+    public static Duration stoptime= Duration.ZERO;
 
-    public static int ecount = 0;
+    public static int ecount = 0, xplace, yplace, bcount = 10, Abcount = 1;
 
-    public static boolean dot = false;
-    public static boolean key;
+    public static boolean dot = false, key = false, ABoss= false, keyB =false, WItem = false, Warden = false;
     
     public static String area;
 
@@ -40,11 +41,7 @@ public static String username;
     public static DecimalFormat F = new DecimalFormat("0"); //format so decimals don't go on for ever
 
     public static Weapon weapon;
-
-    public static boolean keyB = false;
     
-    public static int bcount = 10;
-    public static ArrayList<Item> itemsEquipped=new ArrayList();
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
@@ -218,7 +215,7 @@ public static Label lblStats;
     public static Pane pnlInv;
     public final static String fileName="savefile.raf";
 
-    public static Item inventory[] = new Item[9]; //array of items
+    public static Weapon inventory[] = new Weapon[9]; //array of items
     public static char inv[][] = new char[9][5];
     //type
     //specific
@@ -364,9 +361,9 @@ public static Label lblStats;
         return 8;
     }
 
-    public static void addToInventory(Item i) {
+    public static void addToInventory(Weapon i) {
         //adds to the inventory by passing an item
-        inventory[nextSpot()] = i;
+        inventory[nextSpot()] = (Weapon) i;
 
     }
 
@@ -457,7 +454,7 @@ public static Label lblStats;
             if (inv[i][0] == 'O') {
 
                 if (inv[i][0] == 'I') {
-                    inventory[nextSpot()] = new Item();
+                    inventory[nextSpot()] = new Weapon();
                 }
             } //
             else if (inv[i][0] == 'W') {
@@ -465,7 +462,7 @@ public static Label lblStats;
                 if (inv[i][1] == 'W') {
 
                  System.out.println(intInv[i][0]+"-------------"+intInv[i][1]);
-                    inventory[nextSpot()] = new Warrior(intInv[i][1],rare,intInv[i][0],"Warrior"); 
+                    inventory[nextSpot()] = new Warrior(intInv[i][1],rare,intInv[i][0],"Warrior");
                     System.out.println(inventory[nextSpot()-1].getDamage()+"-------------"+inventory[nextSpot()-1].getLevel());
                 }
                 //mage
@@ -522,7 +519,7 @@ public static Label lblStats;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
                 inv[i][j] = 0;
-                inventory[i] = new Item();
+                inventory[i] = new Weapon();
                 IS[i] = new InnerShadow();
 
                 rec[i].setFill(Color.GREY);

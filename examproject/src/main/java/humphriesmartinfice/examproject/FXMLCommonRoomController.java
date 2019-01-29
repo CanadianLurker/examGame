@@ -30,6 +30,7 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import static humphriesmartinfice.examproject.MainApp.*;
+import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -47,6 +48,11 @@ public class FXMLCommonRoomController implements Initializable {
 
     @FXML
     private ImageView imgGuard, imgGuardRoom, imgBlockA, imgBlockB, imgCell, imgPlayer;
+    @FXML
+    private Pane panShop;
+
+    @FXML
+    private Button btnBuy;
 
     Image closed = new Image(getClass().getResource("/door closed.png").toString());
     Image open = new Image(getClass().getResource("/door_open.png").toString());
@@ -54,25 +60,26 @@ public class FXMLCommonRoomController implements Initializable {
     Image front = new Image(getClass().getResource("/prisoner2.png").toString());
 
     MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
+    MediaPlayer ambient = new MediaPlayer((new Media(getClass().getResource("/FFXIV OST The Burn ( A Land Long Dead ).mp3").toString())));
 
     private int xvar, yvar;
 
     Timeline Horizontal = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
-    
+
     @FXML
     private Label lblEquip;
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
-        if (col(imgGuard, imgPlayer) || imgPlayer.getLayoutY() >= 420 || imgPlayer.getLayoutY() <= 30) {
+        if (imgPlayer.getLayoutY() >= 420 || imgPlayer.getLayoutY() <= 30) {
             imgPlayer.setLayoutY(imgPlayer.getLayoutY() - yvar);
         }
     }
 
     private void x() {
         imgPlayer.setLayoutX(imgPlayer.getLayoutX() + xvar);
-        if (col(imgGuard, imgPlayer) || imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0) {
+        if (imgPlayer.getLayoutX() >= 830 || imgPlayer.getLayoutX() <= 0) {
             imgPlayer.setLayoutX(imgPlayer.getLayoutX() - xvar);
         }
         if (col(imgPlayer, imgCell)) {
@@ -84,7 +91,7 @@ public class FXMLCommonRoomController implements Initializable {
         } else if (col(imgPlayer, imgBlockB)) {
             imgBlockB.setImage(open);
             opensound.play();
-        } else if (col(imgPlayer, imgGuardRoom)&& MainApp.keyB) {
+        } else if (col(imgPlayer, imgGuardRoom) && MainApp.keyB) {
             imgGuardRoom.setImage(open);
             opensound.play();
         } else if (col(imgPlayer, imgCell) == false) {
@@ -112,11 +119,20 @@ public class FXMLCommonRoomController implements Initializable {
         }
         if ((event.getCode() == KeyCode.W)) {
             yvar = -1;
+            imgPlayer.setImage(back);
         }
         if ((event.getCode() == KeyCode.S)) {
             yvar = 1;
+            imgPlayer.setImage(front);
+        }
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgGuard) && !panShop.isVisible()) {
+            panShop.setVisible(true);
+        } else if (event.getCode() == KeyCode.E && col(imgPlayer, imgGuard) && panShop.isVisible()) {
+            panShop.setVisible(false);
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgBlockA)) {
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -127,7 +143,9 @@ public class FXMLCommonRoomController implements Initializable {
             stage.show();
             home_page_scene.getRoot().requestFocus();
         }
-        if (event.getCode() == KeyCode.E && col(imgPlayer, imgGuardRoom)&& MainApp.keyB) {
+        if (event.getCode() == KeyCode.E && col(imgPlayer, imgGuardRoom) && MainApp.keyB) {
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
             Parent parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLGuardRoom.fxml"));
             Scene scene = new Scene(parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -140,6 +158,8 @@ public class FXMLCommonRoomController implements Initializable {
             parent.requestFocus();
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgBlockB)) {
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
             Parent parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml"));
             Scene scene = new Scene(parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -151,6 +171,8 @@ public class FXMLCommonRoomController implements Initializable {
             parent.requestFocus();
         }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgCell)) {
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -231,20 +253,17 @@ public class FXMLCommonRoomController implements Initializable {
 
         for (int i = 0; i < 9; i++) {
 
-            if (MainApp.iSpaces[i] == MainApp.selected&&!MainApp.inventory[i].getType().equals("Item")) {
+            if (MainApp.iSpaces[i] == MainApp.selected && !MainApp.inventory[i].getType().equals("Item")) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
-if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-    lblEquip.setText("unequip");
-}else{
-    if (MainApp.itemsEquipped.size()==4){
-        
-        lblEquip.setDisable(true);
-    }
-        lblEquip.setText("equip");
+                if (MainApp.weapon == MainApp.inventory[i]) {
+                    lblEquip.setText("unequip");
+                } else {
+                    lblEquip.setText("equip");
 
-}
+                }
+
                 ////////////// make sure to change damage
                 lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
                 System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
@@ -256,22 +275,22 @@ if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
         }
 
     }
-@FXML
-private void equip(){
-        for (int i=0; i<9;i++){
-            if(MainApp.iSpaces[i] == MainApp.selected){
-           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
-               lblEquip.setText("equip");
-               
-  
-    }else{
-               MainApp.itemsEquipped.add(MainApp.inventory[i]);
-               lblEquip.setText("unequip");
-           }
+
+    @FXML
+    private void equip() {
+        for (int i = 0; i < 9; i++) {
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                if (MainApp.weapon == (MainApp.inventory[i])) {
+                    MainApp.weapon = null;
+                    lblEquip.setText("equip");
+
+                } else {
+                    MainApp.weapon = (MainApp.inventory[i]);
+                    lblEquip.setText("unequip");
+                }
+            }
+        }
     }
-}
-}
 
     @FXML
     private void paneClick(MouseEvent e) {
@@ -287,7 +306,7 @@ private void equip(){
         for (int i = 0; i < 9; i++) {
 
             if (MainApp.iSpaces[i] == MainApp.selected) {
-                MainApp.inventory[i] = new Item();
+                MainApp.inventory[i] = new Weapon();
                 MainApp.iSpaces[i].toFront();
 
                 MainApp.iSpaces[i].setEffect(null);
@@ -296,17 +315,41 @@ private void equip(){
             }
         }
     }
-    
-    
- 
 
+    @FXML
+    private void buyWeapon() {
+        if (MainApp.cigs >= 1000) {
+            if (MainApp.nextSpot() == 8) {
+                int rand = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                Weapon i;
+                if (rand == 1) {
+                    i = new Warrior(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "");
 
+                } else if (rand == 2) {
+                    i = new Mage(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "");
+                } else {
+                    i = new Rogue(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "");
+                }
+                MainApp.cigs -= 1000;
+                addToInventory(i);
+            } else {
+                //not enough
+            }
+
+        } else {
+            btnBuy.setText("Not enough cigs");
+        }
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ambient.setCycleCount(Timeline.INDEFINITE);
+        ambient.setVolume(0.3);
+        ambient.setStartTime(stoptime);
+        ambient.play();
         Horizontal.setCycleCount(Timeline.INDEFINITE);
         Vertical.setCycleCount(Timeline.INDEFINITE);
         Horizontal.play();
@@ -322,7 +365,7 @@ private void equip(){
         if (getArea().equals("GuardRoom")) {
             imgPlayer.setLayoutX(769);
             imgPlayer.setLayoutY(390);
-        } 
+        }
 
         MainApp.rec[0] = rec1;
         MainApp.rec[1] = rec2;
@@ -366,4 +409,3 @@ private void equip(){
     }
 
 }
-

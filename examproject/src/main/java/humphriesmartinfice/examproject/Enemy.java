@@ -19,7 +19,7 @@ public class Enemy {
 
     public Enemy(int Level) {
         level = Level;
-        damage = 3 + Level;
+        damage = 2 + Level;
         defence = 0 + Level;
         HealthMAX = Level * 12;
         Health = HealthMAX;
