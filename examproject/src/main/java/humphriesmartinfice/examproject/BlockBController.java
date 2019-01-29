@@ -1,3 +1,5 @@
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -31,7 +33,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -51,9 +52,9 @@ import javafx.stage.Stage;
 public class BlockBController implements Initializable {
 
     @FXML
-    private Pane panMessage;
+    private Pane panMessage, pnlInv;
     @FXML
-    private Label lblDoor1, lblDoor2, lblDoor3, lblResult, lblCigs, lblExit, lblCount;
+    private Label lblDoor1, lblDoor2, lblDoor3, lblResult, lblCigs, lblExit, lblCount, lblEquip;
     @FXML
     private Button fight, yes, no;
     @FXML
@@ -124,6 +125,16 @@ public class BlockBController implements Initializable {
                 cigs = cigs + 25;
                 setCigs(getCigs() + cigs);
                 lblCigs.setText("Cigs: " + getCigs());
+            }
+        }
+                if ((e.getCode() == KeyCode.I)) {
+            if (!MainApp.invVis) {
+                MainApp.invVis = true;
+                pnlInv.setVisible(true);
+                MainApp.displayIcons();
+            } else {
+                MainApp.invVis = false;
+                pnlInv.setVisible(false);
             }
         }
     }
@@ -210,6 +221,105 @@ public class BlockBController implements Initializable {
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
+    
+    @FXML
+    Label lblStats;
+
+    @FXML
+    ImageView img1,
+            img2,
+            img3,
+            img4,
+            img5,
+            img6,
+            img7,
+            img8,
+            img9;
+
+    @FXML
+    Rectangle rec1,
+            rec2,
+            rec3,
+            rec4,
+            rec5,
+            rec6,
+            rec7,
+            rec8,
+            rec9;
+
+
+    @FXML
+    private void click(MouseEvent e) {
+
+        MainApp.selected = (ImageView) e.getSource();
+
+        for (int i = 0; i < 9; i++) {
+
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                MainApp.rec[i].toFront();
+                MainApp.iSpaces[i].toFront();
+                MainApp.rec[i].setFill(Color.BLACK);
+
+                lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
+                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+
+                ////////////// make sure to change damage
+                if (MainApp.inventory[i].getType().equals("Warrior")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage() / 2); //////////damage!!!!!!!!!!
+                } else if (MainApp.inventory[i].getType().equals("Rogue")) {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + (MainApp.inventory[i].getDamage() - 2));      //////////damage!!!!!!!!!!
+                } else {
+                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
+                }
+
+            } else {
+                MainApp.rec[i].setFill(Color.GREY);
+
+            }
+        }
+
+    }
+
+    @FXML
+    private void paneClick(MouseEvent e) {
+        for (int i = 0; i < 9; i++) {
+            MainApp.rec[i].setFill(Color.GREY);
+            MainApp.selected = null;
+        }
+
+    }
+
+    @FXML
+    private void btnDelete() {
+        for (int i = 0; i < 9; i++) {
+
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                MainApp.inventory[i] = new Item();
+                MainApp.iSpaces[i].toFront();
+
+                MainApp.iSpaces[i].setEffect(null);
+                MainApp.displayIcons();
+
+            }
+        }
+    }
+    
+        @FXML
+private void equip(){
+        for (int i=0; i<9;i++){
+            if(MainApp.iSpaces[i] == MainApp.selected){
+           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
+               lblEquip.setText("equip");
+               
+  
+    }else{
+               MainApp.itemsEquipped.add(MainApp.inventory[i]);
+               lblEquip.setText("unequip");
+           }
+    }
+}
+}
 
     @FXML
     private void btnFight(ActionEvent event) throws IOException {
@@ -254,140 +364,24 @@ public class BlockBController implements Initializable {
         stage.show();
         home_page_scene.getRoot().requestFocus();
     }
-@FXML
-    Label lblStats;
 
-    @FXML
-    ImageView img1,
-            img2,
-            img3,
-            img4,
-            img5,
-            img6,
-            img7,
-            img8,
-            img9;
-
-    @FXML
-    Rectangle rec1,
-            rec2,
-            rec3,
-            rec4,
-            rec5,
-            rec6,
-            rec7,
-            rec8,
-            rec9;
-
-    @FXML
-    Pane pnlInv;
-    @FXML
-    TextField txtIn;
-@FXML Label lblEquip;
-    @FXML
-    private void click(MouseEvent e) {
-
-        MainApp.selected = (ImageView) e.getSource();
-
-        for (int i = 0; i < 9; i++) {
-
-            if (MainApp.iSpaces[i] == MainApp.selected&&!MainApp.inventory[i].getType().equals("Item")) {
-                MainApp.rec[i].toFront();
-                MainApp.iSpaces[i].toFront();
-                MainApp.rec[i].setFill(Color.BLACK);
-if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-    lblEquip.setText("unequip");
-}else{
-    if (MainApp.itemsEquipped.size()==4){
-        
-        lblEquip.setDisable(true);
-    }
-        lblEquip.setText("equip");
-
-}
-                ////////////// make sure to change damage
-                lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
-                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-
-            } else {
-                MainApp.rec[i].setFill(Color.GREY);
-
-            }
-        }
-
-    }
-@FXML
-private void equip(){
-        for (int i=0; i<9;i++){
-            if(MainApp.iSpaces[i] == MainApp.selected){
-           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
-               lblEquip.setText("equip");
-               
-  
-    }else{
-               MainApp.itemsEquipped.add(MainApp.inventory[i]);
-               lblEquip.setText("unequip");
-           }
-    }
-}
-}
-
-    
-    
-    
-    
-    
-    @FXML
-    private void paneClick(MouseEvent e) {
-        for (int i = 0; i < 9; i++) {
-            MainApp.rec[i].setFill(Color.GREY);
-            MainApp.selected = null;
-        }
-
-    }
-
-    @FXML
-    private void btnDelete() {
-        for (int i = 0; i < 9; i++) {
-
-            if (MainApp.iSpaces[i] == MainApp.selected) {
-                MainApp.inventory[i] = new Item();
-                MainApp.iSpaces[i].toFront();
-
-                MainApp.iSpaces[i].setEffect(null);
-                MainApp.displayIcons();
-
-            }
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-          MainApp.rec[0] = rec1;
+        lblCigs.setText("Cigs: " + getCigs());
+        xmove.setCycleCount(Timeline.INDEFINITE);
+        ymove.setCycleCount(Timeline.INDEFINITE);
+        xmove.play();
+        ymove.play();
+        rand = ThreadLocalRandom.current().nextInt(1, 4);
+        lblCount.setText("Fight " + bcount + " more enemies to obtain a guard key");
+        if (bcount == 0) {
+            lblCount.setText("You recieved a guard key!");
+            keyB = true;
+        }
+                MainApp.rec[0] = rec1;
         MainApp.rec[1] = rec2;
         MainApp.rec[2] = rec3;
         MainApp.rec[3] = rec4;
@@ -399,12 +393,14 @@ private void equip(){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
                 MainApp.inv[i][j] = 0;
+
                 MainApp.IS[i] = new InnerShadow();
 
                 MainApp.rec[i].setFill(Color.GREY);
             }
 
         }
+
         MainApp.iSpaces[0] = img1;
         MainApp.iSpaces[1] = img2;
         MainApp.iSpaces[2] = img3;
@@ -424,17 +420,6 @@ private void equip(){
         MainApp.img7 = img7;
         MainApp.img8 = img8;
         MainApp.img9 = img9;
-
-        lblCigs.setText("Cigs: " + getCigs());
-        xmove.setCycleCount(Timeline.INDEFINITE);
-        ymove.setCycleCount(Timeline.INDEFINITE);
-        xmove.play();
-        ymove.play();
-        rand = ThreadLocalRandom.current().nextInt(1, 4);
-        lblCount.setText("Fight " + bcount + " more enemies to obtain a guard key");
-        if (bcount == 0) {
-            lblCount.setText("You recieved a guard key!");
-            keyB = true;
-        }
     }
 }
+

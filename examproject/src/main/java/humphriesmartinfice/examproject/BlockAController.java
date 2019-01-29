@@ -57,7 +57,7 @@ public class BlockAController implements Initializable {
     private Stage stage;
     private Scene scene;
     @FXML
-    private Label lblFight1, lblFight2, lblFight3, lblFight4;
+    private Label lblFight1, lblFight2, lblFight3, lblFight4, lblEquip;
     @FXML
     private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3;
 
@@ -397,6 +397,23 @@ private void equip(){
     private void save() {
         System.out.println(MainApp.saveInventory());
     }
+    
+        @FXML
+private void equip(){
+        for (int i=0; i<9;i++){
+            if(MainApp.iSpaces[i] == MainApp.selected){
+           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
+               lblEquip.setText("equip");
+               
+  
+    }else{
+               MainApp.itemsEquipped.add(MainApp.inventory[i]);
+               lblEquip.setText("unequip");
+           }
+    }
+}
+}
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

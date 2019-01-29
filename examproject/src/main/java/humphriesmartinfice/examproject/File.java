@@ -13,16 +13,16 @@ import java.io.RandomAccessFile;
  * @author darbym26
  */
 public class File {
-    // 242
+    // 240
     //health + 8
     //mana + 8
+    //exp + 8
     //keyB boolean + 2
     //key boolean + 2
-    //exp + 8
-    //270
+    //268
     // need a int for weapon in inventory that is equipped + 4
 
-    public final int RECSIZE = 270; //Good for now 
+    public final int RECSIZE = 268; //Good for now 
     String username;
     String usernameTemp;
     String inventory;
