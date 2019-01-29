@@ -383,11 +383,6 @@ public class BlockAController implements Initializable {
         }
     }
 
-    ////not needed{
-    @FXML
-    private void save() {
-        System.out.println(MainApp.saveInventory());
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
