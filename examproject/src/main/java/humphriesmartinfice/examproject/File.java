@@ -13,16 +13,10 @@ import java.io.RandomAccessFile;
  * @author darbym26
  */
 public class File {
-    // 240
-    //health + 8
-    //mana + 8
-    //exp + 8
-    //keyB boolean + 2
-    //key boolean + 2
-    //268
+    //279
     // need a int for weapon in inventory that is equipped + 4
 
-    public final int RECSIZE = 268; //Good for now 
+    public final int RECSIZE = 279; 
     String username;
     String usernameTemp;
     String inventory;
@@ -57,6 +51,11 @@ public class File {
             recordFile.writeDouble(MainApp.EXP);
             recordFile.writeBoolean(MainApp.keyB);
             recordFile.writeBoolean(MainApp.key);
+            recordFile.writeBoolean(MainApp.ABoss);
+            recordFile.writeBoolean(MainApp.WItem);
+            recordFile.writeBoolean(MainApp.Warden);
+            recordFile.writeInt(MainApp.xplace);
+            recordFile.writeInt(MainApp.yplace);
             recordFile.close();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -84,6 +83,13 @@ public class File {
             System.out.println(inventory);
 
             MainApp.addToInventory(inventory);
+            for (int i = 0; i < 9; i++) {
+            MainApp.inventory[i].setAttack1();
+            MainApp.inventory[i].setAttack2();
+            MainApp.inventory[i].setAttack3();
+            MainApp.inventory[i].setAttack4();
+            MainApp.inventory[i].setCost();
+            }
 
             MainApp.level = recordFile.readInt();
             System.out.println(MainApp.level);
@@ -104,6 +110,11 @@ public class File {
             MainApp.EXP = recordFile.readDouble();
             MainApp.keyB = recordFile.readBoolean();
             MainApp.key = recordFile.readBoolean();
+            MainApp.ABoss = recordFile.readBoolean();
+            MainApp.WItem = recordFile.readBoolean();
+            MainApp.Warden = recordFile.readBoolean();
+            MainApp.xplace = recordFile.readInt();
+            MainApp.yplace = recordFile.readInt();
             MainApp.setHealthMAX();
             MainApp.setManaMAX();
             MainApp.setEXPNeeded();
@@ -157,6 +168,7 @@ public class File {
         try {
             RandomAccessFile recordFile = new RandomAccessFile(file, "r");
             numR = (int) (recordFile.length() / RECSIZE);
+            System.out.println(""+recordFile.length());
         } catch (Exception ex) {
         }
         return numR;

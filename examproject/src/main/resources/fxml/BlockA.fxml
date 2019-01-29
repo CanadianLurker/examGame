@@ -234,5 +234,10 @@
             <Label fx:id="lblEquip" alignment="CENTER" layoutX="21.0" layoutY="315.0" onMouseClicked="#equip" prefHeight="17.0" prefWidth="53.0" text="equip" textAlignment="CENTER" textFill="#fcfcfc" />
          </children>
       </Pane>
+      <ImageView fx:id="imgPaper" fitHeight="519.0" fitWidth="387.0" layoutX="250.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../SecPaper.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

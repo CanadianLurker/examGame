@@ -15,6 +15,7 @@ import javafx.animation.Timeline;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
@@ -41,12 +42,11 @@ public class FXMLController implements Initializable {
     @FXML
     private Label lblSaves, lblEnter, lblTitle;
     @FXML
-    private Button btnLoad, btnOpt, btnExit, btnNew;
+    private Button btnLoad, btnOpt, btnExit, btnNew, btnDelete;
     @FXML
     private ListView listSaves;
     @FXML
     private ImageView imgL;
-    private TextField txtSearch;
     private double op = 0.8;
     private double vol = 1;
 
@@ -99,17 +99,17 @@ public class FXMLController implements Initializable {
                 dif = false;
 
             }
-            try{
-            dialog.setContentText("Enter a username");
-            Optional<String> result = dialog.showAndWait();
-               for (int i =0; i < MainApp.usernameList.size(); i++) {
-            if (dialog.getResult().trim().equals("") || dialog.getResult().trim().equals(MainApp.usernameList.get(i))) {
-                dif = true;
-                btnNewGame(event);
-                return;
-            }
-            }
-             MainApp.username = dialog.getResult();
+            try {
+                dialog.setContentText("Enter a username");
+                Optional<String> result = dialog.showAndWait();
+                for (int i = 0; i < MainApp.usernameList.size(); i++) {
+                    if (dialog.getResult().trim().equals("") || dialog.getResult().trim().equals(MainApp.usernameList.get(i))) {
+                        dif = true;
+                        btnNewGame(event);
+                        return;
+                    }
+                }
+                MainApp.username = dialog.getResult();
                 MainApp.usernameList.add(username);
                 setINT(1);
                 setSTR(1);
@@ -121,8 +121,19 @@ public class FXMLController implements Initializable {
                 setMana(getManaMAX());
                 setEXP(0);
                 setEXPNeeded();
-                weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "", "");
+                int rand = ThreadLocalRandom.current().nextInt(1, 3);
+                if (rand == 1) {
+                    weapon = new Rogue(getLevel(), "", "", "", "", 0, 0, 0, 0, "");
+                }
+                if (rand == 2) {
+                    weapon = new Mage(getLevel(), "", "", "", "", 0, 0, 0, 0, "");
+                }
+                if (rand == 3) {
+                    weapon = new Warrior(getLevel(), "", "", "", "", 0, 0, 0, 0, "");
+                }
                 MainApp.addToInventory(weapon);
+                xplace = ThreadLocalRandom.current().nextInt(200, 700 + 1);
+                yplace = ThreadLocalRandom.current().nextInt(50, 400 + 1);
                 System.out.println(MainApp.username);
                 System.out.println(MainApp.DEX);
                 System.out.println(MainApp.STR);
@@ -141,13 +152,24 @@ public class FXMLController implements Initializable {
                 stage.show(); //shows the new page
                 home_page_scene.getRoot().requestFocus();
                 quiettime.play();
-        } catch (Exception e) {
-        
-    }
-    }
-    }
-   
+            } catch (Exception e) {
 
+            }
+        }
+    }
+
+    @FXML
+    private void delete(ActionEvent e) {
+        if (btnLoad.getOpacity() > 0.8) {
+            int record = listSaves.getSelectionModel().getSelectedIndex();
+            if (record != -1) {
+                user.delete(fileName, record);
+                listSaves.getItems().remove(record);
+                listSaves.setSelectionModel(null);
+                MainApp.usernameList.remove(record);
+            }
+        }
+    }
 
     @FXML
     private void btnOptions(ActionEvent event) throws IOException {
@@ -197,6 +219,7 @@ public class FXMLController implements Initializable {
             btnOpt.setOpacity(op);
             btnExit.setOpacity(op);
             btnNew.setOpacity(op);
+            btnDelete.setOpacity(op);
             lblTitle.setOpacity(op + 0.013);
         }
         if (btnExit.getOpacity() >= 1) {
@@ -213,13 +236,11 @@ public class FXMLController implements Initializable {
         }
     }
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dif = false;
         for (int i = 0; i < 9; i++) {
-            MainApp.inventory[i] = new Item();
+            MainApp.inventory[i] = new Weapon();
         }
         for (int j = 0; j < user.numRecord(fileName); j++) {
             MainApp.usernameList.add(user.openUser(fileName, j));

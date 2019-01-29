@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/*
 package humphriesmartinfice.examproject;
 
 import javafx.scene.image.Image;
 
-/**
- *
- * @author darbym26
- */
+//
+//
+// @author darbym26
+//
 public class Item {
 private String type;
     private int rarityI, level, damage;
@@ -63,4 +64,5 @@ public String getType() {
     public void setType(String i) {
         type = i;
     }
-}
+} 
+*/

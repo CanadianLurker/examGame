@@ -35,9 +35,9 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private ProgressBar prgMC, prgEnemy, prgMCMana, prgEnemyMana, prgEXP;
     @FXML
-    private ImageView imgMC, imgEnemy, imgPlayer;
+    private ImageView imgMC, imgEnemy;
     @FXML
-    private Button btnAttack, btnItems, btnOther, btnChoice1, btnChoice2, btnChoice3, btnChoice4, btnSTR, btnDEX, btnINT, btnLog;
+    private Button btnAttack, btnOther, btnChoice1, btnChoice2, btnChoice3, btnChoice4, btnSTR, btnDEX, btnINT;
     @FXML
     private Pane panEXP, panEnd;
     @FXML
@@ -87,35 +87,7 @@ public class FXMLCombatController implements Initializable {
             Choice4 = Double.parseDouble(F.format(weapon.getCost() + (1.2 * weapon.getLevel()))) + " Mana -" + weapon.getAttack4();
             //sets what will be displayed in choices
             Primary = "Attack";
-            btnAttack.setDisable(true);
-            btnItems.setDisable(false); //disables the button that was pressed
-            btnOther.setDisable(false);
-        } else if (btnItems.isArmed()) {
-            
-           
-            
-            
-            
-            
-            
-            Choice1 = "Item that Doesn't exist yet"; // ArrayList.get(i).getName() or something, items should be an arraylist of objects
-            Choice2 = "Item that also doesn't exist yet";
-            Choice3 = "Another item that doesn't exist yet";  //gets items directly from the inventory
-            Choice4 = "I can't believe this item doesn't exist yet";
-            
-            try {
-                Choice1 = MainApp.itemsEquipped.get(0).getType() + " " + MainApp.itemsEquipped.get(0).getDamage();
-                Choice2 = MainApp.itemsEquipped.get(1).getType() + " " + MainApp.itemsEquipped.get(1).getDamage();
-                Choice3 = MainApp.itemsEquipped.get(2).getType() + " " + MainApp.itemsEquipped.get(2).getDamage();
-                Choice4 = MainApp.itemsEquipped.get(3).getType() + " " + MainApp.itemsEquipped.get(3).getDamage();
-                
-            } catch (Exception e) {
-            }
-            
-            //gets items from inventory
-            Primary = "Items";
-            btnItems.setDisable(true);
-            btnAttack.setDisable(false);
+            btnAttack.setDisable(true); //disables the button that was pressed
             btnOther.setDisable(false);
         } else if (btnOther.isArmed()) {
             Choice1 = "Flee";
@@ -125,7 +97,6 @@ public class FXMLCombatController implements Initializable {
             Primary = "Other";
             btnOther.setDisable(true);
             btnAttack.setDisable(false);
-            btnItems.setDisable(false);
         }
         btnChoice1.setText(Choice1);
         btnChoice2.setText(Choice2);
@@ -154,15 +125,10 @@ public class FXMLCombatController implements Initializable {
             if (Primary.equals("Attack")) { //checks to see if the choice buttons show attacks
                 damage = weapon.Attack1(enemies.get(0).getDefence()); // basic attack, no mana cost
             }
-            //added
-            if (btnChoice1.getText().contains("Mage")||btnChoice1.getText().contains("Warrior")||btnChoice1.getText().contains("Rogue")) {
-            damage=MainApp.itemsEquipped.get(0).getDamage();
-            }
             if (btnChoice1.getText().equals("Flee")) { //Allows the player a chance to flee like a coward, no rewards gained
                 if (ThreadLocalRandom.current().nextInt(1, 5 + 1) == 1) {
                     exp = 0;
                     endCombat();
-                    // multiply exp gained by 0 here
                 }
             }
         } else if (btnChoice2.isArmed()) {
@@ -170,14 +136,9 @@ public class FXMLCombatController implements Initializable {
                 damage = weapon.Attack2(enemies.get(0).getDefence()); //higher damage attack, costs mana
                 setMana(getMana() - weapon.getCost());
             }
-           //added
-            if (btnChoice2.getText().contains("Mage")||btnChoice2.getText().contains("Warrior")||btnChoice2.getText().contains("Rogue")) {
-            damage=MainApp.itemsEquipped.get(1).getDamage();
-            }
-            if (btnChoice2.getText().equals("Bribe")) { // Allows the player to buy their way out of a fight, 
+            if (btnChoice2.getText().equals("Bribe") && MainApp.cigs > enemies.get(0).getECigs() * 2) { // Allows the player to buy their way out of a fight, 
                 exp = exp / 2;
                 endCombat();
-                //half the exp of exp gained here
             }
         } else if (btnChoice3.isArmed()) {
             if (Primary.equals("Attack")) {
@@ -188,12 +149,6 @@ public class FXMLCombatController implements Initializable {
                 setMana(getMana() - weapon.getCost());
             }
             if (btnChoice3.getText().equals("Taunt")) { // a humourous quip that raises the damage of the enemy but reduces defence
-                //mulitply their damage by like 1.2
-                //reduce defence by 1.3 or whatever
-            }
-           //added
-            if (btnChoice3.getText().contains("Mage")||btnChoice3.getText().contains("Warrior")||btnChoice3.getText().contains("Rogue")) {
-            damage=MainApp.itemsEquipped.get(2).getDamage();
             }
         } else if (btnChoice4.isArmed()) {
             if (Primary.equals("Attack")) {
@@ -211,10 +166,6 @@ public class FXMLCombatController implements Initializable {
                 }
 
             }
-            //added
-            if (btnChoice4.getText().contains("Mage")||btnChoice4.getText().contains("Warrior")||btnChoice4.getText().contains("Rogue")) {
-            damage=MainApp.itemsEquipped.get(3).getDamage();
-            }
             if (btnChoice4.getText().equals("Talk")) { //Talk about the weather, maybe be used for story
 
             }
@@ -230,7 +181,6 @@ public class FXMLCombatController implements Initializable {
         listLog.scrollTo(listLog.getItems().size());
         progress(); //shows all the values to the player through progress bars and labels
         btnOther.setDisable(true);
-        btnItems.setDisable(true);
         btnAttack.setDisable(true);
         btnChoice1.setDisable(true); // disables all the stuff
         btnChoice2.setDisable(true);
@@ -292,7 +242,6 @@ public class FXMLCombatController implements Initializable {
 
     private void start() {
         btnAttack.setDisable(false);
-        btnItems.setDisable(false);
         btnOther.setDisable(false); // Just sets the buttons up for the start of a turn
     }
 
@@ -372,32 +321,24 @@ public class FXMLCombatController implements Initializable {
         DOT = false;
         panEnd.setVisible(true);
     }
-    
+
     @FXML
-    private void retry(ActionEvent e) throws IOException{
-    MainApp.user.open(MainApp.fileName, user.numRecord(fileName));
-                System.out.println(MainApp.username);
-                System.out.println(MainApp.level);
-                System.out.println(MainApp.DEX);
-                System.out.println(MainApp.STR);
-                System.out.println(MainApp.INT);
-                System.out.println(MainApp.cigs);
-                saveLoc("MainMenu");
-                Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
-                Scene home_page_scene = new Scene(home_page_parent);
-                //get reference to the stage 
-                Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                stage.hide(); //optional
-                stage.setScene(home_page_scene); //puts the new scence in the stage
-                stage.setTitle("Spawn Room"); //changes the title
-                stage.setResizable(false);
-                stage.show(); //shows the new page
-                home_page_scene.getRoot().requestFocus();
+    private void retry(ActionEvent e) throws IOException {
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml")); //where FXMLPage2 is the name of the scene
+        Scene home_page_scene = new Scene(home_page_parent);
+        //get reference to the stage 
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.hide(); //optional
+        stage.setScene(home_page_scene); //puts the new scence in the stage
+        stage.setTitle("Main Menu"); //changes the title
+        stage.setResizable(false);
+        stage.show(); //shows the new page
+        home_page_scene.getRoot().requestFocus();
     }
-    
-        @FXML
-    private void leave(ActionEvent e){
-    System.exit(0);
+
+    @FXML
+    private void leave(ActionEvent e) {
+        System.exit(0);
     }
 
     private void progress() {
@@ -415,11 +356,7 @@ public class FXMLCombatController implements Initializable {
     private void OK(ActionEvent event) throws IOException {
         if (points == 0 && exp == 0) {
             Parent parent = FXMLLoader.load(getClass().getResource(getArea()));
-            //   if (getArea().equals("BlockA")) {
-            //       parent = FXMLLoader.load(getClass().getResource("/fxml/BlockA.fxml"));
-            //  } else if (getArea().equals("BlockB")) {
-            //       parent = FXMLLoader.load(getClass().getResource("/fxml/BlockB.fxml"));
-            //   }
+            saveLoc("Combat");
             Scene scene = new Scene(parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.hide();
@@ -535,6 +472,18 @@ public class FXMLCombatController implements Initializable {
         count = 0;
         buffcount = 0;
         panEXP.setVisible(false);//Makes it so that when you re-enter comabt the end combat screen isn't already there
+        if (weapon == null) {
+            int rand = ThreadLocalRandom.current().nextInt(1, 3);
+            if (rand == 1) {
+                weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "");
+            }
+            if (rand == 2) {
+                weapon = new Mage(1, "", "", "", "", 0, 0, 0, 0, "");
+            }
+            if (rand == 3) {
+                weapon = new Warrior(1, "", "", "", "", 0, 0, 0, 0, "");
+            }
+        }
         //imgMC.setImage(); //set image from whatever the image is
 
     }

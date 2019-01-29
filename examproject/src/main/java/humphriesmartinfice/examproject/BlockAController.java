@@ -9,6 +9,7 @@ import static humphriesmartinfice.examproject.MainApp.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyEvent;
@@ -24,7 +25,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -59,11 +59,13 @@ public class BlockAController implements Initializable {
     @FXML
     private Label lblFight1, lblFight2, lblFight3, lblFight4, lblEquip;
     @FXML
-    private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3;
+    private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3, imgPaper;
 
     Image closed = new Image(getClass().getResource("/door closed.png").toString());
     Image open = new Image(getClass().getResource("/door_open.png").toString());
-    
+    Image FirstBlock = new Image(getClass().getResource("/SecPaper.png").toString());
+    Image SecondBlock = new Image(getClass().getResource("/ThirdPaper.png").toString());
+
     MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
 
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
@@ -87,7 +89,7 @@ public class BlockAController implements Initializable {
         }
         if (e.getCode() == KeyCode.E && col(polPlayer, polDoor)) {
             saveLoc("/fxml/BlockA");
-            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); 
+            Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             scene = new Scene(home_page_parent);
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             stage.close();
@@ -97,19 +99,20 @@ public class BlockAController implements Initializable {
             stage.show();
             home_page_parent.requestFocus();
         }
-         if ((e.getCode() == KeyCode.I)) {
-            if(!MainApp.invVis){
-            MainApp.invVis=true;
-            pnlInv.setVisible(true);
-                        MainApp.displayIcons();
+        if (e.getCode() == KeyCode.E && imgPaper.isVisible());
+        if ((e.getCode() == KeyCode.I)) {
+            if (!MainApp.invVis) {
+                MainApp.invVis = true;
+                pnlInv.setVisible(true);
+                MainApp.displayIcons();
 
-            /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             home_page_scene.getRoot().requestFocus();*/
-            }else{
-                 MainApp.invVis=false;
-           pnlInv.setVisible(false);
-           /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
+            } else {
+                MainApp.invVis = false;
+                pnlInv.setVisible(false);
+                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
            Scene home_page_scene = new Scene(home_page_parent);
            home_page_scene.getRoot().requestFocus();*/
             }
@@ -141,7 +144,7 @@ public class BlockAController implements Initializable {
         }
         if (col(polPlayer, polEnemy)) {
             panTourn.setVisible(true);
-            lblFight1.setText("Two Enemies\nEnemies Levels: " + getLevel());
+            lblFight1.setText("Two Enemies\nEnemies Levels: " + getLevel()+ "\n Reward; random weapon of your level");
             if (getLevel() < 5) {
                 lblFight2.setText("You are not high enough of a level for this fight. \nLevel required: 5");
                 btnFight2.setDisable(true);
@@ -161,7 +164,7 @@ public class BlockAController implements Initializable {
                 lblFight3.setText("Three Enemies\nEnemies Levels: " + (getLevel()));
             }
             if (getLevel() >= 30) {
-                lblFight4.setText("Head Guard Johnathan\nEnemy Level: " + (getLevel() + 10));
+                lblFight4.setText("Johnathan \nEnemy Level: " + (getLevel() + 10));
             }
         }
         if (col(polDoor, polPlayer)) {
@@ -173,12 +176,12 @@ public class BlockAController implements Initializable {
             opensound.stop();
         }
     }
-    
+
     @FXML
-    private void NoFight(){
-    panTourn.setVisible(false);
-    panPlayer.setLayoutX(368);
-    panPlayer.setLayoutY(341);
+    private void NoFight() {
+        panTourn.setVisible(false);
+        panPlayer.setLayoutX(368);
+        panPlayer.setLayoutY(341);
     }
 
     private void y() {
@@ -202,6 +205,16 @@ public class BlockAController implements Initializable {
         if (btnFight1.isArmed()) {
             enemies.add(new Enemy(getLevel()));
             enemies.add(new Enemy(getLevel()));
+            int rand = ThreadLocalRandom.current().nextInt(1, 3);
+            if (rand == 1) {
+                MainApp.addToInventory(new Rogue(getLevel(), "", "", "", "", 0, 0, 0, 0, ""));
+            }
+            if (rand == 2) {
+                MainApp.addToInventory(new Mage(getLevel(), "", "", "", "", 0, 0, 0, 0, ""));
+            }
+            if (rand == 3) {
+                MainApp.addToInventory(new Warrior(getLevel(), "", "", "", "", 0, 0, 0, 0, ""));
+            }
         }
         if (btnFight2.isArmed()) {
             enemies.add(new Enemy(getLevel() + 5));
@@ -213,13 +226,15 @@ public class BlockAController implements Initializable {
         }
         if (btnFight4.isArmed()) {
             enemies.add(new Enemy(getLevel() + 10));
+            MainApp.ABoss = true;
+            MainApp.Abcount--;
         }
         panTourn.setVisible(false);
         xmove.stop();
         ymove.stop();
         EnemyEmerge(enemies.size());
         saveLoc("/fxml/BlockA.fxml");
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml")); 
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
         scene = new Scene(home_page_parent);
         stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setResizable(false);
@@ -270,72 +285,52 @@ public class BlockAController implements Initializable {
         }
     }
     @FXML
-      Label lblStats;
-     @FXML
+    Label lblStats;
+    @FXML
     ImageView img1,
+            img2,
+            img3,
+            img4,
+            img5,
+            img6,
+            img7,
+            img8,
+            img9;
 
-    
-     img2,
-    
-     img3,
-    
-     img4,
-    
-     img5,
-    
-     img6,
-    
-     img7,
-    
-     img8,
-    
-     img9;
-
-   @FXML
+    @FXML
     Rectangle rec1,
+            rec2,
+            rec3,
+            rec4,
+            rec5,
+            rec6,
+            rec7,
+            rec8,
+            rec9;
 
-    
-     rec2,
-    
-     rec3,
-    
-     rec4,
-    
-     rec5,
-    
-     rec6,
-    
-     rec7,
-    
-     rec8,
-    
-     rec9;
-   
-   
-   @FXML
+    @FXML
     Pane pnlInv;
-    
-    
-     @FXML
+
+    @FXML
     private void click(MouseEvent e) {
 
         MainApp.selected = (ImageView) e.getSource();
 
         for (int i = 0; i < 9; i++) {
 
-            if (MainApp.iSpaces[i] == MainApp.selected) {
+            if (MainApp.iSpaces[i] == MainApp.selected && !MainApp.inventory[i].getType().equals("Item")) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
-                
-                
+                if (MainApp.weapon == MainApp.inventory[i]) {
+                    lblEquip.setText("unequip");
+                } else {
+                    lblEquip.setText("equip");
+
+                }
                 ////////////// make sure to change damage
-                
-                
- lblStats.setText("Level: "+MainApp.inventory[i].getLevel() +"\n"+"Rarity: "+MainApp.inventory[i].getRarity()+"\n"+"Damage: "+MainApp.inventory[i].getDamage());
-    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel()+", Damage"+MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-
-
+                lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
+                System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
 
             } else {
                 MainApp.rec[i].setFill(Color.GREY);
@@ -359,7 +354,7 @@ public class BlockAController implements Initializable {
         for (int i = 0; i < 9; i++) {
 
             if (MainApp.iSpaces[i] == MainApp.selected) {
-                MainApp.inventory[i] = new Item();
+                MainApp.inventory[i] = new Weapon();
                 MainApp.iSpaces[i].toFront();
 
                 MainApp.iSpaces[i].setEffect(null);
@@ -370,29 +365,26 @@ public class BlockAController implements Initializable {
     }
 
     ////not needed{
-    
-
     @FXML
     private void save() {
         System.out.println(MainApp.saveInventory());
     }
-    
-        @FXML
-private void equip(){
-        for (int i=0; i<9;i++){
-            if(MainApp.iSpaces[i] == MainApp.selected){
-           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
-               lblEquip.setText("equip");
-               
-  
-    }else{
-               MainApp.itemsEquipped.add(MainApp.inventory[i]);
-               lblEquip.setText("unequip");
-           }
+
+    @FXML
+    private void equip() {
+        for (int i = 0; i < 9; i++) {
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                if (MainApp.weapon == MainApp.inventory[i]) {
+                    lblEquip.setText("equip");
+                    MainApp.weapon = null;
+
+                } else {
+
+                    lblEquip.setText("unequip");
+                }
+            }
+        }
     }
-}
-}
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -401,48 +393,52 @@ private void equip(){
         ymove.setCycleCount(Timeline.INDEFINITE);
         xmove.play();
         ymove.play();
-        
-        
-        
-       
-        
+        if (ABoss && MainApp.Abcount == 0) {
+            imgPaper.setVisible(true);
+            if (keyB) {
+                imgPaper.setImage(SecondBlock);
+            } else {
+                imgPaper.setImage(FirstBlock);
+            }
+        }
+
         MainApp.rec[0] = rec1;
-         MainApp.rec[1] = rec2;
-         MainApp.rec[2] = rec3;
-         MainApp.rec[3] = rec4;
-         MainApp.rec[4] = rec5;
-         MainApp.rec[5] = rec6;
-         MainApp.rec[6] = rec7;
-         MainApp.rec[7] = rec8;
-         MainApp.rec[8] = rec9;
+        MainApp.rec[1] = rec2;
+        MainApp.rec[2] = rec3;
+        MainApp.rec[3] = rec4;
+        MainApp.rec[4] = rec5;
+        MainApp.rec[5] = rec6;
+        MainApp.rec[6] = rec7;
+        MainApp.rec[7] = rec8;
+        MainApp.rec[8] = rec9;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
-                 MainApp.inv[i][j] = 0;
-                 MainApp.IS[i] = new InnerShadow();
+                MainApp.inv[i][j] = 0;
+                MainApp.IS[i] = new InnerShadow();
 
-                 MainApp.rec[i].setFill(Color.GREY);
+                MainApp.rec[i].setFill(Color.GREY);
             }
 
         }
-         MainApp.iSpaces[0] = img1;
-         MainApp.iSpaces[1] = img2;
-         MainApp.iSpaces[2] = img3;
-         MainApp.iSpaces[3] = img4;
-         MainApp.iSpaces[4] = img5;
-         MainApp.iSpaces[5] = img6;
-         MainApp.iSpaces[6] = img7;
-         MainApp.iSpaces[7] = img8;
-         MainApp.iSpaces[8] = img9;
-         
-         MainApp.img1=img1;
-         MainApp.img2=img2;
-         MainApp.img3=img3;
-         MainApp.img4=img4;
-         MainApp.img5=img5;
-         MainApp.img6=img6;
-         MainApp.img7=img7;
-         MainApp.img8=img8;
-         MainApp.img9=img9;
+        MainApp.iSpaces[0] = img1;
+        MainApp.iSpaces[1] = img2;
+        MainApp.iSpaces[2] = img3;
+        MainApp.iSpaces[3] = img4;
+        MainApp.iSpaces[4] = img5;
+        MainApp.iSpaces[5] = img6;
+        MainApp.iSpaces[6] = img7;
+        MainApp.iSpaces[7] = img8;
+        MainApp.iSpaces[8] = img9;
+
+        MainApp.img1 = img1;
+        MainApp.img2 = img2;
+        MainApp.img3 = img3;
+        MainApp.img4 = img4;
+        MainApp.img5 = img5;
+        MainApp.img6 = img6;
+        MainApp.img7 = img7;
+        MainApp.img8 = img8;
+        MainApp.img9 = img9;
     }
 
 }
