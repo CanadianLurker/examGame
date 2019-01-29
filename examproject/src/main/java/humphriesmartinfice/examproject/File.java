@@ -89,6 +89,8 @@ public class File {
             MainApp.inventory[i].setAttack3();
             MainApp.inventory[i].setAttack4();
             MainApp.inventory[i].setCost();
+            MainApp.inventory[i].setSDamage();
+            MainApp.inventory[i].setDamage();
             }
 
             MainApp.level = recordFile.readInt();

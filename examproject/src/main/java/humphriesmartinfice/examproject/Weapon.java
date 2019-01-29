@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
 
 public class Weapon {
 
-    private String Attack1, Attack2, Attack3, Attack4, Name, type;
+    private String Attack1, Attack2, Attack3, Attack4, type;
     private int sdamage, extra, nerf, extrawar, rarityI, damage, level;
     private double manaCost;
     private Image icon;
@@ -23,7 +23,6 @@ public class Weapon {
         this.Attack4 = Attack4; //Some healing spell that costs slightly more mana but does more than normal potion
         this.manaCost = manaCost; //Base cost of Inferno, Thunder and heal, which will have more initial cost in combat controller
         this.sdamage = sdamage; //base amount of damage added onto weapon(which already randomizes damage)
-        this.Name = Name; //base name off of rarity and level    
         this.setDamage(ThreadLocalRandom.current().nextInt(3, (5 + Level) + 1) + Level);
         int possible = ThreadLocalRandom.current().nextInt(1, 100 + 1);
         if (possible < 65) {
@@ -175,22 +174,31 @@ public class Weapon {
     public int getSDamage() {
         return sdamage;
     }
-    
-        public void setSDamage() {
+
+    public void setSDamage() {
         if (type.equals("Rogue")) {
-            manaCost = 1 + level;
+            manaCost = (damage + level);
         }
         if (type.equals("Mage")) {
-            manaCost = (1 + (level * 1.2));
+            manaCost = (2 * level);
         }
         if (type.equals("Warrior")) {
-            manaCost = (1 + level);
+            manaCost = (level);
         }
     }
 
-    public String getName() {
-        return this.Name;
+    public void setDamage() {
+        if (type.equals("Rogue")) {
+            manaCost = (damage + level);
+        }
+        if (type.equals("Mage")) {
+            manaCost = (damage);
+        }
+        if (type.equals("Warrior")) {
+            manaCost = (2 * damage);
+        }
     }
+
 
     public double getExtraWar() {
         return extrawar;

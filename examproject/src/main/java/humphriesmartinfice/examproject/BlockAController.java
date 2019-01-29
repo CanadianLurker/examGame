@@ -67,6 +67,8 @@ public class BlockAController implements Initializable {
     Image SecondBlock = new Image(getClass().getResource("/ThirdPaper.png").toString());
 
     MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
+    MediaPlayer page = new MediaPlayer((new Media(getClass().getResource("/TurnThePage.mp3").toString())));
+    MediaPlayer ambient = new MediaPlayer((new Media(getClass().getResource("/FFXIV OST The Burn ( A Land Long Dead ).mp3").toString())));
 
     Timeline xmove = new Timeline(new KeyFrame(Duration.millis(5), ae -> x()));
     Timeline ymove = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
@@ -88,7 +90,9 @@ public class BlockAController implements Initializable {
             yvar = -1;
         }
         if (e.getCode() == KeyCode.E && col(polPlayer, polDoor)) {
-            saveLoc("/fxml/BlockA");
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
+            saveLoc("BlockA");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             scene = new Scene(home_page_parent);
             stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -99,22 +103,18 @@ public class BlockAController implements Initializable {
             stage.show();
             home_page_parent.requestFocus();
         }
-        if (e.getCode() == KeyCode.E && imgPaper.isVisible());
+        if (e.getCode() == KeyCode.E && imgPaper.isVisible()) {
+            imgPaper.setVisible(false);
+            page.stop();
+        }
         if ((e.getCode() == KeyCode.I)) {
             if (!MainApp.invVis) {
                 MainApp.invVis = true;
                 pnlInv.setVisible(true);
                 MainApp.displayIcons();
-
-                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
-            Scene home_page_scene = new Scene(home_page_parent);
-            home_page_scene.getRoot().requestFocus();*/
             } else {
                 MainApp.invVis = false;
                 pnlInv.setVisible(false);
-                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
-           Scene home_page_scene = new Scene(home_page_parent);
-           home_page_scene.getRoot().requestFocus();*/
             }
         }
     }
@@ -144,7 +144,7 @@ public class BlockAController implements Initializable {
         }
         if (col(polPlayer, polEnemy)) {
             panTourn.setVisible(true);
-            lblFight1.setText("Two Enemies\nEnemies Levels: " + getLevel()+ "\n Reward; random weapon of your level");
+            lblFight1.setText("Two Enemies\nEnemies Levels: " + getLevel() + "\n Reward; random weapon of your level");
             if (getLevel() < 5) {
                 lblFight2.setText("You are not high enough of a level for this fight. \nLevel required: 5");
                 btnFight2.setDisable(true);
@@ -278,6 +278,8 @@ public class BlockAController implements Initializable {
             imgDoor1.setImage(closed);
             imgDoor2.setImage(closed);
             imgDoor3.setImage(closed);
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
             stage.hide();
             stage.setScene(scene);
             stage.setTitle("Combat!!!");
@@ -318,7 +320,6 @@ public class BlockAController implements Initializable {
 
         for (int i = 0; i < 9; i++) {
 
-
             if (MainApp.iSpaces[i] == MainApp.selected && !MainApp.inventory[i].getType().equals("Item")) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
@@ -341,22 +342,22 @@ public class BlockAController implements Initializable {
         }
 
     }
-@FXML
-private void equip(){
-        for (int i=0; i<9;i++){
-            if(MainApp.iSpaces[i] == MainApp.selected){
-           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
-               lblEquip.setText("equip");
-               
-  
-    }else{
-               MainApp.itemsEquipped.add(MainApp.inventory[i]);
-               lblEquip.setText("unequip");
-           }
+
+    @FXML
+    private void equip() {
+        for (int i = 0; i < 9; i++) {
+            if (MainApp.iSpaces[i] == MainApp.selected) {
+                if (MainApp.weapon == (MainApp.inventory[i])) {
+                    MainApp.weapon = null;
+                    lblEquip.setText("equip");
+
+                } else {
+                    MainApp.weapon = (MainApp.inventory[i]);
+                    lblEquip.setText("unequip");
+                }
+            }
+        }
     }
-}
-}
 
     @FXML
     private void paneClick(MouseEvent e) {
@@ -388,25 +389,12 @@ private void equip(){
         System.out.println(MainApp.saveInventory());
     }
 
-    @FXML
-    private void equip() {
-        for (int i = 0; i < 9; i++) {
-            if (MainApp.iSpaces[i] == MainApp.selected) {
-                if (MainApp.weapon == MainApp.inventory[i]) {
-                    lblEquip.setText("equip");
-                    MainApp.weapon = null;
-
-                } else {
-
-                    lblEquip.setText("unequip");
-                }
-            }
-        }
-    }
-
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ambient.setCycleCount(Timeline.INDEFINITE);
+        ambient.setVolume(0.3);
+        ambient.setStartTime(stoptime);
+        ambient.play();
         panTourn.setVisible(false);
         xmove.setCycleCount(Timeline.INDEFINITE);
         ymove.setCycleCount(Timeline.INDEFINITE);
@@ -414,6 +402,7 @@ private void equip(){
         ymove.play();
         if (ABoss && MainApp.Abcount == 0) {
             imgPaper.setVisible(true);
+            page.play();
             if (keyB) {
                 imgPaper.setImage(SecondBlock);
             } else {

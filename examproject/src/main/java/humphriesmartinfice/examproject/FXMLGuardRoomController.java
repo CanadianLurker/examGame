@@ -55,9 +55,13 @@ public class FXMLGuardRoomController implements Initializable {
 
     Image closed = new Image(getClass().getResource("/door closed.png").toString());
     Image open = new Image(getClass().getResource("/door_open.png").toString());
+    Image back = new Image(getClass().getResource("/Prisoner2B.png").toString());
+    Image front = new Image(getClass().getResource("/prisoner2.png").toString());
 
     MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
     MediaPlayer beep = new MediaPlayer((new Media(getClass().getResource("/beep.mp3").toString())));
+    MediaPlayer page = new MediaPlayer((new Media(getClass().getResource("/TurnThePage.mp3").toString())));
+    MediaPlayer ambient = new MediaPlayer((new Media(getClass().getResource("/FFXIV OST The Burn ( A Land Long Dead ).mp3").toString())));
 
     @FXML
     private void move(KeyEvent e) throws IOException {
@@ -69,11 +73,15 @@ public class FXMLGuardRoomController implements Initializable {
         }
         if (e.getCode() == KeyCode.S) {
             yvar = 1;
+            imgPlayer.setImage(front);
         }
         if (e.getCode() == KeyCode.W) {
             yvar = -1;
+            imgPlayer.setImage(back);
         }
         if (e.getCode() == KeyCode.E && col(imgPlayer, imgCommonRoom)) {
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
             saveLoc("GuardRoom");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml")); // now hosting the testing grounds for combat
             Scene scene = new Scene(home_page_parent);
@@ -94,9 +102,10 @@ public class FXMLGuardRoomController implements Initializable {
         }
         if (e.getCode() == KeyCode.E && imgPaper.isVisible()) {
             imgPaper.setVisible(false);
-        }
-        else if (e.getCode() == KeyCode.E && col(imgPlayer, imgEnemy) && MainApp.WItem) {
+            page.stop();
+        } else if (e.getCode() == KeyCode.E && col(imgPlayer, imgEnemy) && MainApp.WItem) {
             imgPaper.setVisible(true);
+            page.play();
         }
         if ((e.getCode() == KeyCode.I)) {
             if (!MainApp.invVis) {
@@ -154,32 +163,6 @@ public class FXMLGuardRoomController implements Initializable {
         }
     }
     
-    @FXML
-    private void buyWeapon(){
-        if (MainApp.cigs>=1000){
-            if(MainApp.nextSpot()==8){
-        int rand = ThreadLocalRandom.current().nextInt(1,3+1);
-         Item i;
-        if (rand==1){
-             i=new Warrior(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "", "");
-           
-        }else if(rand==2) {
-           i=new Mage(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "", "");  
-        }else{
-             i=new Rogue(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "", "");
-        }
-        MainApp.cigs-=1000;
-        addToInventory(i);
-    }
-        else{
-            //not enough
-        }
-            
-    }else{
-            
-        }
-    }
-
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
@@ -257,22 +240,6 @@ public class FXMLGuardRoomController implements Initializable {
         }
 
     }
-@FXML
-private void equip(){
-        for (int i=0; i<9;i++){
-            if(MainApp.iSpaces[i] == MainApp.selected){
-           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
-               lblEquip.setText("equip");
-               
-  
-    }else{
-               MainApp.itemsEquipped.add(MainApp.inventory[i]);
-               lblEquip.setText("unequip");
-           }
-    }
-}
-}
 
     @FXML
     private void paneClick(MouseEvent e) {
@@ -283,15 +250,14 @@ private void equip(){
 
     }
 
-
-       @FXML
+    @FXML
     private void equip() {
         for (int i = 0; i < 9; i++) {
             if (MainApp.iSpaces[i] == MainApp.selected) {
-                if (MainApp.weapon == MainApp.inventory[i]) {                  
+                if (MainApp.weapon == MainApp.inventory[i]) {
                     lblEquip.setText("equip");
                     MainApp.weapon = null;
-                    
+
                 } else {
                     MainApp.weapon = MainApp.inventory[i];
                     lblEquip.setText("unequip");
@@ -299,7 +265,6 @@ private void equip(){
             }
         }
     }
-
 
     @FXML
     private void btnDelete() {
@@ -324,7 +289,11 @@ private void equip(){
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        MainApp.cigs=2000;
+        ambient.setCycleCount(Timeline.INDEFINITE);
+        ambient.setVolume(0.3);
+        ambient.setStartTime(stoptime);
+        ambient.play();
+        MainApp.cigs = 2000;
         xmove.setCycleCount(Timeline.INDEFINITE);
         ymove.setCycleCount(Timeline.INDEFINITE);
         xmove.play();

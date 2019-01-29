@@ -1,5 +1,3 @@
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,6 +12,7 @@ import static humphriesmartinfice.examproject.MainApp.setCigs;
 import static humphriesmartinfice.examproject.MainApp.saveLoc;
 import static humphriesmartinfice.examproject.MainApp.keyB;
 import static humphriesmartinfice.examproject.MainApp.bcount;
+import static humphriesmartinfice.examproject.MainApp.stoptime;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -68,6 +67,8 @@ public class BlockBController implements Initializable {
     Image SecondBlock = new Image(getClass().getResource("/ThirdPaper.png").toString());
 
     MediaPlayer opensound = new MediaPlayer((new Media(getClass().getResource("/opening.mp3").toString())));
+    MediaPlayer page = new MediaPlayer((new Media(getClass().getResource("/TurnThePage.mp3").toString())));
+    MediaPlayer ambient = new MediaPlayer((new Media(getClass().getResource("/FFXIV OST The Burn ( A Land Long Dead ).mp3").toString())));
 
     private double xvar = 0;
     private double yvar = 0;
@@ -96,6 +97,8 @@ public class BlockBController implements Initializable {
             imgPlayer.setImage(back);
         }
         if (e.getCode() == KeyCode.E && col(imgPlayer, imgExit)) {
+            MainApp.stoptime = ambient.getCurrentTime();
+            ambient.stop();
             saveLoc("BlockB");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCommonRoom.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
@@ -132,6 +135,7 @@ public class BlockBController implements Initializable {
         }
         if (e.getCode() == KeyCode.E && imgPaper.isVisible()) {
             imgPaper.setVisible(false);
+            page.stop();
         }
         if ((e.getCode() == KeyCode.I)) {
             if (!MainApp.invVis) {
@@ -306,14 +310,14 @@ public class BlockBController implements Initializable {
         }
     }
 
-       @FXML
+    @FXML
     private void equip() {
         for (int i = 0; i < 9; i++) {
             if (MainApp.iSpaces[i] == MainApp.selected) {
-                if (MainApp.weapon == MainApp.inventory[i]) {                  
+                if (MainApp.weapon == MainApp.inventory[i]) {
                     lblEquip.setText("equip");
                     MainApp.weapon = null;
-                    
+
                 } else {
                     MainApp.weapon = MainApp.inventory[i];
                     lblEquip.setText("unequip");
@@ -335,7 +339,8 @@ public class BlockBController implements Initializable {
         }
 
         saveLoc("/fxml/BlockB.fxml");
-
+        MainApp.stoptime = ambient.getCurrentTime();
+        ambient.stop();
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -374,6 +379,10 @@ public class BlockBController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ambient.setCycleCount(Timeline.INDEFINITE);
+        ambient.setVolume(0.3);
+        ambient.setStartTime(stoptime);
+        ambient.play();
         lblCigs.setText("Cigs: " + getCigs());
         xmove.setCycleCount(Timeline.INDEFINITE);
         ymove.setCycleCount(Timeline.INDEFINITE);
@@ -385,6 +394,7 @@ public class BlockBController implements Initializable {
             lblCount.setText("You recieved a guard key!");
             keyB = true;
             imgPaper.setVisible(true);
+            page.play();
             if (MainApp.ABoss) {
                 imgPaper.setImage(SecondBlock);
             } else {
@@ -433,4 +443,3 @@ public class BlockBController implements Initializable {
         MainApp.img9 = img9;
     }
 }
-

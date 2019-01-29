@@ -18,12 +18,15 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainApp extends Application {
 
 public static String username;
     
     public static int level, STR, DEX, INT,  cigs;
+    
+    public static Duration stoptime= Duration.ZERO;
 
     public static int ecount = 0, xplace, yplace, bcount = 10, Abcount = 1;
 
