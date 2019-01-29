@@ -137,6 +137,32 @@ public class FXMLGuardRoomController implements Initializable {
             opensound.stop();
         }
     }
+    
+    @FXML
+    private void buyWeapon(){
+        if (MainApp.cigs>=1000){
+            if(MainApp.nextSpot()==8){
+        int rand = ThreadLocalRandom.current().nextInt(1,3+1);
+         Item i;
+        if (rand==1){
+             i=new Warrior(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "", "");
+           
+        }else if(rand==2) {
+           i=new Mage(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "", "");  
+        }else{
+             i=new Rogue(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "", "");
+        }
+        MainApp.cigs-=1000;
+        addToInventory(i);
+    }
+        else{
+            //not enough
+        }
+            
+    }else{
+            
+        }
+    }
 
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
@@ -170,6 +196,7 @@ public class FXMLGuardRoomController implements Initializable {
     @FXML
     Pane pnlInv;
 
+   @FXML Label lblEquip;
     @FXML
     private void click(MouseEvent e) {
 
@@ -177,20 +204,21 @@ public class FXMLGuardRoomController implements Initializable {
 
         for (int i = 0; i < 9; i++) {
 
-            if (MainApp.iSpaces[i] == MainApp.selected) {
+            if (MainApp.iSpaces[i] == MainApp.selected&&!MainApp.inventory[i].getType().equals("Item")) {
                 MainApp.rec[i].toFront();
                 MainApp.iSpaces[i].toFront();
                 MainApp.rec[i].setFill(Color.BLACK);
+if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+    lblEquip.setText("unequip");
+}else{
+    if (MainApp.itemsEquipped.size()==4){
+        
+        lblEquip.setDisable(true);
+    }
+        lblEquip.setText("equip");
 
+}
                 ////////////// make sure to change damage
-                if (MainApp.inventory[i].getType().equals("Warrior")) {
-                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage() / 2); //////////damage!!!!!!!!!!
-                } else if (MainApp.inventory[i].getType().equals("Rogue")) {
-                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + (MainApp.inventory[i].getDamage() - 2));      //////////damage!!!!!!!!!!
-                } else {
-                    System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
-                }
-
                 lblStats.setText("Level: " + MainApp.inventory[i].getLevel() + "\n" + "Rarity: " + MainApp.inventory[i].getRarity() + "\n" + "Damage: " + MainApp.inventory[i].getDamage());
                 System.out.println(MainApp.inventory[i].getClass().getSimpleName() + " , Level=" + MainApp.inventory[i].getLevel() + ", Damage" + MainApp.inventory[i].getDamage());   //////////damage!!!!!!!!!!
 
@@ -201,6 +229,22 @@ public class FXMLGuardRoomController implements Initializable {
         }
 
     }
+@FXML
+private void equip(){
+        for (int i=0; i<9;i++){
+            if(MainApp.iSpaces[i] == MainApp.selected){
+           if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+               MainApp.itemsEquipped.remove(MainApp.inventory[i]);    
+               lblEquip.setText("equip");
+               
+  
+    }else{
+               MainApp.itemsEquipped.add(MainApp.inventory[i]);
+               lblEquip.setText("unequip");
+           }
+    }
+}
+}
 
     @FXML
     private void paneClick(MouseEvent e) {
@@ -234,6 +278,7 @@ public class FXMLGuardRoomController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        MainApp.cigs=2000;
         xmove.setCycleCount(Timeline.INDEFINITE);
         ymove.setCycleCount(Timeline.INDEFINITE);
         xmove.play();
