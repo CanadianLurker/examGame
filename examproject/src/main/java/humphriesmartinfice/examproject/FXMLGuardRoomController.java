@@ -44,7 +44,7 @@ public class FXMLGuardRoomController implements Initializable {
     @FXML
     private ImageView imgPlayer, imgEnemy, imgCommonRoom, imgO, imgPaper;
     @FXML
-    private Label lblEquip;
+    private Label lblEquip, lblCigs;
 
     private double xvar = 0;
     private double yvar = 0;
@@ -98,6 +98,7 @@ public class FXMLGuardRoomController implements Initializable {
         if (e.getCode() == KeyCode.E && col(imgPlayer, imgO)) {
             beep.stop();
             beepadjust.stop();
+            ambient.setVolume(0.3);
             MainApp.WItem = true;
         }
         if (e.getCode() == KeyCode.E && imgPaper.isVisible()) {
@@ -112,15 +113,10 @@ public class FXMLGuardRoomController implements Initializable {
                 MainApp.invVis = true;
                 pnlInv.setVisible(true);
                 MainApp.displayIcons();
-                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
-            Scene home_page_scene = new Scene(home_page_parent);
-            home_page_scene.getRoot().requestFocus();*/
+                lblCigs.setText("Cigs: " + MainApp.cigs);
             } else {
                 MainApp.invVis = false;
                 pnlInv.setVisible(false);
-                /*Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml"));
-           Scene home_page_scene = new Scene(home_page_parent);
-           home_page_scene.getRoot().requestFocus();*/
             }
         }
     }
@@ -162,7 +158,6 @@ public class FXMLGuardRoomController implements Initializable {
             opensound.stop();
         }
     }
-    
 
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
@@ -242,30 +237,6 @@ public class FXMLGuardRoomController implements Initializable {
 
     }
 
-    
-    /*
-    @FXML
-    private void equip(){
-    for (int i=0; i<9;i++){
-    if(MainApp.iSpaces[i] == MainApp.selected){
-    if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
-    MainApp.itemsEquipped.remove(MainApp.inventory[i]);
-    lblEquip.setText("equip");
-    
-    
-    }else{
-    
-    MainApp.itemsEquipped.add(MainApp.inventory[i]);
-    lblEquip.setText("unequip");
-    }
-    }
-    }
-    }
-    */
-    
-    
-
-
     @FXML
     private void paneClick(MouseEvent e) {
         for (int i = 0; i < 9; i++) {
@@ -329,6 +300,7 @@ public class FXMLGuardRoomController implements Initializable {
         beep.setCycleCount(Timeline.INDEFINITE);
         beepadjust.setCycleCount(Timeline.INDEFINITE);
         if (MainApp.ABoss && !MainApp.WItem) {
+            ambient.setVolume(0.1);
             beep.play();
             beepadjust.play();
         }
@@ -345,7 +317,6 @@ public class FXMLGuardRoomController implements Initializable {
             for (int j = 0; j < 3; j++) {
                 MainApp.inv[i][j] = 0;
                 MainApp.IS[i] = new InnerShadow();
-
                 MainApp.rec[i].setFill(Color.GREY);
             }
 

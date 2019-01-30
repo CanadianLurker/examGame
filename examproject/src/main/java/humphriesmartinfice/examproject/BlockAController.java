@@ -57,7 +57,7 @@ public class BlockAController implements Initializable {
     private Stage stage;
     private Scene scene;
     @FXML
-    private Label lblFight1, lblFight2, lblFight3, lblFight4, lblEquip;
+    private Label lblFight1, lblFight2, lblFight3, lblFight4, lblEquip, lblCigs;
     @FXML
     private ImageView imgCommonRoom, imgDoor1, imgDoor2, imgDoor3, imgEnemy1, imgEnemy2, imgEnemy3, imgPaper;
 
@@ -112,6 +112,7 @@ public class BlockAController implements Initializable {
                 MainApp.invVis = true;
                 pnlInv.setVisible(true);
                 MainApp.displayIcons();
+                lblCigs.setText("Cigs: " + MainApp.cigs);
             } else {
                 MainApp.invVis = false;
                 pnlInv.setVisible(false);
@@ -149,21 +150,21 @@ public class BlockAController implements Initializable {
                 lblFight2.setText("You are not high enough of a level for this fight. \nLevel required: 5");
                 btnFight2.setDisable(true);
             }
-            if (getLevel() < 15) {
-                lblFight3.setText("You are not high enough of a level for this fight. \nLevel required: 15");
+            if (getLevel() < 10) {
+                lblFight3.setText("You are not high enough of a level for this fight. \nLevel required: 10");
                 btnFight3.setDisable(true);
             }
-            if (getLevel() < 30) {
-                lblFight4.setText("You are not high enough of a level for this fight. \nLevel required: 30");
+            if (getLevel() < 15) {
+                lblFight4.setText("You are not high enough of a level for this fight. \nLevel required: 15");
                 btnFight4.setDisable(true);
             }
             if (getLevel() >= 5) {
                 lblFight2.setText("Boss\nEnemy Level: " + (getLevel() + 5));
             }
-            if (getLevel() >= 15) {
+            if (getLevel() >= 10) {
                 lblFight3.setText("Three Enemies\nEnemies Levels: " + (getLevel()));
             }
-            if (getLevel() >= 30) {
+            if (getLevel() >= 15) {
                 lblFight4.setText("Johnathan \nEnemy Level: " + (getLevel() + 10));
             }
         }
@@ -383,7 +384,6 @@ public class BlockAController implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ambient.setCycleCount(Timeline.INDEFINITE);
@@ -418,7 +418,6 @@ public class BlockAController implements Initializable {
             for (int j = 0; j < 3; j++) {
                 MainApp.inv[i][j] = 0;
                 MainApp.IS[i] = new InnerShadow();
-
                 MainApp.rec[i].setFill(Color.GREY);
             }
 
