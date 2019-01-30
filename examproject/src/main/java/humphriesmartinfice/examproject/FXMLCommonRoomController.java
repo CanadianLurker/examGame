@@ -68,7 +68,7 @@ public class FXMLCommonRoomController implements Initializable {
     Timeline Vertical = new Timeline(new KeyFrame(Duration.millis(5), ae -> y()));
 
     @FXML
-    private Label lblEquip;
+    private Label lblEquip, lblCigs;
 
     private void y() {
         imgPlayer.setLayoutY(imgPlayer.getLayoutY() + yvar);
@@ -189,6 +189,7 @@ public class FXMLCommonRoomController implements Initializable {
                 MainApp.invVis = true;
                 pnlInv.setVisible(true);
                 MainApp.displayIcons();
+                lblCigs.setText("Cigs: " + MainApp.cigs);
             } else {
                 MainApp.invVis = false;
                 pnlInv.setVisible(false);
@@ -319,22 +320,23 @@ public class FXMLCommonRoomController implements Initializable {
     @FXML
     private void buyWeapon() {
         if (MainApp.cigs >= 1000) {
-            if (MainApp.nextSpot() == 8) {
-                int rand = ThreadLocalRandom.current().nextInt(1, 3 + 1);
-                Weapon i;
-                if (rand == 1) {
-                    i = new Warrior(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "");
+            //  if (MainApp.nextSpot() == 8) {
+            int rand = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+            Weapon i;
+            if (rand == 1) {
+                i = new Warrior(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "");
 
-                } else if (rand == 2) {
-                    i = new Mage(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "");
-                } else {
-                    i = new Rogue(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "");
-                }
-                MainApp.cigs -= 1000;
-                addToInventory(i);
+            } else if (rand == 2) {
+                i = new Mage(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "");
             } else {
-                //not enough
+                i = new Rogue(MainApp.getLevel(), "", "", "", "", 0, 0, 0, 0, "");
             }
+            MainApp.cigs -= 1000;
+            lblCigs.setText("Cigs: " + MainApp.cigs);
+            addToInventory(i);
+            // } else {
+            //not enough
+            //  }
 
         } else {
             btnBuy.setText("Not enough cigs");
@@ -379,7 +381,6 @@ public class FXMLCommonRoomController implements Initializable {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
                 MainApp.inv[i][j] = 0;
-
                 MainApp.IS[i] = new InnerShadow();
 
                 MainApp.rec[i].setFill(Color.GREY);
