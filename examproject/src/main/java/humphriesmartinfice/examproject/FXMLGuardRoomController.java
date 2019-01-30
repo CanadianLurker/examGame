@@ -163,6 +163,7 @@ public class FXMLGuardRoomController implements Initializable {
         }
     }
     
+
     public boolean col(ImageView block1, ImageView block2) {
         return (block1.getBoundsInParent().intersects(block2.getBoundsInParent()));
     }
@@ -240,6 +241,30 @@ public class FXMLGuardRoomController implements Initializable {
         }
 
     }
+
+    
+    /*
+    @FXML
+    private void equip(){
+    for (int i=0; i<9;i++){
+    if(MainApp.iSpaces[i] == MainApp.selected){
+    if(MainApp.itemsEquipped.contains(MainApp.inventory[i])){
+    MainApp.itemsEquipped.remove(MainApp.inventory[i]);
+    lblEquip.setText("equip");
+    
+    
+    }else{
+    
+    MainApp.itemsEquipped.add(MainApp.inventory[i]);
+    lblEquip.setText("unequip");
+    }
+    }
+    }
+    }
+    */
+    
+    
+
 
     @FXML
     private void paneClick(MouseEvent e) {

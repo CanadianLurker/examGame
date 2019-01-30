@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * made by Shayne, Ryan And Darby
  */
 package humphriesmartinfice.examproject;
 
@@ -14,24 +12,19 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -178,6 +171,7 @@ public class FXMLStartController implements Initializable {
 
             }
         }
+        
         if ((event.getCode() == KeyCode.P)) {
             MainApp.addToInventory("WWA011011WRD022022WWD033033OIZ000000WRB044044WMA998709OIZ000000WMA088880OIZ000000");
         }

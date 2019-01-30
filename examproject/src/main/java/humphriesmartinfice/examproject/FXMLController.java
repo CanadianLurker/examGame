@@ -62,6 +62,8 @@ public class FXMLController implements Initializable {
                 System.out.println(MainApp.INT);
                 System.out.println(MainApp.cigs);
                 saveLoc("MainMenu");
+                                weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "");
+
                 Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
                 Scene home_page_scene = new Scene(home_page_parent);
                 //get reference to the stage 
@@ -90,6 +92,7 @@ public class FXMLController implements Initializable {
                 dif = false;
 
             }
+
             try {
                 dialog.setContentText("Enter a username");
                 Optional<String> result = dialog.showAndWait();
@@ -101,6 +104,7 @@ public class FXMLController implements Initializable {
                     }
                 }
                 MainApp.username = dialog.getResult();
+
                 MainApp.usernameList.add(username);
                 setINT(1);
                 setSTR(1);
@@ -165,6 +169,8 @@ public class FXMLController implements Initializable {
     @FXML
     private void btnOptions(ActionEvent event) throws IOException {
         if (btnOpt.getOpacity() > 0.8) {
+            listSaves.getItems().clear();
+            MainApp.usernameList.clear();
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLHelp.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
             //get reference to the stage 
@@ -236,8 +242,8 @@ public class FXMLController implements Initializable {
         for (int j = 0; j < user.numRecord(fileName); j++) {
             MainApp.usernameList.add(user.openUser(fileName, j));
         }
-
-        listSaves.getItems().addAll(MainApp.usernameList);
+    listSaves.getItems().addAll(MainApp.usernameList);
+        
         rain.setCycleCount(Timeline.INDEFINITE);
         rain.play();
         quiettime.setCycleCount(Timeline.INDEFINITE);

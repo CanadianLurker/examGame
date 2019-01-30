@@ -65,7 +65,9 @@ public class FXMLCombatController implements Initializable {
     @FXML
     private void Primary(ActionEvent event) {
         if (btnAttack.isArmed()) { //checks to see which primary button is pressed
-            double reglow = (weapon.getDamage() - (2) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+          System.out.println(weapon); 
+          double reglow = (weapon.getDamage() - (2) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
+            
             double reghigh = ((weapon.getDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
             double spec = (weapon.getSDamage() - 2 + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
             double spechigh = ((weapon.getSDamage() + (getLevel() + weapon.getLevel())) + weapon.getExtra() + weapon.getExtraWar() - enemies.get(0).getDefence());
@@ -328,6 +330,7 @@ public class FXMLCombatController implements Initializable {
     }
     
     @FXML
+
     private void retry(ActionEvent e) throws IOException {
         enemies.removeAll(enemies);
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml")); //where FXMLPage2 is the name of the scene
@@ -340,6 +343,7 @@ public class FXMLCombatController implements Initializable {
         stage.setResizable(false);
         stage.show(); //shows the new page
         home_page_scene.getRoot().requestFocus();
+
     }
     
     @FXML
