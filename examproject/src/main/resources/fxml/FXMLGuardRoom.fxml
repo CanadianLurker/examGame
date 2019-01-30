@@ -107,7 +107,12 @@
             <Image url="@../prisoner2.png" />
          </image>
       </ImageView>
-      <Pane fx:id="pnlInv" layoutX="194.0" layoutY="143.0" prefHeight="405.0" prefWidth="506.0" visible="false">
+      <ImageView fx:id="imgPaper" fitHeight="502.0" fitWidth="381.0" layoutX="244.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../GuardPaper.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="pnlInv" layoutX="204.0" layoutY="153.0" prefHeight="405.0" prefWidth="506.0" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3b3f43" height="405.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="506.0" />
             <Label onMouseClicked="#paneClick" prefHeight="472.0" prefWidth="590.0" />
@@ -130,18 +135,29 @@
             <ImageView fx:id="img6" fitHeight="90.0" fitWidth="90.0" layoutX="305.0" layoutY="146.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="img1" fitHeight="90.0" fitWidth="90.0" layoutX="105.0" layoutY="46.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#928496" height="25.0" layoutX="371.0" layoutY="357.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="126.0" />
-            <Label layoutX="380.0" layoutY="361.0" onMouseClicked="#btnDelete" text="Delete selected item" textFill="#fcfcfc" />
-            <Label fx:id="lblStats" layoutX="12.0" layoutY="85.0" text="Level:&#10;Rarity:&#10;Damage:" textFill="WHITE" />
+            <Label layoutX="380.0" layoutY="361.0" onMouseClicked="#btnDelete" text="Delete Selected Item" textFill="#fcfcfc">
+               <font>
+                  <Font name="Baskerville Old Face" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblStats" layoutX="12.0" layoutY="85.0" text="Level:&#10;Rarity:&#10;Damage:" textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="14.0" />
+               </font>
+            </Label>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#928496" height="25.0" layoutX="15.0" layoutY="311.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="62.0" />
-            <Label fx:id="lblEquip" alignment="CENTER" layoutX="21.0" layoutY="315.0" onMouseClicked="#equip" prefHeight="17.0" prefWidth="53.0" text="equip" textAlignment="CENTER" textFill="#fcfcfc" />
-
+            <Label fx:id="lblEquip" alignment="CENTER" layoutX="19.0" layoutY="314.0" onMouseClicked="#equip" prefHeight="17.0" prefWidth="53.0" text="equip" textAlignment="CENTER" textFill="#fcfcfc">
+               <font>
+                  <Font name="Baskerville Old Face" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblCigs" layoutX="205.0" layoutY="3.0" text="Cigs: " textFill="WHITE">
+               <font>
+                  <Font name="Baskerville Old Face" size="19.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
-      <ImageView fx:id="imgPaper" fitHeight="502.0" fitWidth="381.0" layoutX="244.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" visible="false">
-         <image>
-            <Image url="@../GuardPaper.png" />
-         </image>
-      </ImageView>
 
 
    </children>

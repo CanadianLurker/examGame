@@ -23,19 +23,18 @@ public class Weapon {
         this.Attack4 = Attack4; //Some healing spell that costs slightly more mana but does more than normal potion
         this.manaCost = manaCost; //Base cost of Inferno, Thunder and heal, which will have more initial cost in combat controller
         this.sdamage = sdamage; //base amount of damage added onto weapon(which already randomizes damage)
-        this.setDamage(ThreadLocalRandom.current().nextInt(3, (5 + Level) + 1) + Level);
         int possible = ThreadLocalRandom.current().nextInt(1, 100 + 1);
-        if (possible < 65) {
-            this.setRarity(1);
-        } else if (possible >= 65 && possible < 85) {
-            this.setRarity(2);
-        } else if (possible >= 85 && possible < 95) {
-            this.setRarity(3);
-        } else if (possible > 95) {
-            this.setRarity(4);
+        if (possible < 40) {
+            this.rarityI = (1);
+        } else if (possible >= 40 && possible < 70) {
+            this.rarityI =(2);
+        } else if (possible >= 70 && possible < 90) {
+            this.rarityI =(3);
+        } else if (possible > 90) {
+            this.rarityI =(4);
         }
-        this.setDamage(ThreadLocalRandom.current().nextInt(3, (5 + Level) + 1) + (Level * rarity));
-        this.setLevel(Level);
+        this.damage = (ThreadLocalRandom.current().nextInt(4, (5 + Level) + 1) + (Level * rarity));
+        level = Level;
         this.type = Type;
     }
 
@@ -121,37 +120,37 @@ public class Weapon {
 
     public void setAttack2() {
         if (type.equals("Rogue")) {
-            Attack2 = "Slash";
+            Attack2 = "Blade Storm";
         }
         if (type.equals("Mage")) {
-            Attack2 = "Stick";
+            Attack2 = "Inferno";
         }
         if (type.equals("Warrior")) {
-            Attack2 = "Smash";
+            Attack2 = "Great Strike";
         }
     }
 
     public void setAttack3() {
         if (type.equals("Rogue")) {
-            Attack2 = "Slash";
+            Attack3 = "Bleed";
         }
         if (type.equals("Mage")) {
-            Attack2 = "Stick";
+            Attack3 = "Thunder";
         }
         if (type.equals("Warrior")) {
-            Attack2 = "Smash";
+            Attack3 = "Bash";
         }
     }
 
     public void setAttack4() {
         if (type.equals("Rogue")) {
-            Attack2 = "Slash";
+            Attack4 = "Intimidate\n Lowers Enemy Damage";
         }
         if (type.equals("Mage")) {
-            Attack2 = "Stick";
+            Attack4 = "Heal\nRefills Player Health";
         }
         if (type.equals("Warrior")) {
-            Attack2 = "Smash";
+            Attack4 = "Rage\nRaises Attack Briefly";
         }
     }
 
@@ -177,25 +176,25 @@ public class Weapon {
 
     public void setSDamage() {
         if (type.equals("Rogue")) {
-            manaCost = (damage + level);
+            sdamage = (damage + level);
         }
         if (type.equals("Mage")) {
-            manaCost = (2 * level);
+            sdamage = (2 * level);
         }
         if (type.equals("Warrior")) {
-            manaCost = (level);
+            sdamage = (level);
         }
     }
 
     public void setDamage() {
         if (type.equals("Rogue")) {
-            manaCost = (damage + level);
+            damage = (rarityI * level) + damage;
         }
         if (type.equals("Mage")) {
-            manaCost = (damage);
+            damage = damage + (rarityI * level);
         }
         if (type.equals("Warrior")) {
-            manaCost = (2 * damage);
+            damage = 2 * (damage + rarityI);
         }
     }
 

@@ -19,16 +19,16 @@ import javafx.util.Duration;
 
 public class MainApp extends Application {
 
-public static String username;
-    
-    public static int level, STR, DEX, INT,  cigs;
-    
-    public static Duration stoptime= Duration.ZERO;
+    public static String username;
 
-    public static int ecount = 0, xplace, yplace, bcount = 10, Abcount = 1;
+    public static int level, STR, DEX, INT, cigs = 0;
 
-    public static boolean dot = false, key = false, ABoss= false, keyB =false, WItem = false, Warden = false;
-    
+    public static Duration stoptime = Duration.ZERO;
+
+    public static int ecount = 0, xplace, yplace, bcount = 10, Abcount = 1, pcount = 1;
+
+    public static boolean dot = false, key = false, ABoss = false, keyB = false, WItem = false, Warden = false;
+
     public static String area;
 
     public static double health, healthMAX, mana, manaMAX, EXP, EXPNeeded, edot;
@@ -38,7 +38,7 @@ public static String username;
     public static DecimalFormat F = new DecimalFormat("0"); //format so decimals don't go on for ever
 
     public static Weapon weapon;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
@@ -165,52 +165,31 @@ public static String username;
         MainApp.EXPNeeded = 25 + (MainApp.level * 18);
     }
     public static ArrayList<String> usernameList = new ArrayList();
-public static File user = new File();
+    public static File user = new File();
 
-
-public static Label lblStats; 
+    public static Label lblStats;
     public static ImageView img1,
-    
-    
-    img2,
-    
-    img3,
-    
-    img4,
-    
-    img5,
-    
-    img6,
-    
-    img7,
-    
-    img8,
-    
-    img9;
-    
-    
+            img2,
+            img3,
+            img4,
+            img5,
+            img6,
+            img7,
+            img8,
+            img9;
+
     public static Rectangle rec1,
-    
-    
-    rec2,
-    
-    rec3,
-    
-    rec4,
-    
-    rec5,
-    
-    rec6,
-    
-    rec7,
-    
-    rec8,
-    
-    rec9;
-    
-    
+            rec2,
+            rec3,
+            rec4,
+            rec5,
+            rec6,
+            rec7,
+            rec8,
+            rec9;
+
     public static Pane pnlInv;
-    public final static String fileName="savefile.raf";
+    public final static String fileName = "savefile.raf";
 
     public static Weapon inventory[] = new Weapon[9]; //array of items
     public static char inv[][] = new char[9][3];
@@ -252,17 +231,16 @@ public static Label lblStats;
                 inv[i][2] = 'D';
             }
 
-            
             damage = inventory[i].getDamage();
-        if(damage>999){
-            damage=999;
-        }
-            
-            intInv[i][0] = damage; 
+            if (damage > 999) {
+                damage = 999;
+            }
+
+            intInv[i][0] = damage;
 
             levelI = inventory[i].getLevel();
-            if (level>999){
-                level=999;
+            if (level > 999) {
+                level = 999;
             }
             intInv[i][1] = levelI;
 
@@ -282,18 +260,15 @@ public static Label lblStats;
 
             // sInv[i][0] = "" + intInv[i][0];
 ////
-
             //new
             inv[i][0] = inventory[i].getClass().getSuperclass().getSimpleName().charAt(0);
             inv[i][1] = inventory[i].getType().charAt(0);
 
             s = s + inv[i][0] + inv[i][1] + inv[i][2] + sInv[i][0] + sInv[i][1]; //[4] added 
 
-
         }
         /////sike, [4] with 3 spaces for each last two(levelI, damage)
 
-        
         return s;
     }
 
@@ -339,8 +314,7 @@ public static Label lblStats;
     public static int nextSpot() {
 //gets the next open spot
         for (int i = 0; i < 9; i++) {
-        //    if (inventory[i].getClass().getSimpleName().equals("Item")) {
-                            if (inventory[i].getType().equals("Item")) {
+            if (inventory[i].getType().equals("Item")) {
 
                 return i;
             }
@@ -390,7 +364,6 @@ public static Label lblStats;
             } else {
                 rare = 0;
             }
-           
 
             //take away 0s to get integer for damage
             try {
@@ -398,7 +371,7 @@ public static Label lblStats;
 
             } catch (NumberFormatException numberFormatException) {
                 for (int q = 0; q < 3; q++) {
-                   
+
                     if (sInv[i][0].startsWith("0")) {
                         sInv[i][0].replaceFirst("0", "");
                     }
@@ -432,7 +405,7 @@ public static Label lblStats;
                     }
                 }
             }
-         
+
             // blank, delete item
             if (inv[i][0] == 'O') {
 
@@ -444,17 +417,16 @@ public static Label lblStats;
 //warrior
                 if (inv[i][1] == 'W') {
 
-                
-                    inventory[nextSpot()] = new Warrior(intInv[i][1],rare,intInv[i][0],"Warrior");
+                    inventory[nextSpot()] = new Warrior(intInv[i][1], rare, intInv[i][0], "Warrior");
                 }
                 //mage
                 if (inv[i][1] == 'M') {
-                    inventory[nextSpot()] = new Mage(intInv[i][1],rare,intInv[i][0],"Mage");
-                   
+                    inventory[nextSpot()] = new Mage(intInv[i][1], rare, intInv[i][0], "Mage");
+
                 }
                 //rogue
                 if (inv[i][1] == 'R') {
-                    inventory[nextSpot()] = new Rogue(intInv[i][1],rare,intInv[i][0],"Rogue"); 
+                    inventory[nextSpot()] = new Rogue(intInv[i][1], rare, intInv[i][0], "Rogue");
 
                 }
 
@@ -470,7 +442,6 @@ public static Label lblStats;
             }
 
         }
-
 
     }
 

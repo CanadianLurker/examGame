@@ -51,7 +51,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void btnLoad(ActionEvent event) throws IOException {
-        if (btnLoad.getOpacity() > 0.8) {
+        if (btnLoad.getOpacity() > 0.4) {
             int record = listSaves.getSelectionModel().getSelectedIndex();
             if (record != -1) {
                 MainApp.user.open(MainApp.fileName, record);
@@ -62,8 +62,6 @@ public class FXMLController implements Initializable {
                 System.out.println(MainApp.INT);
                 System.out.println(MainApp.cigs);
                 saveLoc("MainMenu");
-                                weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "");
-
                 Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLStart.fxml")); //where FXMLPage2 is the name of the scene
                 Scene home_page_scene = new Scene(home_page_parent);
                 //get reference to the stage 
@@ -82,7 +80,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void btnNewGame(ActionEvent event) throws IOException {
-        if (btnLoad.getOpacity() > 0.8) {
+        if (btnLoad.getOpacity() > 0.4) {
             TextInputDialog dialog = new TextInputDialog("");
             dialog.setTitle("New Game");
             if (!dif) {
@@ -118,13 +116,13 @@ public class FXMLController implements Initializable {
                 setEXPNeeded();
                 int rand = ThreadLocalRandom.current().nextInt(1, 3);
                 if (rand == 1) {
-                    weapon = new Rogue(getLevel(), "", "", "", "", 0, 0, 0, 0, "");
+                    weapon = new Rogue(1, "", "", "", "", 0, 0, 0, 0, "");
                 }
                 if (rand == 2) {
-                    weapon = new Mage(getLevel(), "", "", "", "", 0, 0, 0, 0, "");
+                    weapon = new Mage(1, "", "", "", "", 0, 0, 0, 0, "");
                 }
                 if (rand == 3) {
-                    weapon = new Warrior(getLevel(), "", "", "", "", 0, 0, 0, 0, "");
+                    weapon = new Warrior(1, "", "", "", "", 0, 0, 0, 0, "");
                 }
                 MainApp.addToInventory(weapon);
                 xplace = ThreadLocalRandom.current().nextInt(200, 700 + 1);
@@ -155,12 +153,12 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void delete(ActionEvent e) {
-        if (btnLoad.getOpacity() > 0.8) {
+        if (btnLoad.getOpacity() > 0.4) {
             int record = listSaves.getSelectionModel().getSelectedIndex();
             if (record != -1) {
                 user.delete(fileName, record);
                 listSaves.getItems().remove(record);
-                listSaves.setSelectionModel(null);
+                listSaves.getSelectionModel().clearSelection();
                 MainApp.usernameList.remove(record);
             }
         }
@@ -186,14 +184,14 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void btnExit(ActionEvent event) {
-        if (btnExit.getOpacity() > 0.8) {
+        if (btnExit.getOpacity() > 0.4) {
             System.exit(0);
         }
     }
 
     @FXML
     private void pressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
+        if (event.getCode() == KeyCode.ENTER && btnExit.getOpacity() == 0) {
             imgL.setImage(light);
             kaboom.play();
             lightning.setCycleCount(Timeline.INDEFINITE);
@@ -219,8 +217,9 @@ public class FXMLController implements Initializable {
             btnDelete.setOpacity(op);
             lblTitle.setOpacity(op + 0.013);
         }
-        if (btnExit.getOpacity() >= 1) {
+        if (btnExit.getOpacity() >= 0.6) {
             lightning.stop();
+            kaboom.stop();
         }
     }
 
@@ -239,11 +238,13 @@ public class FXMLController implements Initializable {
         for (int i = 0; i < 9; i++) {
             MainApp.inventory[i] = new Weapon();
         }
+
         for (int j = 0; j < user.numRecord(fileName); j++) {
-            MainApp.usernameList.add(user.openUser(fileName, j));
+            if (!MainApp.usernameList.contains(user.openUser(fileName, j))) {
+                MainApp.usernameList.add(user.openUser(fileName, j));
+            }
         }
-    listSaves.getItems().addAll(MainApp.usernameList);
-        
+        listSaves.getItems().addAll(MainApp.usernameList);
         rain.setCycleCount(Timeline.INDEFINITE);
         rain.play();
         quiettime.setCycleCount(Timeline.INDEFINITE);

@@ -28,6 +28,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class FXMLCombatController implements Initializable {
@@ -58,6 +59,7 @@ public class FXMLCombatController implements Initializable {
     Timeline endturn = new Timeline(new KeyFrame(Duration.millis(1500), ae -> enemyTurn()));
     Timeline endscreen = new Timeline(new KeyFrame(Duration.millis(75), ae -> exp()));
     Timeline Buffer = new Timeline(new KeyFrame(Duration.millis(1750), ae -> buffer()));
+    Image warden = new Image(getClass().getResource("/warden.png").toString());
     
     MediaPlayer combatmusic = new MediaPlayer((new Media(getClass().getResource("/FFXIV Music.mp3").toString())));
 
@@ -227,7 +229,7 @@ public class FXMLCombatController implements Initializable {
             setHealth(getHealth() - d); //the enemy strikes
             listLog.getItems().add(d + " damage dealt to player!");
             if (enemyh < enemies.get(0).getHealth()) {
-                listLog.getItems().add("Enemy healed for " + (enemies.get(0).getHealth() + (enemies.get(0).getHealthMAX() / 3)) + " health.");
+                listLog.getItems().add("Enemy healed for " + (enemies.get(0).getHealthMAX() / 3) + " health.");
             }
             if (getEcount() > 0) {
                 setHealth(getHealth() - getEdot());
@@ -252,7 +254,8 @@ public class FXMLCombatController implements Initializable {
     }
     
     private void endCombat() {
-        // starts loot/exp, then dialogue, which will be in main scene, maybe?. 
+        // starts loot/exp
+        enemies.removeAll(enemies);
         combat = false; // makes it so that the next turn does not start
         prgEXP.setProgress(getEXP() / getEXPNeeded());
         panEXP.setVisible(true); //makes the end combat screen visible
@@ -469,6 +472,9 @@ public class FXMLCombatController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if(MainApp.Warden){
+               imgEnemy.setImage(warden);
+        }
         combatmusic.setCycleCount(Timeline.INDEFINITE);
         combatmusic.setVolume(0.3);
         combatmusic.play();
@@ -496,7 +502,6 @@ public class FXMLCombatController implements Initializable {
                 weapon = new Warrior(1, "", "", "", "", 0, 0, 0, 0, "");
             }
         }
-        //imgMC.setImage(); //set image from whatever the image is
 
     }
     

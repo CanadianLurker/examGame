@@ -13,10 +13,8 @@ import java.io.RandomAccessFile;
  * @author darbym26
  */
 public class File {
-    //279
-    // need a int for weapon in inventory that is equipped + 4
 
-    public final int RECSIZE = 279; 
+    public final int RECSIZE = 279;
     String username;
     String usernameTemp;
     String inventory;
@@ -83,14 +81,14 @@ public class File {
             System.out.println(inventory);
 
             MainApp.addToInventory(inventory);
-            for (int i = 0; i < 9; i++) {
-            MainApp.inventory[i].setAttack1();
-            MainApp.inventory[i].setAttack2();
-            MainApp.inventory[i].setAttack3();
-            MainApp.inventory[i].setAttack4();
-            MainApp.inventory[i].setCost();
-            MainApp.inventory[i].setSDamage();
-            MainApp.inventory[i].setDamage();
+            System.out.println(MainApp.inventory.length);
+            for (int i = 0; i < MainApp.inventory.length; i++) {
+                MainApp.inventory[i].setAttack1();
+                MainApp.inventory[i].setAttack2();
+                MainApp.inventory[i].setAttack3();
+                MainApp.inventory[i].setAttack4();
+                MainApp.inventory[i].setCost();
+                MainApp.inventory[i].setSDamage();
             }
 
             MainApp.level = recordFile.readInt();
@@ -143,7 +141,7 @@ public class File {
             recordFile.close();
             return usernameTemp.trim();
         } catch (IOException ex) {
-           
+
             return null;
         }
 
@@ -158,6 +156,22 @@ public class File {
         try {
             RandomAccessFile recordFile = new RandomAccessFile(file, "rw");
             recordFile.setLength(recordFile.length() - RECSIZE);
+            for (int i = 0; i < 9; i++) {
+                MainApp.inventory[i] = null;
+            }
+            MainApp.level = 1;
+            MainApp.DEX = 1;
+            MainApp.INT = 1;
+            MainApp.STR = 1;
+            MainApp.cigs = 0;
+            MainApp.health = 17;
+            MainApp.mana = 12;
+            MainApp.EXP = 0;
+            MainApp.key = false;
+            MainApp.keyB = false;
+            MainApp.ABoss = false;
+            MainApp.WItem = false;
+            MainApp.Warden = false;
             recordFile.close();
         } catch (IOException ex) {
 
@@ -169,7 +183,7 @@ public class File {
         try {
             RandomAccessFile recordFile = new RandomAccessFile(file, "r");
             numR = (int) (recordFile.length() / RECSIZE);
-            System.out.println(""+recordFile.length());
+            System.out.println("" + recordFile.length());
         } catch (Exception ex) {
         }
         return numR;

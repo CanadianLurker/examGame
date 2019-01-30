@@ -45,6 +45,8 @@ public class FXMLStartController implements Initializable {
 
     @FXML
     private ImageView imgKey, imgTable, imgBed, imgToilet, imgDoor, imgPoster, imgPlayer, imgSTable, imgSBed, imgPaper;
+    @FXML
+    private Label lblCigs;
 
     private int xvar, yvar;
 
@@ -127,13 +129,15 @@ public class FXMLStartController implements Initializable {
             page.stop();
             imgKey.setVisible(false);
             MainApp.key = true;
-        } else if (imgPaper.isVisible() && event.getCode() == KeyCode.E && MainApp.WItem) {
+        } else if (imgPaper.isVisible() && event.getCode() == KeyCode.E && imgPaper.getImage().equals(warden)) {
             Vertical.play();
             Horizontal.play();
             imgPaper.setVisible(true);
             page.stop();
             imgKey.setVisible(false);
             enemies.add(new Enemy(getLevel() + 10));
+            ambient.stop();
+            MainApp.Warden = true;
             saveLoc("/fxml/FXMLStart.fxml");
             Parent home_page_parent = FXMLLoader.load(getClass().getResource("/fxml/FXMLCombat.fxml"));
             Scene home_page_scene = new Scene(home_page_parent);
@@ -144,7 +148,11 @@ public class FXMLStartController implements Initializable {
             stage.setResizable(false);
             stage.show();
         }
+        else if (imgPaper.isVisible() && event.getCode() == KeyCode.E && MainApp.Warden) {
+            imgPaper.setVisible(false);
+        }
         if (event.getCode() == KeyCode.E && col(imgPlayer, imgSBed)) {
+            MainApp.setHealth(MainApp.getHealthMAX());
             MainApp.user.save(MainApp.fileName, MainApp.usernameList.indexOf(MainApp.username));
 
             System.out.println(MainApp.username);
@@ -156,7 +164,7 @@ public class FXMLStartController implements Initializable {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Saved");
             alert.setHeaderText(null);
-            alert.setContentText(MainApp.username + ", Your progress has been saved");
+            alert.setContentText(MainApp.username + ", Your progress has been saved, and you have been healed.");
             alert.showAndWait();
         }
         if ((event.getCode() == KeyCode.I)) {
@@ -164,6 +172,7 @@ public class FXMLStartController implements Initializable {
                 MainApp.invVis = true;
                 pnlInv.setVisible(true);
                 MainApp.displayIcons();
+                lblCigs.setText("Cigs: " + MainApp.cigs);
 
             } else {
                 MainApp.invVis = false;
@@ -171,7 +180,7 @@ public class FXMLStartController implements Initializable {
 
             }
         }
-        
+
         if ((event.getCode() == KeyCode.P)) {
             MainApp.addToInventory("WWA011011WRD022022WWD033033OIZ000000WRB044044WMA998709OIZ000000WMA088880OIZ000000");
         }
@@ -266,6 +275,13 @@ public class FXMLStartController implements Initializable {
                     MainApp.weapon = null;
 
                 } else {
+                    MainApp.inventory[i].setAttack1();
+                    MainApp.inventory[i].setAttack2();
+                    MainApp.inventory[i].setAttack3();
+                    MainApp.inventory[i].setAttack4();
+                    MainApp.inventory[i].setCost();
+                    MainApp.inventory[i].setSDamage();
+                    MainApp.inventory[i].setDamage();
                     MainApp.weapon = MainApp.inventory[i];
                     System.out.println(MainApp.weapon.getSDamage());
                     lblEquip.setText("unequip");
@@ -323,11 +339,17 @@ public class FXMLStartController implements Initializable {
         if (MainApp.getArea().equals("MainMenu")) {
             imgPlayer.setLayoutX(159);
             imgPlayer.setLayoutY(439);
+            ambient.setStartTime(Duration.ZERO);
         }
         if (MainApp.WItem) {
             imgKey.setImage(paper);
             imgKey.setVisible(true);
             imgPaper.setImage(warden);
+        }if (MainApp.Warden) {
+            imgPlayer.setLayoutX(376);
+            imgPlayer.setLayoutY(450);
+            imgPaper.setImage(Fpaper);
+            imgPaper.setVisible(true);
         }
 
         MainApp.rec[0] = rec1;
@@ -343,7 +365,7 @@ public class FXMLStartController implements Initializable {
             for (int j = 0; j < 3; j++) {
                 MainApp.inv[i][j] = 0;
                 MainApp.IS[i] = new InnerShadow();
-
+                System.out.println(MainApp.inventory[i].getDamage());
                 MainApp.rec[i].setFill(Color.GREY);
             }
 

@@ -14,7 +14,7 @@ import javafx.scene.image.Image;
 public class Warrior extends Weapon {
 
     public Warrior(int Level, String Attack1, String Attack2, String Attack3, String Attack4, double manaCost, int rarity, int damage, int sdamage, String Type) {
-        super(Level, "Smash", "Great Strike", "Slash", "Rage\nRaises Attack Briefly", (1 + Level), rarity, (2 * damage), Level, "Warrior");
+        super(Level, "Smash", "Great Strike", "Bash", "Rage\nRaises Attack Briefly", (1 + Level), rarity, (2 * (damage + rarity)), Level, "Warrior");
  this.setType("Warrior");
         this.setIcon(new Image(getClass().getResource("/axe.png").toString()));
     }
