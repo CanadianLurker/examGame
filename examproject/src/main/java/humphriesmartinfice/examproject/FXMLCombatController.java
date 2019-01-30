@@ -254,7 +254,8 @@ public class FXMLCombatController implements Initializable {
     }
     
     private void endCombat() {
-        // starts loot/exp, then dialogue, which will be in main scene, maybe?. 
+        // starts loot/exp
+        enemies.removeAll(enemies);
         combat = false; // makes it so that the next turn does not start
         prgEXP.setProgress(getEXP() / getEXPNeeded());
         panEXP.setVisible(true); //makes the end combat screen visible
